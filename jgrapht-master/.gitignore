@@ -14,11 +14,9 @@
 *.swp*
 *.*-swp
 *.db
-*.jar
 *Kopie*
 nbproject/private
 one-jar
-target
 build
 .cache
 .settings

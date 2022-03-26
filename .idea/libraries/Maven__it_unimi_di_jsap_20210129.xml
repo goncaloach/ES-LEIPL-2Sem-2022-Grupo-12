@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: it.unimi.di:jsap:20210129">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/it/unimi/di/jsap/20210129/jsap-20210129.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/it/unimi/di/jsap/20210129/jsap-20210129-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/it/unimi/di/jsap/20210129/jsap-20210129-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

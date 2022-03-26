@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: it.unimi.dsi:dsiutils:2.6.17">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/it/unimi/dsi/dsiutils/2.6.17/dsiutils-2.6.17.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/it/unimi/dsi/dsiutils/2.6.17/dsiutils-2.6.17-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/it/unimi/dsi/dsiutils/2.6.17/dsiutils-2.6.17-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

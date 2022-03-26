@@ -1,0 +1,4 @@
+package org.jgrapht.perf.shortestpath.jmh_generated;
+public class DeltaSteppingShortestPathPerformance_GnpState_jmhType extends DeltaSteppingShortestPathPerformance_GnpState_jmhType_B3 {
+}
+

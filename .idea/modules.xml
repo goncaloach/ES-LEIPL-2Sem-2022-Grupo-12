@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/ES-LEIPL-2Sem-2022-Grupo-12.iml" filepath="$PROJECT_DIR$/.idea/ES-LEIPL-2Sem-2022-Grupo-12.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jgrapht-master/jgrapht.iml" filepath="$PROJECT_DIR$/jgrapht-master/jgrapht.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jgrapht-master/jgrapht-core/jgrapht-core.iml" filepath="$PROJECT_DIR$/jgrapht-master/jgrapht-core/jgrapht-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jgrapht-master/jgrapht-demo/jgrapht-demo.iml" filepath="$PROJECT_DIR$/jgrapht-master/jgrapht-demo/jgrapht-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jgrapht-master/jgrapht-dist/jgrapht-dist.iml" filepath="$PROJECT_DIR$/jgrapht-master/jgrapht-dist/jgrapht-dist.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jgrapht-master/jgrapht-ext/jgrapht-ext.iml" filepath="$PROJECT_DIR$/jgrapht-master/jgrapht-ext/jgrapht-ext.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jgrapht-master/jgrapht-guava/jgrapht-guava.iml" filepath="$PROJECT_DIR$/jgrapht-master/jgrapht-guava/jgrapht-guava.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jgrapht-master/jgrapht-io/jgrapht-io.iml" filepath="$PROJECT_DIR$/jgrapht-master/jgrapht-io/jgrapht-io.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jgrapht-master/jgrapht-opt/jgrapht-opt.iml" filepath="$PROJECT_DIR$/jgrapht-master/jgrapht-opt/jgrapht-opt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jgrapht-master/jgrapht-unimi-dsi/jgrapht-unimi-dsi.iml" filepath="$PROJECT_DIR$/jgrapht-master/jgrapht-unimi-dsi/jgrapht-unimi-dsi.iml" />
+    </modules>
+  </component>
+</project>

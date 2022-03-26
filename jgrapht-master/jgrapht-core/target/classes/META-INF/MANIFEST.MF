@@ -1,0 +1,71 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1648317241792
+Build-Jdk-Spec: 17
+Bundle-Description: A Java class library for graph-theory data structure
+ s and algorithms.
+Bundle-License: http://jgrapht.sourceforge.net/LGPL.html, http://www.ecl
+ ipse.org/legal/epl-v20.html
+Bundle-ManifestVersion: 2
+Bundle-Name: JGraphT - Core
+Bundle-SymbolicName: org.jgrapht.core
+Bundle-Version: 1.5.2.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: org.jgrapht;uses:="org.jgrapht.event,org.jgrapht.util";v
+ ersion="1.5.2",org.jgrapht.alg;uses:="org.jgrapht,org.jgrapht.graph";ve
+ rsion="1.5.2",org.jgrapht.alg.clique;uses:="org.jgrapht,org.jgrapht.alg
+ .cycle,org.jgrapht.alg.interfaces";version="1.5.2",org.jgrapht.alg.clus
+ tering;uses:="org.jgrapht,org.jgrapht.alg.interfaces,org.jgrapht.alg.sc
+ oring";version="1.5.2",org.jgrapht.alg.color;uses:="org.jgrapht,org.jgr
+ apht.alg.cycle,org.jgrapht.alg.interfaces";version="1.5.2",org.jgrapht.
+ alg.connectivity;uses:="org.jgrapht,org.jgrapht.event,org.jgrapht.graph
+ ";version="1.5.2",org.jgrapht.alg.cycle;uses:="org.jgrapht,org.jgrapht.
+ alg.interfaces,org.jgrapht.alg.util,org.jgrapht.graph";version="1.5.2",
+ org.jgrapht.alg.decomposition;uses:="org.jgrapht,org.jgrapht.alg.interf
+ aces";version="1.5.2",org.jgrapht.alg.densesubgraph;uses:="org.jgrapht,
+ org.jgrapht.alg.interfaces,org.jgrapht.alg.util,org.jgrapht.graph";vers
+ ion="1.5.2",org.jgrapht.alg.drawing;uses:="org.jgrapht,org.jgrapht.alg.
+ drawing.model,org.jgrapht.alg.util";version="1.5.2",org.jgrapht.alg.dra
+ wing.model;uses:="org.jgrapht.alg.util";version="1.5.2",org.jgrapht.alg
+ .flow;uses:="org.jgrapht,org.jgrapht.alg.interfaces,org.jgrapht.alg.uti
+ l.extension,org.jgrapht.graph";version="1.5.2",org.jgrapht.alg.flow.min
+ cost;uses:="org.jgrapht,org.jgrapht.alg.interfaces";version="1.5.2",org
+ .jgrapht.alg.independentset;uses:="org.jgrapht,org.jgrapht.alg.cycle,or
+ g.jgrapht.alg.interfaces";version="1.5.2",org.jgrapht.alg.interfaces;us
+ es:="org.jgrapht,org.jgrapht.alg.flow.mincost,org.jgrapht.alg.util,org.
+ jgrapht.graph,org.jgrapht.util";version="1.5.2",org.jgrapht.alg.isomorp
+ hism;uses:="org.jgrapht";version="1.5.2",org.jgrapht.alg.lca;uses:="org
+ .jgrapht,org.jgrapht.alg.interfaces,org.jgrapht.alg.util";version="1.5.
+ 2",org.jgrapht.alg.linkprediction;uses:="org.jgrapht,org.jgrapht.alg.in
+ terfaces,org.jgrapht.alg.util";version="1.5.2",org.jgrapht.alg.matching
+ ;uses:="org.jgrapht,org.jgrapht.alg.interfaces,org.jheaps";version="1.5
+ .2",org.jgrapht.alg.matching.blossom.v5;uses:="org.jgrapht,org.jgrapht.
+ alg.interfaces";version="1.5.2",org.jgrapht.alg.partition;uses:="org.jg
+ rapht,org.jgrapht.alg.interfaces";version="1.5.2",org.jgrapht.alg.plana
+ r;uses:="org.jgrapht,org.jgrapht.alg.interfaces";version="1.5.2",org.jg
+ rapht.alg.scoring;uses:="org.apfloat,org.jgrapht,org.jgrapht.alg.interf
+ aces";version="1.5.2",org.jgrapht.alg.shortestpath;uses:="org.jgrapht,o
+ rg.jgrapht.alg.interfaces,org.jgrapht.alg.util,org.jheaps";version="1.5
+ .2",org.jgrapht.alg.similarity;uses:="org.jgrapht";version="1.5.2",org.
+ jgrapht.alg.spanning;uses:="org.jgrapht,org.jgrapht.alg.interfaces,org.
+ jgrapht.alg.util";version="1.5.2",org.jgrapht.alg.tour;uses:="org.jgrap
+ ht,org.jgrapht.alg.interfaces";version="1.5.2",org.jgrapht.alg.transfor
+ m;uses:="org.jgrapht";version="1.5.2",org.jgrapht.alg.util;uses:="org.j
+ grapht,org.jgrapht.event";version="1.5.2",org.jgrapht.alg.util.extensio
+ n;version="1.5.2",org.jgrapht.alg.vertexcover;uses:="org.jgrapht,org.jg
+ rapht.alg.interfaces";version="1.5.2",org.jgrapht.alg.vertexcover.util;
+ version="1.5.2",org.jgrapht.event;version="1.5.2",org.jgrapht.generate;
+ uses:="org.jgrapht,org.jgrapht.graph";version="1.5.2",org.jgrapht.gener
+ ate.netgen;uses:="org.jgrapht,org.jgrapht.alg.flow.mincost";version="1.
+ 5.2",org.jgrapht.graph;uses:="org.jgrapht,org.jgrapht.event,org.jgrapht
+ .graph.builder,org.jgrapht.graph.specifics,org.jgrapht.util";version="1
+ .5.2",org.jgrapht.graph.builder;uses:="org.jgrapht";version="1.5.2",org
+ .jgrapht.graph.concurrent;uses:="org.jgrapht,org.jgrapht.graph";version
+ ="1.5.2",org.jgrapht.graph.specifics;uses:="org.jgrapht,org.jgrapht.alg
+ .util,org.jgrapht.graph";version="1.5.2",org.jgrapht.traverse;uses:="or
+ g.jgrapht,org.jgrapht.event,org.jheaps";version="1.5.2",org.jgrapht.uti
+ l;uses:="org.jgrapht.graph";version="1.5.2"
+Import-Package: org.apfloat,org.jheaps;version="[0.14,1)",org.jheaps.arr
+ ay;version="[0.14,1)",org.jheaps.tree;version="[0.14,1)"
+Originally-Created-By: Apache Maven Bundle Plugin
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=11))"
+Tool: Bnd-5.1.1.202006162103
