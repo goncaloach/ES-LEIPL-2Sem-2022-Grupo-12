@@ -224,6 +224,27 @@ public class CHManyToManyShortestPaths<V, E>
         }
     }
 
+
+    private Graph<ContractionVertex<V>, ContractionEdge<E>>  newmask(boolean reversed,Graph<ContractionVertex<V>, ContractionEdge<E>> contractionGraph){
+        Graph<ContractionVertex<V>, ContractionEdge<E>> maskSubgraph;
+        if (reversed){
+            maskSubgraph = new MaskSubgraph<>(contractionGraph, v -> false, e -> e.isUpward);
+        } else {
+            maskSubgraph = new MaskSubgraph<>(contractionGraph, v -> false, e -> !e.isUpward);
+        }
+        return maskSubgraph;
+    }
+
+    private Pair<ContractionVertex<V>, ContractionVertex<V>> pairFowardSearch(boolean reversed,BucketEntry bucketEntry,ContractionVertex<V> source) {
+        Pair<ContractionVertex<V>, ContractionVertex<V>> pair;
+        if (reversed) {
+            pair = Pair.of(bucketEntry.target, source);
+        } else {
+            pair = Pair.of(source, bucketEntry.target);
+        }
+        return pair;
+    }
+
     /**
      * Performs forward search from the given {@code source} to {@code targets}. A constructed
      * shortest paths tree is then put in {@code forwardSearchSpaces}. If {@code reversed} flag is
@@ -238,6 +259,7 @@ public class CHManyToManyShortestPaths<V, E>
      * @param middleVerticesMap map from source-target pairs to theirs distances and middle nodes
      * @param reversed indicates if current search is reversed
      */
+
     private void forwardSearch(
         Graph<ContractionVertex<V>, ContractionEdge<E>> contractionGraph,
         ContractionVertex<V> source, Set<ContractionVertex<V>> contractedTargets,
@@ -248,13 +270,7 @@ public class CHManyToManyShortestPaths<V, E>
             Pair<Double, ContractionVertex<V>>> middleVerticesMap,
         boolean reversed)
     {
-        Graph<ContractionVertex<V>, ContractionEdge<E>> maskSubgraph;
-        if (reversed) {
-            maskSubgraph = new MaskSubgraph<>(contractionGraph, v -> false, e -> e.isUpward);
-        } else {
-            maskSubgraph = new MaskSubgraph<>(contractionGraph, v -> false, e -> !e.isUpward);
-        }
-
+        Graph<ContractionVertex<V>, ContractionEdge<E>> maskSubgraph = newmask(reversed,contractionGraph);
         Map<ContractionVertex<V>, Pair<Double, ContractionEdge<E>>> distanceAndPredecessorMap =
             getDistanceAndPredecessorMap(maskSubgraph, source, contractedTargets);
 
@@ -268,12 +284,7 @@ public class CHManyToManyShortestPaths<V, E>
 
             for (BucketEntry bucketEntry : bucketsMap.get(middleVertex)) {
                 double pathDistance = forwardDistance + bucketEntry.distance;
-                Pair<ContractionVertex<V>, ContractionVertex<V>> pair;
-                if (reversed) {
-                    pair = Pair.of(bucketEntry.target, source);
-                } else {
-                    pair = Pair.of(source, bucketEntry.target);
-                }
+                Pair<ContractionVertex<V>, ContractionVertex<V>> pair = pairFowardSearch(reversed,bucketEntry,source);
                 middleVerticesMap.compute(pair, (p, distanceAndMiddleNode) -> {
                     if (distanceAndMiddleNode == null
                         || distanceAndMiddleNode.getFirst() > pathDistance)
