@@ -631,6 +631,35 @@ public class ContractionHierarchyPrecomputation<V, E>
         return consumer.shortcuts;
     }
 
+
+
+
+    private boolean iterateShortcutEdgesHelper(ContractionVertex<V> suOrPre) {
+        return verticesData.get(suOrPre.vertexId) != null && verticesData.get(suOrPre.vertexId).isIndependent;
+    }
+
+    private void iterateShortcutEdgesHelperFor(ContractionVertex<V> vertex, Set<ContractionVertex<V>> successors,
+                                               ContractionEdge<E> inEdge, Map<ContractionVertex<V>, AddressableHeap.Handle<Double, ContractionVertex<V>>> distances,
+                                               BiConsumer<ContractionEdge<E>, ContractionEdge<E>> shortcutConsumer, ContractionVertex<V> predecessor){
+        for (ContractionVertex<V> successor : successors) {
+            ContractionEdge<E> outEdge = contractionGraph.getEdge(vertex, successor);
+            double pathWeight = contractionGraph.getEdgeWeight(inEdge)
+                    + contractionGraph.getEdgeWeight(outEdge);
+
+            if (!distances.containsKey(successor)
+                    || distances.get(successor).getKey() > pathWeight)
+            {
+                shortcutConsumer.accept(inEdge, outEdge);
+                if (graph.getType().isUndirected()) {
+                    shortcutConsumer
+                            .accept(
+                                    contractionGraph.getEdge(successor, vertex),
+                                    contractionGraph.getEdge(vertex, predecessor));
+                }
+            }
+        }
+    }
+
     /**
      * Runs forward shortest-path searches in current overlay graph to find shortcuts of
      * {@code vertex}. The {@code vertex} itself is ignored. Applies {@code shortcutConsumer}
@@ -654,12 +683,9 @@ public class ContractionHierarchyPrecomputation<V, E>
         for (ContractionEdge<E> outEdge : maskedContractionGraph.outgoingEdgesOf(vertex)) {
             ContractionVertex<V> successor = maskedContractionGraph.getEdgeTarget(outEdge);
 
-            if (verticesData.get(successor.vertexId) != null
-                && verticesData.get(successor.vertexId).isIndependent)
-            { // does not belong to overlay graph
+            if(iterateShortcutEdgesHelper(successor)) {
                 continue;
             }
-
             successors.add(successor);
             maxOutgoingEdgeWeight =
                 Math.max(maxOutgoingEdgeWeight, contractionGraph.getEdgeWeight(outEdge));
@@ -667,12 +693,9 @@ public class ContractionHierarchyPrecomputation<V, E>
 
         for (ContractionEdge<E> inEdge : maskedContractionGraph.incomingEdgesOf(vertex)) {
             ContractionVertex<V> predecessor = contractionGraph.getEdgeSource(inEdge);
-            if (verticesData.get(predecessor.vertexId) != null
-                && verticesData.get(predecessor.vertexId).isIndependent)
-            { // does not belong to overlay graph
+            if(iterateShortcutEdgesHelper(predecessor)){
                 continue;
             }
-
             boolean containedPredecessor = successors.remove(predecessor); // might contain the
                                                                            // predecessor vertex
 
@@ -682,24 +705,7 @@ public class ContractionHierarchyPrecomputation<V, E>
                         maskedContractionGraph, predecessor, successors, vertex,
                         contractionGraph.getEdgeWeight(inEdge) + maxOutgoingEdgeWeight);
 
-            for (ContractionVertex<V> successor : successors) {
-                ContractionEdge<E> outEdge = contractionGraph.getEdge(vertex, successor);
-                double pathWeight = contractionGraph.getEdgeWeight(inEdge)
-                    + contractionGraph.getEdgeWeight(outEdge);
-
-                if (!distances.containsKey(successor)
-                    || distances.get(successor).getKey() > pathWeight)
-                {
-                    shortcutConsumer.accept(inEdge, outEdge);
-                    if (graph.getType().isUndirected()) {
-                        shortcutConsumer
-                            .accept(
-                                contractionGraph.getEdge(successor, vertex),
-                                contractionGraph.getEdge(vertex, predecessor));
-                    }
-                }
-            }
-
+            iterateShortcutEdgesHelperFor(vertex,successors,inEdge,distances,shortcutConsumer,predecessor);
             if (containedPredecessor && graph.getType().isDirected()) { // restore predecessor if
                                                                         // needed
                 successors.add(predecessor);
