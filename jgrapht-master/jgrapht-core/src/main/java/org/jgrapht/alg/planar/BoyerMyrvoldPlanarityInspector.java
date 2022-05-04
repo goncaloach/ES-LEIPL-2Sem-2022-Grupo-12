@@ -519,6 +519,11 @@ public class BoyerMyrvoldPlanarityInspector<V, E>
         }
     }
 
+    private void debugging(String message){
+        if (DEBUG){
+            System.out.print(message);
+        }
+    }
     /**
      * The walkup procedure from the original paper. Identifies the pertinent subgraph of the graph
      * by going up the dfs tree from the {@code start} node to the {@code end} node using the edge
@@ -528,11 +533,10 @@ public class BoyerMyrvoldPlanarityInspector<V, E>
      * @param end the node currently processed by the main loop of the algorithm
      * @param edge a back edge to embed
      */
+
     private void walkUp(Node start, Node end, Edge edge)
     {
-        if (DEBUG) {
-            System.out.printf("\nStart walk up on edge = %s\n", edge.toString());
-        }
+        debugging("\nStart walk up on edge = " + edge.toString() + "/n" );
         int visited = end.dfsIndex;
 
         start.backEdgeFlag = visited;
@@ -542,9 +546,7 @@ public class BoyerMyrvoldPlanarityInspector<V, E>
             yPrev = start;
         start.visited = visited;
         while (x != end && !x.isVisitedWrtTo(end) && !y.isVisitedWrtTo(end)) {
-            if (DEBUG) {
-                System.out.printf("Current x = %s\nCurrent y = %s\n", x.toString(), y.toString());
-            }
+            debugging("Current x = " + x + "\nCurrent y = " + y + "\n");
             x.visited = y.visited = visited;
 
             Node root = null;
@@ -554,9 +556,7 @@ public class BoyerMyrvoldPlanarityInspector<V, E>
                 root = y;
             }
             if (root != null) {
-                if (DEBUG) {
-                    System.out.printf("Found root = %s\n", root.toString());
-                }
+                debugging("Found root = " + root + "\n");
                 Node rootChild = root.parentEdge.target;
                 Node newStart = root.parentEdge.source;
                 if (newStart != end) {
