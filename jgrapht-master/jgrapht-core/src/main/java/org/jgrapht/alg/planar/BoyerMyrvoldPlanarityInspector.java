@@ -343,7 +343,7 @@ public class BoyerMyrvoldPlanarityInspector<V, E>
 
         root
             .mergeChildEdges(
-                virtualRoot.embedded, info.vIn, info.vOut, info.parentNext, virtualRoot.parentEdge);
+                virtualRoot.embedded, info.vOut, info.parentNext, virtualRoot.parentEdge);
 
         root.substituteAnother(info.parentNext, info.childPrev);
         info.childPrev.substitute(virtualRoot, root);
@@ -2316,41 +2316,27 @@ public class BoyerMyrvoldPlanarityInspector<V, E>
          * orientation. If this list is inverted, the sign of the {@code parentEdge} is set to $-1$.
          *
          * @param edges the edges from the child component root
-         * @param vIn the direction used to enter the parent component
          * @param vOut the direction used to enter the child component
          * @param parentNext the next node along the traversal of the parent biconnected component
          * @param parentEdge the parent edge if the child component
          */
+
         void mergeChildEdges(
-            DoublyLinkedList<Edge> edges, int vIn, int vOut, Node parentNext, Edge parentEdge)
+            DoublyLinkedList<Edge> edges,int vOut, Node parentNext, Edge parentEdge)
         {
             assert !embedded.isEmpty();
             Node firstOpposite = embedded.getFirst().getOpposite(this);
             boolean alongParentTraversal = firstOpposite != parentNext;
             boolean actionAppend = false, invert = false;
-            if (vIn == 0) {
-                if (vOut == 0) {
-                    if (!alongParentTraversal) {
-                        invert = actionAppend = true;
-                    }
-                } else {
-                    if (alongParentTraversal) {
-                        invert = true;
-                    } else {
-                        actionAppend = true;
-                    }
+            if (vOut == 0) {
+                if (!alongParentTraversal) {
+                    invert = actionAppend = true;
                 }
             } else {
-                if (vOut == 0) {
-                    if (!alongParentTraversal) {
-                        invert = actionAppend = true;
-                    }
+                if (alongParentTraversal) {
+                    invert = true;
                 } else {
-                    if (alongParentTraversal) {
-                        invert = true;
-                    } else {
-                        actionAppend = true;
-                    }
+                    actionAppend = true;
                 }
             }
             if (invert) {
