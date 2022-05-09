@@ -121,15 +121,19 @@ public final class BidirectionalDijkstraShortestPath<V, E>
         return new BidirectionalDijkstraShortestPath<>(graph).getPath(source, sink);
     }
 
+    public void getPathHelper(V source, V sink){
+        if (!graph.containsVertex(source)){
+            throw new IllegalArgumentException(GRAPH_MUST_CONTAIN_THE_SOURCE_VERTEX);
+        }
+        if (!graph.containsVertex(sink)){
+            throw new IllegalArgumentException(GRAPH_MUST_CONTAIN_THE_SINK_VERTEX);
+        }
+    }
+
     @Override
     public GraphPath<V, E> getPath(V source, V sink)
     {
-        if (!graph.containsVertex(source)) {
-            throw new IllegalArgumentException(GRAPH_MUST_CONTAIN_THE_SOURCE_VERTEX);
-        }
-        if (!graph.containsVertex(sink)) {
-            throw new IllegalArgumentException(GRAPH_MUST_CONTAIN_THE_SINK_VERTEX);
-        }
+       getPathHelper(source,sink);
 
         // handle special case if source equals target
         if (source.equals(sink)) {
@@ -160,14 +164,10 @@ public final class BidirectionalDijkstraShortestPath<V, E>
         DijkstraSearchFrontier<V, E> frontier = forwardFrontier;
         DijkstraSearchFrontier<V, E> otherFrontier = backwardFrontier;
 
-        while (true) {
+        while (!frontier.heap.isEmpty() && !otherFrontier.heap.isEmpty()
+                && !(frontier.heap.findMin().getKey()
+                + otherFrontier.heap.findMin().getKey() >= bestPath)) {
             // stopping condition
-            if (frontier.heap.isEmpty() || otherFrontier.heap.isEmpty()
-                || frontier.heap.findMin().getKey()
-                    + otherFrontier.heap.findMin().getKey() >= bestPath)
-            {
-                break;
-            }
 
             // frontier scan
             AddressableHeap.Handle<Double, Pair<V, E>> node = frontier.heap.deleteMin();

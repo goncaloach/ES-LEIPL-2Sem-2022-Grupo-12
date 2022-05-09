@@ -7,8 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="jgrapht-ext" />
-        <module name="jgrapht-opt" />
         <module name="jgrapht-io" />
+        <module name="jgrapht-opt" />
         <module name="jgrapht-core" />
         <module name="jgrapht-demo" />
         <module name="jgrapht-unimi-dsi" />
