@@ -116,6 +116,22 @@ public class CHManyToManyShortestPaths<V, E>
     /**
      * {@inheritDoc}
      */
+
+    public ManyToManyShortestPaths<V, E> ManyToManyShortestPathsReturned(Set<V> targets,Set<V> sources,Map<ContractionVertex<V>,
+            Map<ContractionVertex<V>, Pair<Double, ContractionEdge<E>>>> backwardSearchSpaces, Map<ContractionVertex<V>,
+            Map<ContractionVertex<V>, Pair<Double, ContractionEdge<E>>>> forwardSearchSpaces, Map<Pair<ContractionVertex<V>, ContractionVertex<V>>,
+            Pair<Double, ContractionVertex<V>>> middleVertices, boolean reversed){
+        if (reversed) {
+            return new CHManyToManyShortestPathsImpl(
+                    graph, contractionHierarchy, targets, sources, backwardSearchSpaces,
+                    forwardSearchSpaces, middleVertices);
+        } else {
+            return new CHManyToManyShortestPathsImpl(
+                    graph, contractionHierarchy, sources, targets, forwardSearchSpaces,
+                    backwardSearchSpaces, middleVertices);
+        }
+
+    }
     @Override
     public ManyToManyShortestPaths<V, E> getManyToManyPaths(Set<V> sources, Set<V> targets)
     {
@@ -166,15 +182,7 @@ public class CHManyToManyShortestPaths<V, E>
                 forwardSearchSpaces, middleVertices, reversed);
         }
 
-        if (reversed) {
-            return new CHManyToManyShortestPathsImpl(
-                graph, contractionHierarchy, targets, sources, backwardSearchSpaces,
-                forwardSearchSpaces, middleVertices);
-        } else {
-            return new CHManyToManyShortestPathsImpl(
-                graph, contractionHierarchy, sources, targets, forwardSearchSpaces,
-                backwardSearchSpaces, middleVertices);
-        }
+        return ManyToManyShortestPathsReturned(targets,sources,backwardSearchSpaces, forwardSearchSpaces,middleVertices, reversed);
     }
 
     /**
