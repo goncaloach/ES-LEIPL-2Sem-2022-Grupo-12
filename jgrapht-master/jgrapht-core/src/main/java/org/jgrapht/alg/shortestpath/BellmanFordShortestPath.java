@@ -30,7 +30,7 @@ import java.util.*;
  * <p>
  * Computes shortest paths from a single source vertex to all other vertices in a weighted graph.
  * The Bellman-Ford algorithm supports negative edge weights.
- * 
+ *
  * <p>
  * Negative weight cycles are not allowed and will be reported by the algorithm. This implies that
  * negative edge weights are not allowed in undirected graphs. In such cases the code will throw an
@@ -95,7 +95,7 @@ public class BellmanFordShortestPath<V, E>
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @throws NegativeCycleDetectedException in case a negative weight cycle is detected
      */
     @Override
@@ -107,18 +107,35 @@ public class BellmanFordShortestPath<V, E>
         return getPaths(source).getPath(sink);
     }
 
+    public void getPathsExceptionHelper(V source){
+        if (!graph.containsVertex(source)) {
+            throw new IllegalArgumentException(GRAPH_MUST_CONTAIN_THE_SOURCE_VERTEX);
+        }
+    }
+
+    public  Map<V, Double> getPathsPut(Map<V, Double> distance){
+        for (V v : graph.vertexSet()){
+            distance.put(v, Double.POSITIVE_INFINITY);
+        }
+        return distance;
+}
+   public Map<V, Pair<Double, E>>  getPathsPut2(Map<V, Pair<Double, E>> distanceAndPredecessorMap,Map<V, Double> distance,Map<V, E> pred){
+       for (V v : graph.vertexSet()) {
+           distanceAndPredecessorMap.put(v, Pair.of(distance.get(v), pred.get(v)));
+       }
+       return distanceAndPredecessorMap;
+   }
+
     /**
      * {@inheritDoc}
-     * 
+     *
      * @throws NegativeCycleDetectedException in case a negative weight cycle is detected
      */
     @Override
     @SuppressWarnings("unchecked")
     public SingleSourcePaths<V, E> getPaths(V source)
     {
-        if (!graph.containsVertex(source)) {
-            throw new IllegalArgumentException(GRAPH_MUST_CONTAIN_THE_SOURCE_VERTEX);
-        }
+        getPathsExceptionHelper(source);
 
         /*
          * Initialize distance and predecessor.
@@ -126,9 +143,10 @@ public class BellmanFordShortestPath<V, E>
         int n = graph.vertexSet().size();
         Map<V, Double> distance = new HashMap<>();
         Map<V, E> pred = new HashMap<>();
-        for (V v : graph.vertexSet()) {
+        /*for (V v : graph.vertexSet()) {
             distance.put(v, Double.POSITIVE_INFINITY);
-        }
+        }*/
+        distance = getPathsPut(distance);
         distance.put(source, 0d);
 
         /*
@@ -193,19 +211,17 @@ public class BellmanFordShortestPath<V, E>
          * Transform result
          */
         Map<V, Pair<Double, E>> distanceAndPredecessorMap = new HashMap<>();
-        for (V v : graph.vertexSet()) {
-            distanceAndPredecessorMap.put(v, Pair.of(distance.get(v), pred.get(v)));
-        }
+        distanceAndPredecessorMap = getPathsPut2(distanceAndPredecessorMap,distance,pred);
         return new TreeSingleSourcePathsImpl<>(graph, source, distanceAndPredecessorMap);
     }
 
     /**
      * Find a path between two vertices.
-     * 
+     *
      * @param graph the graph to be searched
      * @param source the vertex at which the path should start
      * @param sink the vertex at which the path should end
-     * 
+     *
      * @param <V> the graph vertex type
      * @param <E> the graph edge type
      *
@@ -219,10 +235,10 @@ public class BellmanFordShortestPath<V, E>
     /**
      * Computes a negative weight cycle assuming that the algorithm has already determined that it
      * exists.
-     * 
+     *
      * @param edge an edge which we know that belongs to the negative weight cycle
      * @param pred the predecessor array
-     * 
+     *
      * @return the negative weight cycle
      */
     private GraphPath<V, E> computeNegativeCycle(E edge, Map<V, E> pred)
