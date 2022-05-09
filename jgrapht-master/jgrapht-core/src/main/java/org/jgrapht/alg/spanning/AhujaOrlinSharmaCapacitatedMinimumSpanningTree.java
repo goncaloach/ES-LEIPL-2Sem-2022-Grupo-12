@@ -360,6 +360,28 @@ public class AhujaOrlinSharmaCapacitatedMinimumSpanningTree<V, E>
             graph, root, capacity, demands, numberOfOperationsParameter).getSolution();
     }
 
+    private Integer executeNeighborhoodOperationHelper(Iterator<Pair<Integer, ImprovementGraphVertexType>> it, Pair<Integer, ImprovementGraphVertexType> next ,CapacitatedSpanningTreeSolutionRepresentation currentSolution, Map<Integer, V> improvementGraphVertexMapping,Map<Pair<Integer, ImprovementGraphVertexType>, Integer> pathExchangeVertexMapping,   Integer firstLabel){
+        Integer nextLabel;
+        if (it.hasNext()) {
+            switch (next.getSecond()) {
+                case SINGLE:
+                case SUBTREE:
+                    nextLabel = currentSolution
+                            .getLabel(improvementGraphVertexMapping.get(next.getFirst()));
+                    break;
+                case PSEUDO:
+                    nextLabel = pathExchangeVertexMapping.get(next);
+                    break;
+                default:
+                    throw new IllegalStateException(
+                            "This is a bug. There are invalid types of vertices in the cycle.");
+            }
+        } else {
+            nextLabel = firstLabel;
+        }
+        return nextLabel;
+}
+
     /**
      * Executes the move operations induced by the calculated cycle in the improvement graph. It
      * returns the set of labels of the subsets that were affected by the move operations.
@@ -388,14 +410,11 @@ public class AhujaOrlinSharmaCapacitatedMinimumSpanningTree<V, E>
             Integer firstLabel;
             switch (cur.getSecond()) {
             case SINGLE:
-                firstLabel =
+                case SUBTREE:
+                    firstLabel =
                     currentSolution.getLabel(improvementGraphVertexMapping.get(cur.getFirst()));
                 break;
-            case SUBTREE:
-                firstLabel =
-                    currentSolution.getLabel(improvementGraphVertexMapping.get(cur.getFirst()));
-                break;
-            default:
+                default:
                 firstLabel = -1;
             }
             while (it.hasNext()) {
@@ -411,29 +430,9 @@ public class AhujaOrlinSharmaCapacitatedMinimumSpanningTree<V, E>
                     V curVertex = improvementGraphVertexMapping.get(cur.getFirst());
                     Integer curLabel = currentSolution.getLabel(curVertex);
                     Integer nextLabel;
-                    if (it.hasNext()) {
-                        switch (next.getSecond()) {
-                        case SINGLE:
-                            nextLabel = currentSolution
-                                .getLabel(improvementGraphVertexMapping.get(next.getFirst()));
-                            break;
-                        case SUBTREE:
-                            nextLabel = currentSolution
-                                .getLabel(improvementGraphVertexMapping.get(next.getFirst()));
-                            break;
-                        case PSEUDO:
-                            nextLabel = pathExchangeVertexMapping.get(next);
-                            break;
-                        default:
-                            throw new IllegalStateException(
-                                "This is a bug. There are invalid types of vertices in the cycle.");
-                        }
-                    } else {
-                        nextLabel = firstLabel;
-                    }
+                    nextLabel = executeNeighborhoodOperationHelper(it,next,currentSolution,improvementGraphVertexMapping,pathExchangeVertexMapping,firstLabel);
                     affectedVertices.add(curVertex);
                     affectedLabels.add(curLabel);
-
                     currentSolution.moveVertex(curVertex, curLabel, nextLabel);
                     break;
                 }
@@ -445,26 +444,7 @@ public class AhujaOrlinSharmaCapacitatedMinimumSpanningTree<V, E>
                     V curVertex = improvementGraphVertexMapping.get(cur.getFirst());
                     Integer curLabel = currentSolution.getLabel(curVertex);
                     Integer nextLabel;
-                    if (it.hasNext()) {
-                        switch (next.getSecond()) {
-                        case SINGLE:
-                            nextLabel = currentSolution
-                                .getLabel(improvementGraphVertexMapping.get(next.getFirst()));
-                            break;
-                        case SUBTREE:
-                            nextLabel = currentSolution
-                                .getLabel(improvementGraphVertexMapping.get(next.getFirst()));
-                            break;
-                        case PSEUDO:
-                            nextLabel = pathExchangeVertexMapping.get(next);
-                            break;
-                        default:
-                            throw new IllegalStateException(
-                                "This is a bug. There are invalid types of vertices in the cycle.");
-                        }
-                    } else {
-                        nextLabel = firstLabel;
-                    }
+                    nextLabel = executeNeighborhoodOperationHelper(it,next,currentSolution,improvementGraphVertexMapping,pathExchangeVertexMapping,firstLabel);
                     affectedVertices.add(curVertex);
                     affectedLabels.add(curLabel);
 
