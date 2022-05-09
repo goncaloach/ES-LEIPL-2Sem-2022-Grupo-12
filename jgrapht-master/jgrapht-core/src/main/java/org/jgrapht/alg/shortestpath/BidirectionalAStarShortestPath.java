@@ -104,19 +104,21 @@ public class BidirectionalAStarShortestPath<V, E>
         this.heapSupplier = Objects.requireNonNull(heapSupplier, "Heap supplier cannot be null!");
     }
 
+    public void getPathHelper(V source, V sink){
+        if (!graph.containsVertex(source)){
+            throw new IllegalArgumentException(GRAPH_MUST_CONTAIN_THE_SOURCE_VERTEX);
+        }
+        if (!graph.containsVertex(sink)){
+            throw new IllegalArgumentException(GRAPH_MUST_CONTAIN_THE_SINK_VERTEX);
+        }
+    }
     /**
      * {@inheritDoc}
      */
     @Override
     public GraphPath<V, E> getPath(V source, V sink)
     {
-        if (!graph.containsVertex(source)) {
-            throw new IllegalArgumentException(GRAPH_MUST_CONTAIN_THE_SOURCE_VERTEX);
-        }
-        if (!graph.containsVertex(sink)) {
-            throw new IllegalArgumentException(GRAPH_MUST_CONTAIN_THE_SINK_VERTEX);
-        }
-
+        getPathHelper(source,sink);
         // handle special case if source equals target
         if (source.equals(sink)) {
             return createEmptyPath(source, sink);
@@ -152,11 +154,7 @@ public class BidirectionalAStarShortestPath<V, E>
             condition = new InconsistentTerminationCriterion(forwardFrontier, backwardFrontier);
         }
 
-        while (true) {
-            // stopping condition
-            if (condition.stop(bestPath)) {
-                break;
-            }
+        while (!condition.stop(bestPath)) {
 
             // frontier scan
             AddressableHeap.Handle<Double, V> node = frontier.openList.deleteMin();
@@ -173,13 +171,13 @@ public class BidirectionalAStarShortestPath<V, E>
                 double gScore = frontier.getDistance(v);
                 double tentativeGScore = gScore + edgeWeight;
                 double fScore = tentativeGScore
-                    + frontier.heuristic.getCostEstimate(successor, frontier.endVertex);
+                        + frontier.heuristic.getCostEstimate(successor, frontier.endVertex);
 
                 frontier.updateDistance(successor, edge, tentativeGScore, fScore);
 
                 // check if best path can be updated
                 double pathDistance =
-                    gScore + edgeWeight + otherFrontier.getDistance(successor);
+                        gScore + edgeWeight + otherFrontier.getDistance(successor);
                 if (pathDistance < bestPath) {
                     bestPath = pathDistance;
                     bestPathCommonVertex = successor;
@@ -195,11 +193,9 @@ public class BidirectionalAStarShortestPath<V, E>
                 otherFrontier = tmpFrontier;
             }
         }
-
-        // create path if found
         if (Double.isFinite(bestPath)) {
             return createPath(
-                forwardFrontier, backwardFrontier, bestPath, source, bestPathCommonVertex, sink);
+                    forwardFrontier, backwardFrontier, bestPath, source, bestPathCommonVertex, sink);
         } else {
             return createEmptyPath(source, sink);
         }
