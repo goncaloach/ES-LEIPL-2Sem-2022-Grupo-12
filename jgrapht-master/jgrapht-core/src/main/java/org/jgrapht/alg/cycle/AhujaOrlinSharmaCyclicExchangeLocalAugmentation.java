@@ -44,7 +44,7 @@ import java.util.*;
  * This algorithm is used to detect valid cyclic exchanges in a cyclic exchange neighborhood for the
  * Capacitated Minomum Spanning Tree problem
  * {@link org.jgrapht.alg.spanning.AhujaOrlinSharmaCapacitatedMinimumSpanningTree}
- * 
+ *
  * @see org.jgrapht.alg.spanning.AhujaOrlinSharmaCapacitatedMinimumSpanningTree
  *
  * @param <V> the vertex type the graph
@@ -84,7 +84,7 @@ public class AhujaOrlinSharmaCyclicExchangeLocalAugmentation<V, E>
      *        if true, first if false
      */
     public AhujaOrlinSharmaCyclicExchangeLocalAugmentation(
-        Graph<V, E> graph, int lengthBound, Map<V, Integer> labelMap, boolean bestImprovement)
+            Graph<V, E> graph, int lengthBound, Map<V, Integer> labelMap, boolean bestImprovement)
     {
         this.graph = Objects.requireNonNull(graph, "Graph cannot be null");
         if (!graph.getType().isDirected()) {
@@ -95,7 +95,7 @@ public class AhujaOrlinSharmaCyclicExchangeLocalAugmentation<V, E>
         for (V vertex : graph.vertexSet()) {
             if (!labelMap.containsKey(vertex)) {
                 throw new IllegalArgumentException(
-                    "Every vertex has to be labeled, that is, every vertex needs an entry in labelMap.");
+                        "Every vertex has to be labeled, that is, every vertex needs an entry in labelMap.");
             }
         }
         this.bestImprovement = bestImprovement;
@@ -113,7 +113,7 @@ public class AhujaOrlinSharmaCyclicExchangeLocalAugmentation<V, E>
         int k = 1;
 
         LabeledPath<V> bestCycle =
-            new LabeledPath<>(new ArrayList<>(lengthBound), Double.MAX_VALUE, new HashSet<>());
+                new LabeledPath<>(new ArrayList<>(lengthBound), Double.MAX_VALUE, new HashSet<>());
 
         /*
          * Store the path in map with key PathSetKey<V, V, Set<Integer>>, since only paths with the
@@ -131,34 +131,27 @@ public class AhujaOrlinSharmaCyclicExchangeLocalAugmentation<V, E>
                 V targetVertex = graph.getEdgeTarget(e);
                 // catch self-loops directly
                 if (sourceVertex == targetVertex) {
-                    ArrayList<V> vertices = new ArrayList<>();
-                    vertices.add(sourceVertex);
-                    vertices.add(targetVertex);
-
+                    ArrayList<V> vertices = vertices(sourceVertex, targetVertex);
                     double currentEdgeWeight = graph.getEdgeWeight(e);
                     double oppositeEdgeWeight =
-                        graph.getEdgeWeight(graph.getEdge(targetVertex, sourceVertex));
+                            graph.getEdgeWeight(graph.getEdge(targetVertex, sourceVertex));
                     if (bestImprovement) {
                         if (bestCycle.cost > currentEdgeWeight + oppositeEdgeWeight) {
                             HashSet<Integer> labelSet = new HashSet<>();
                             labelSet.add(labelMap.get(sourceVertex));
                             bestCycle = new LabeledPath<>(
-                                vertices, currentEdgeWeight + oppositeEdgeWeight, labelSet);
+                                    vertices, currentEdgeWeight + oppositeEdgeWeight, labelSet);
                         }
                     } else {
                         return new GraphWalk<>(
-                            graph, vertices, currentEdgeWeight + oppositeEdgeWeight);
+                                graph, vertices, currentEdgeWeight + oppositeEdgeWeight);
                     }
                 }
                 if (!labelMap.get(sourceVertex).equals(labelMap.get(targetVertex))) {
-                    ArrayList<V> pathVertices = new ArrayList<>(lengthBound);
-                    HashSet<Integer> pathLabels = new HashSet<>();
-                    pathVertices.add(sourceVertex);
-                    pathVertices.add(targetVertex);
-                    pathLabels.add(labelMap.get(sourceVertex));
-                    pathLabels.add(labelMap.get(targetVertex));
+                    ArrayList<V> pathVertices = pathVertices(sourceVertex, targetVertex);
+                    HashSet<Integer> pathLabels = pathLabels(sourceVertex, targetVertex);
                     LabeledPath<V> path =
-                        new LabeledPath<>(pathVertices, graph.getEdgeWeight(e), pathLabels);
+                            new LabeledPath<>(pathVertices, graph.getEdgeWeight(e), pathLabels);
 
                     // add path to set of paths of length 1
                     updatePathIndex(pathsLengthK, path);
@@ -181,7 +174,7 @@ public class AhujaOrlinSharmaCyclicExchangeLocalAugmentation<V, E>
                     if (currentCost < bestCycle.cost) {
                         LabeledPath<V> cycleResult = path.clone();
                         cycleResult
-                            .addVertex(head, graph.getEdgeWeight(currentEdge), labelMap.get(head));
+                                .addVertex(head, graph.getEdgeWeight(currentEdge), labelMap.get(head));
 
                         /*
                          * The path builds a valid negative cycle. Return the cycle if the first
@@ -226,6 +219,27 @@ public class AhujaOrlinSharmaCyclicExchangeLocalAugmentation<V, E>
         return new GraphWalk<>(graph, bestCycle.vertices, bestCycle.cost);
     }
 
+    private ArrayList<V> pathVertices(V sourceVertex, V targetVertex) {
+        ArrayList<V> pathVertices = new ArrayList<>(lengthBound);
+        pathVertices.add(sourceVertex);
+        pathVertices.add(targetVertex);
+        return pathVertices;
+    }
+
+    private HashSet<Integer> pathLabels(V sourceVertex, V targetVertex) {
+        HashSet<Integer> pathLabels = new HashSet<>();
+        pathLabels.add(labelMap.get(sourceVertex));
+        pathLabels.add(labelMap.get(targetVertex));
+        return pathLabels;
+    }
+
+    private ArrayList<V> vertices(V sourceVertex, V targetVertex) {
+        ArrayList<V> vertices = new ArrayList<>();
+        vertices.add(sourceVertex);
+        vertices.add(targetVertex);
+        return vertices;
+    }
+
     /**
      * Checks whether <code>path</code> dominates the current minimal cost path with the same head,
      * tail and label set in the set of all paths of length k + 1. Thus, dominated paths are
@@ -239,11 +253,11 @@ public class AhujaOrlinSharmaCyclicExchangeLocalAugmentation<V, E>
      *         tail and label set.
      */
     private boolean checkDominatedPathsOfLengthKplus1(
-        LabeledPath<V> path, Map<PathSetKey<V>, LabeledPath<V>> pathsLengthKplus1)
+            LabeledPath<V> path, Map<PathSetKey<V>, LabeledPath<V>> pathsLengthKplus1)
     {
         // simulates domination test by using the index structure
         LabeledPath<V> pathToCheck =
-            pathsLengthKplus1.get(new PathSetKey<>(path.getHead(), path.getTail(), path.labels));
+                pathsLengthKplus1.get(new PathSetKey<>(path.getHead(), path.getTail(), path.labels));
         if (pathToCheck != null) {
             return pathToCheck.cost < path.cost;
         }
@@ -261,14 +275,14 @@ public class AhujaOrlinSharmaCyclicExchangeLocalAugmentation<V, E>
      * @return whether <code>path</code> is dominated by some path in <code>pathsLengthK</code>
      */
     private boolean checkDominatedPathsOfLengthK(
-        LabeledPath<V> path, Map<PathSetKey<V>, LabeledPath<V>> pathsLengthK)
+            LabeledPath<V> path, Map<PathSetKey<V>, LabeledPath<V>> pathsLengthK)
     {
         Set<Integer> modifiableLabelSet = new HashSet<>(path.labels);
         for (Integer label : path.labels) {
             modifiableLabelSet.remove(label);
             // simulates domination test by using the index structure
             LabeledPath<V> pathToCheck = pathsLengthK
-                .get(new PathSetKey<>(path.getHead(), path.getTail(), modifiableLabelSet));
+                    .get(new PathSetKey<>(path.getHead(), path.getTail(), modifiableLabelSet));
             if (pathToCheck != null) {
                 if (pathToCheck.cost < path.cost) {
                     return true;
@@ -305,8 +319,8 @@ public class AhujaOrlinSharmaCyclicExchangeLocalAugmentation<V, E>
      * @since June 7, 2018
      */
     private class LabeledPath<V>
-        implements
-        Cloneable
+            implements
+            Cloneable
     {
 
         /**
@@ -461,7 +475,7 @@ public class AhujaOrlinSharmaCyclicExchangeLocalAugmentation<V, E>
 
             @SuppressWarnings("unchecked") PathSetKey<V> other = (PathSetKey<V>) o;
             return Objects.equals(head, other.head) && Objects.equals(tail, other.tail)
-                && Objects.equals(labels, other.labels);
+                    && Objects.equals(labels, other.labels);
         }
     }
 }
