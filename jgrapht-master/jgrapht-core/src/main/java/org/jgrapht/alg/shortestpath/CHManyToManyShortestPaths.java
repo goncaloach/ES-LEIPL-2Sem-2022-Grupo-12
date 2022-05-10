@@ -93,12 +93,6 @@ public class CHManyToManyShortestPaths<V, E>
      * @param graph a graph
      * @param executor executor which will be used to compute {@link ContractionHierarchy}
      */
-    public CHManyToManyShortestPaths(Graph<V, E> graph, ThreadPoolExecutor executor)
-    {
-        this(
-            new ContractionHierarchyPrecomputation<>(graph, executor)
-                .computeContractionHierarchy());
-    }
 
     /**
      * Constructs an instance of the algorithm for a given {@code contractionHierarchy}.

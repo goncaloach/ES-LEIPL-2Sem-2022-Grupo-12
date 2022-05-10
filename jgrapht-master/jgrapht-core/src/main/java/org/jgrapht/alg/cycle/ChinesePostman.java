@@ -58,7 +58,7 @@ import java.util.stream.*;
  * "https://www-m9.ma.tum.de/graph-algorithms/directed-chinese-postman/index_en.html">CPP for
  * Directed graphs</a>
  * </ul>
- * 
+ *
  * @param <V> the graph vertex type
  * @param <E> the graph edge type
  *
@@ -73,7 +73,7 @@ public class ChinesePostman<V, E>
      * directed graphs, @{@link KuhnMunkresMinimalWeightBipartitePerfectMatching} is used instead.
      * The input graph must be strongly connected. Otherwise the behavior of this class is
      * undefined.
-     * 
+     *
      * @param graph the input graph (must be a strongly connected graph)
      * @return Eulerian circuit of minimum weight.
      */
@@ -160,7 +160,7 @@ public class ChinesePostman<V, E>
 
     /**
      * Solves the CPP for directed graphs
-     * 
+     *
      * @param graph input graph
      * @return CPP solution (closed walk)
      */

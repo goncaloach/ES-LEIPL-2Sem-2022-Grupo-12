@@ -24,12 +24,12 @@ import java.util.*;
 
 /**
  * Find a cycle basis of an undirected graph using a variant of Paton's algorithm.
- * 
+ *
  * <p>
  * See:<br>
  * K. Paton, An algorithm for finding a fundamental set of cycles for an undirected linear graph,
  * Comm. ACM 12 (1969), pp. 514-518.
- * 
+ *
  * <p>
  * Note that Paton's algorithm produces a fundamental cycle basis while this implementation produces
  * a <a href=
@@ -45,8 +45,8 @@ import java.util.*;
  * @author Nikolay Ognyanov
  */
 public class PatonCycleBase<V, E>
-    implements
-    CycleBasisAlgorithm<V, E>
+        implements
+        CycleBasisAlgorithm<V, E>
 {
     private Graph<V, E> graph;
 
@@ -65,7 +65,7 @@ public class PatonCycleBase<V, E>
     /**
      * Return an undirected cycle basis of a graph. Works only for undirected graphs which do not
      * have multiple (parallel) edges.
-     * 
+     *
      * @return an undirected cycle basis
      * @throws IllegalArgumentException if the graph is not undirected
      * @throws IllegalArgumentException if the graph contains multiple edges between two vertices
@@ -110,6 +110,7 @@ public class PatonCycleBase<V, E>
             while (!stack.isEmpty()) {
                 V current = stack.pop();
                 Map<V, E> currentUsed = used.get(current);
+                totalWeight = totalWeight(used, parent, totalWeight, current, currentUsed);
                 for (E e : graph.edgesOf(current)) {
                     V neighbor = Graphs.getOppositeVertex(graph, e, current);
                     if (!used.containsKey(neighbor)) {
@@ -123,35 +124,27 @@ public class PatonCycleBase<V, E>
                         // found a self loop
                         List<E> cycle = new ArrayList<>();
                         cycle.add(e);
-                        totalWeight += graph.getEdgeWeight(e);
                         totalLength += 1;
                         cycles.add(cycle);
                     } else if (!currentUsed.containsKey(neighbor)) {
                         // found a cycle
                         Map<V, E> neighbourUsed = used.get(neighbor);
 
-                        double weight = 0d;
                         List<E> cycle = new ArrayList<>();
 
                         cycle.add(e);
-                        weight += graph.getEdgeWeight(e);
-
                         V v = current;
                         while (!neighbourUsed.containsKey(v)) {
                             E p = parent.get(v);
                             cycle.add(p);
-                            weight += graph.getEdgeWeight(p);
                             v = Graphs.getOppositeVertex(graph, p, v);
                         }
                         E a = neighbourUsed.get(v);
                         cycle.add(a);
-                        weight += graph.getEdgeWeight(a);
-
                         neighbourUsed.put(current, e);
 
                         cycles.add(cycle);
                         totalLength += cycle.size();
-                        totalWeight += weight;
                     }
                 }
             }
@@ -159,4 +152,30 @@ public class PatonCycleBase<V, E>
 
         return new CycleBasisImpl<V, E>(graph, cycles, totalLength, totalWeight);
     }
+
+    private double totalWeight(Map<V, Map<V, E>> used, Map<V, E> parent, double totalWeight, V current,
+                               Map<V, E> currentUsed) {
+        for (E e : graph.edgesOf(current)) {
+            V neighbor = Graphs.getOppositeVertex(graph, e, current);
+            if (!used.containsKey(neighbor)) {
+            } else if (neighbor.equals(current)) {
+                totalWeight += graph.getEdgeWeight(e);
+            } else if (!currentUsed.containsKey(neighbor)) {
+                Map<V, E> neighbourUsed = used.get(neighbor);
+                double weight = 0d;
+                weight += graph.getEdgeWeight(e);
+                V v = current;
+                while (!neighbourUsed.containsKey(v)) {
+                    E p = parent.get(v);
+                    weight += graph.getEdgeWeight(p);
+                    v = Graphs.getOppositeVertex(graph, p, v);
+                }
+                E a = neighbourUsed.get(v);
+                weight += graph.getEdgeWeight(a);
+                totalWeight += weight;
+            }
+        }
+        return totalWeight;
+    }
 }
+

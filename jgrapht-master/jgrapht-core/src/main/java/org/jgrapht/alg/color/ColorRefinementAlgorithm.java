@@ -30,7 +30,7 @@ import java.util.stream.*;
  * <a href="https://doi.org/10.1007/s00224-016-9686-0">paper</a>: C. Berkholz, P. Bonsma, and M.
  * Grohe. Tight lower and upper bounds for the complexity of canonical colour refinement. Theory of
  * Computing Systems, 60(4), p581--614, 2017.
- * 
+ *
  * <p>
  * The complexity of this algorithm is $O((|V| + |E|)log |V|)$.
  *
@@ -42,8 +42,8 @@ import java.util.stream.*;
  * @author Oliver Feith
  */
 public class ColorRefinementAlgorithm<V, E>
-    implements
-    VertexColoringAlgorithm<V>
+        implements
+        VertexColoringAlgorithm<V>
 {
     private final Graph<V, E> graph;
     private final Coloring<V> alpha;
@@ -60,7 +60,7 @@ public class ColorRefinementAlgorithm<V, E>
         this.alpha = Objects.requireNonNull(alpha, "alpha cannot be null");
         if (!isAlphaConsistent(alpha, graph)) {
             throw new IllegalArgumentException(
-                "alpha is not a valid surjective l-coloring for the given graph.");
+                    "alpha is not a valid surjective l-coloring for the given graph.");
         }
     }
 
@@ -97,9 +97,9 @@ public class ColorRefinementAlgorithm<V, E>
 
             // split colors
             adjacentColors
-                .stream().filter(c -> rep.minColorDegree[c] < rep.maxColorDegree[c])
-                .sorted(Comparator.comparingInt(o -> o)) // canonical order
-                .forEach(color -> splitUpColor(color, refineStack, rep));
+                    .stream().filter(c -> rep.minColorDegree[c] < rep.maxColorDegree[c])
+                    .sorted(Comparator.comparingInt(o -> o)) // canonical order
+                    .forEach(color -> splitUpColor(color, refineStack, rep));
 
             cleanupColorDegrees(adjacentColors, rep);
         }
@@ -124,8 +124,8 @@ public class ColorRefinementAlgorithm<V, E>
         // calculate color degree and update maxColorDegree
         for (V v : rep.colorClasses.get(refiningColor)) {
             Set<V> inNeighborhood = graph
-                .incomingEdgesOf(v).stream().map(e -> Graphs.getOppositeVertex(graph, e, v))
-                .collect(Collectors.toSet());
+                    .incomingEdgesOf(v).stream().map(e -> Graphs.getOppositeVertex(graph, e, v))
+                    .collect(Collectors.toSet());
 
             for (V w : inNeighborhood) {
                 rep.colorDegree.put(w, rep.colorDegree.get(w) + 1);
@@ -213,18 +213,15 @@ public class ColorRefinementAlgorithm<V, E>
         int[] newMapping = new int[maxColorDegree + 1];
         boolean isCurrentColorInStack = refineStack.contains(color);
         for (int i = 0; i <= maxColorDegree; ++i) {
+            newMapping = newMapping(color, rep, numColorDegree, newMapping, i);
             if (numColorDegree[i] >= 1) {
                 if (i == rep.minColorDegree[color]) {
-                    newMapping[i] = color; // keep current color
-
                     // Push current color on the stack if it is not in the stack and i is not the
                     // index with the maximum number of vertices with the corresponding color degree
                     if (!isCurrentColorInStack && maxColorDegreeIndex != i) {
                         refineStack.push(newMapping[i]);
                     }
                 } else {
-                    newMapping[i] = ++rep.lastUsedColor; // new color
-
                     // Push current color on the stack if it is in the stack and i is not the index
                     // with the maximum number of vertices with the corresponding color degree
                     if (isCurrentColorInStack || i != maxColorDegreeIndex) {
@@ -243,6 +240,18 @@ public class ColorRefinementAlgorithm<V, E>
                 rep.coloring.replace(v, value);
             }
         }
+    }
+
+    private int[] newMapping(Integer color, ColorRefinementAlgorithm<V, E>.ColoringRepresentation rep,
+                             int[] numColorDegree, int[] newMapping, int i) {
+        if (numColorDegree[i] >= 1) {
+            if (i == rep.minColorDegree[color]) {
+                newMapping[i] = color;
+            } else {
+                newMapping[i] = ++rep.lastUsedColor;
+            }
+        }
+        return newMapping;
     }
 
     /**
