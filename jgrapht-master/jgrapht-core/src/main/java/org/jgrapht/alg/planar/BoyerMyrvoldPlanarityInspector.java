@@ -343,7 +343,7 @@ public class BoyerMyrvoldPlanarityInspector<V, E>
 
         root
             .mergeChildEdges(
-                virtualRoot.embedded, info.vIn, info.vOut, info.parentNext, virtualRoot.parentEdge);
+                virtualRoot.embedded, info.vOut, info.parentNext, virtualRoot.parentEdge);
 
         root.substituteAnother(info.parentNext, info.childPrev);
         info.childPrev.substitute(virtualRoot, root);
@@ -519,6 +519,11 @@ public class BoyerMyrvoldPlanarityInspector<V, E>
         }
     }
 
+    private void debugging(String message){
+        if (DEBUG){
+            System.out.print(message);
+        }
+    }
     /**
      * The walkup procedure from the original paper. Identifies the pertinent subgraph of the graph
      * by going up the dfs tree from the {@code start} node to the {@code end} node using the edge
@@ -528,11 +533,10 @@ public class BoyerMyrvoldPlanarityInspector<V, E>
      * @param end the node currently processed by the main loop of the algorithm
      * @param edge a back edge to embed
      */
+
     private void walkUp(Node start, Node end, Edge edge)
     {
-        if (DEBUG) {
-            System.out.printf("\nStart walk up on edge = %s\n", edge.toString());
-        }
+        debugging("\nStart walk up on edge = " + edge.toString() + "/n" );
         int visited = end.dfsIndex;
 
         start.backEdgeFlag = visited;
@@ -542,9 +546,7 @@ public class BoyerMyrvoldPlanarityInspector<V, E>
             yPrev = start;
         start.visited = visited;
         while (x != end && !x.isVisitedWrtTo(end) && !y.isVisitedWrtTo(end)) {
-            if (DEBUG) {
-                System.out.printf("Current x = %s\nCurrent y = %s\n", x.toString(), y.toString());
-            }
+            debugging("Current x = " + x + "\nCurrent y = " + y + "\n");
             x.visited = y.visited = visited;
 
             Node root = null;
@@ -554,9 +556,7 @@ public class BoyerMyrvoldPlanarityInspector<V, E>
                 root = y;
             }
             if (root != null) {
-                if (DEBUG) {
-                    System.out.printf("Found root = %s\n", root.toString());
-                }
+                debugging("Found root = " + root + "\n");
                 Node rootChild = root.parentEdge.target;
                 Node newStart = root.parentEdge.source;
                 if (newStart != end) {
@@ -2316,41 +2316,27 @@ public class BoyerMyrvoldPlanarityInspector<V, E>
          * orientation. If this list is inverted, the sign of the {@code parentEdge} is set to $-1$.
          *
          * @param edges the edges from the child component root
-         * @param vIn the direction used to enter the parent component
          * @param vOut the direction used to enter the child component
          * @param parentNext the next node along the traversal of the parent biconnected component
          * @param parentEdge the parent edge if the child component
          */
+
         void mergeChildEdges(
-            DoublyLinkedList<Edge> edges, int vIn, int vOut, Node parentNext, Edge parentEdge)
+            DoublyLinkedList<Edge> edges,int vOut, Node parentNext, Edge parentEdge)
         {
             assert !embedded.isEmpty();
             Node firstOpposite = embedded.getFirst().getOpposite(this);
             boolean alongParentTraversal = firstOpposite != parentNext;
             boolean actionAppend = false, invert = false;
-            if (vIn == 0) {
-                if (vOut == 0) {
-                    if (!alongParentTraversal) {
-                        invert = actionAppend = true;
-                    }
-                } else {
-                    if (alongParentTraversal) {
-                        invert = true;
-                    } else {
-                        actionAppend = true;
-                    }
+            if (vOut == 0) {
+                if (!alongParentTraversal) {
+                    invert = actionAppend = true;
                 }
             } else {
-                if (vOut == 0) {
-                    if (!alongParentTraversal) {
-                        invert = actionAppend = true;
-                    }
+                if (alongParentTraversal) {
+                    invert = true;
                 } else {
-                    if (alongParentTraversal) {
-                        invert = true;
-                    } else {
-                        actionAppend = true;
-                    }
+                    actionAppend = true;
                 }
             }
             if (invert) {

@@ -239,6 +239,23 @@ public class ZhangShashaTreeEditDistance<V, E>
         }
     }
 
+    private CacheEntry treeDistanceHelper(double result, double dist1,double dist2, int iIndex, int jIndex, V i1Vertex, V j1Vertex,int i1, int j1, int i2, int j2){
+        CacheEntry entry;
+        if (result == dist1) {
+            entry = new CacheEntry(
+                    iIndex - 1, jIndex,
+                    new EditOperation<>(OperationType.REMOVE, i1Vertex, null));
+        } else if (result == dist2) {
+            entry = new CacheEntry(
+                    iIndex, jIndex - 1,
+                    new EditOperation<>(OperationType.INSERT, j1Vertex, null));
+        } else {
+            entry = new CacheEntry(i2, j2, null);
+            entry.treeDistanceI = i1 - 1;
+            entry.treeDistanceJ = j1 - 1;
+        }
+        return entry;
+    }
     /**
      * Computes edit distance and list of edit operations for vertex $v1$ from {@code tree1} which
      * has tree ordering index equal to $i$ and vertex $v2$ from {@code tree2} which has tree
@@ -251,48 +268,41 @@ public class ZhangShashaTreeEditDistance<V, E>
      */
     private void treeDistance(int i, int j, TreeOrdering ordering1, TreeOrdering ordering2)
     {
-        int li = ordering1.indexToLValueList.get(i);
-        int lj = ordering2.indexToLValueList.get(j);
-
-        int m = i - li + 2;
-        int n = j - lj + 2;
+        int m = i - ordering1.indexToLValueList.get(i) + 2;
+        int n = j - ordering2.indexToLValueList.get(j) + 2;
         double[][] forestdist = new double[m][n];
         List<List<CacheEntry>> cachedOperations = new ArrayList<>(m);
-        for (int k = 0; k < m; ++k) {
+        for (int k = 0; k < i - ordering1.indexToLValueList.get(i) + 2; ++k) {
             cachedOperations.add(new ArrayList<>(Collections.nCopies(n, null)));
         }
 
-        int iOffset = li - 1;
-        int jOffset = lj - 1;
+        int iOffset = ordering1.indexToLValueList.get(i) - 1;
+        int jOffset = ordering2.indexToLValueList.get(j) - 1;
 
-        for (int i1 = li; i1 <= i; ++i1) {
+        for (int i1 = ordering1.indexToLValueList.get(i); i1 <= i; ++i1) {
             V i1Vertex = ordering1.indexToVertexList.get(i1);
-            int iIndex = i1 - iOffset;
-            forestdist[iIndex][0] = forestdist[iIndex - 1][0] + removeCost.applyAsDouble(i1Vertex);
+            forestdist[i1 - iOffset][0] = forestdist[i1 - iOffset - 1][0] + removeCost.applyAsDouble(i1Vertex);
             CacheEntry entry = new CacheEntry(
-                iIndex - 1, 0, new EditOperation<>(OperationType.REMOVE, i1Vertex, null));
-            cachedOperations.get(iIndex).set(0, entry);
+                    i1 - iOffset - 1, 0, new EditOperation<>(OperationType.REMOVE, i1Vertex, null));
+            cachedOperations.get(i1 - iOffset).set(0, entry);
         }
-        for (int j1 = lj; j1 <= j; ++j1) {
+        for (int j1 = ordering2.indexToLValueList.get(j); j1 <= j; ++j1) {
             V j1Vertex = ordering2.indexToVertexList.get(j1);
-            int jIndex = j1 - jOffset;
-            forestdist[0][jIndex] = forestdist[0][jIndex - 1] + removeCost.applyAsDouble(j1Vertex);
+            forestdist[0][j1 - jOffset] = forestdist[0][j1 - jOffset - 1] + removeCost.applyAsDouble(j1Vertex);
             CacheEntry entry = new CacheEntry(
-                0, jIndex - 1, new EditOperation<>(OperationType.INSERT, j1Vertex, null));
-            cachedOperations.get(0).set(jIndex, entry);
+                    0, j1 - jOffset - 1, new EditOperation<>(OperationType.INSERT, j1Vertex, null));
+            cachedOperations.get(0).set(j1 - jOffset, entry);
         }
 
-        for (int i1 = li; i1 <= i; ++i1) {
+        for (int i1 = ordering1.indexToLValueList.get(i); i1 <= i; ++i1) {
             V i1Vertex = ordering1.indexToVertexList.get(i1);
-            int li1 = ordering1.indexToLValueList.get(i1);
 
-            for (int j1 = lj; j1 <= j; ++j1) {
+            for (int j1 = ordering2.indexToLValueList.get(j); j1 <= j; ++j1) {
                 V j1Vertex = ordering2.indexToVertexList.get(j1);
-                int lj1 = ordering2.indexToLValueList.get(j1);
 
                 int iIndex = i1 - iOffset;
                 int jIndex = j1 - jOffset;
-                if (li1 == li && lj1 == lj) {
+                if (Objects.equals(ordering1.indexToLValueList.get(i1), ordering1.indexToLValueList.get(i)) && Objects.equals(ordering2.indexToLValueList.get(j1), ordering2.indexToLValueList.get(j))) {
                     double dist1 =
                         forestdist[iIndex - 1][jIndex] + removeCost.applyAsDouble(i1Vertex);
                     double dist2 =
@@ -323,8 +333,8 @@ public class ZhangShashaTreeEditDistance<V, E>
                         .get(i1 - 1)
                         .set(j1 - 1, restoreOperationsList(cachedOperations, iIndex, jIndex));
                 } else {
-                    int i2 = li1 - 1 - iOffset;
-                    int j2 = lj1 - 1 - jOffset;
+                    int i2 = ordering1.indexToLValueList.get(i1) - 1 - iOffset;
+                    int j2 = ordering2.indexToLValueList.get(j1) - 1 - jOffset;
                     double dist1 =
                         forestdist[iIndex - 1][jIndex] + removeCost.applyAsDouble(i1Vertex);
                     double dist2 =
@@ -334,19 +344,7 @@ public class ZhangShashaTreeEditDistance<V, E>
                     forestdist[iIndex][jIndex] = result;
 
                     CacheEntry entry;
-                    if (result == dist1) {
-                        entry = new CacheEntry(
-                            iIndex - 1, jIndex,
-                            new EditOperation<>(OperationType.REMOVE, i1Vertex, null));
-                    } else if (result == dist2) {
-                        entry = new CacheEntry(
-                            iIndex, jIndex - 1,
-                            new EditOperation<>(OperationType.INSERT, j1Vertex, null));
-                    } else {
-                        entry = new CacheEntry(i2, j2, null);
-                        entry.treeDistanceI = i1 - 1;
-                        entry.treeDistanceJ = j1 - 1;
-                    }
+                    entry = treeDistanceHelper(result,dist1,dist2,iIndex,jIndex,i1Vertex,j1Vertex,i1,j1,i2,j2);
                     cachedOperations.get(iIndex).set(jIndex, entry);
                 }
             }
