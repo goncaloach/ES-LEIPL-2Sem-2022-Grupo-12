@@ -4,15 +4,15 @@ package org.jgrapht.alg.matching;
 import java.util.List;
 
 public class LevelsProduct {
-    private int[] even;
+    private LevelsProductEven lpEven = new LevelsProductEven();
     private List<Integer> dirty;
 
     public int[] getEven2() {
-        return even;
+        return lpEven.getEven2();
     }
 
     public void setEven2(int[] even) {
-        this.even = even;
+        lpEven.setEven(even);
     }
 
     public void setDirty(List<Integer> dirty) {
@@ -20,15 +20,15 @@ public class LevelsProduct {
     }
 
     public int getEven(int v) {
-        return even[v];
+        return lpEven.getEven(v);
     }
 
     public boolean isEven(int v) {
-        return even[v] != DenseEdmondsMaximumCardinalityMatching.NIL;
+        return lpEven.isEven(v);
     }
 
     public void setEven(int v, int value) {
-        even[v] = value;
+        lpEven.getEven2()[v] = value;
         if (value != DenseEdmondsMaximumCardinalityMatching.NIL) {
             dirty.add(v);
         }
@@ -43,7 +43,7 @@ public class LevelsProduct {
 
     public void reset(int[] thisOdd) {
         for (int v : dirty) {
-            even[v] = DenseEdmondsMaximumCardinalityMatching.NIL;
+            lpEven.getEven2()[v] = DenseEdmondsMaximumCardinalityMatching.NIL;
             thisOdd[v] = DenseEdmondsMaximumCardinalityMatching.NIL;
         }
         dirty.clear();

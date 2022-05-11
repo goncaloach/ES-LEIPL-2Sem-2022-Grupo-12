@@ -55,6 +55,7 @@ import org.jheaps.tree.*;
  */
 class BlossomVTreeEdge
 {
+    private BlossomVTreeEdgeProduct blossomVTreeEdgeProduct = new BlossomVTreeEdgeProduct();
     /**
      * Two-element array of trees this edge is incident to.
      */
@@ -76,15 +77,6 @@ class BlossomVTreeEdge
      */
     MergeableAddressableHeap<Double, BlossomVEdge> plusPlusEdges;
     /**
-     * A heap of (-, +) cross-tree edges
-     */
-    MergeableAddressableHeap<Double, BlossomVEdge> plusMinusEdges0;
-    /**
-     * A heap of (+, -) cross-tree edges
-     */
-    MergeableAddressableHeap<Double, BlossomVEdge> plusMinusEdges1;
-
-    /**
      * Constructs a new tree edge by initializing arrays and heaps
      */
     public BlossomVTreeEdge()
@@ -93,8 +85,8 @@ class BlossomVTreeEdge
         this.prev = new BlossomVTreeEdge[2];
         this.next = new BlossomVTreeEdge[2];
         this.plusPlusEdges = new PairingHeap<>();
-        this.plusMinusEdges0 = new PairingHeap<>();
-        this.plusMinusEdges1 = new PairingHeap<>();
+        blossomVTreeEdgeProduct.setPlusMinusEdges0(new PairingHeap<>());
+        blossomVTreeEdgeProduct.setPlusMinusEdges1(new PairingHeap<>());
     }
 
     /**
@@ -136,7 +128,7 @@ class BlossomVTreeEdge
      */
     public void addToCurrentMinusPlusHeap(BlossomVEdge edge, int direction)
     {
-        edge.handle = getCurrentMinusPlusHeap(direction).insert(edge.slack, edge);
+        edge.handle = blossomVTreeEdgeProduct.getCurrentMinusPlusHeap(direction).insert(edge.slack, edge);
     }
 
     /**
@@ -150,7 +142,7 @@ class BlossomVTreeEdge
      */
     public void addToCurrentPlusMinusHeap(BlossomVEdge edge, int direction)
     {
-        edge.handle = getCurrentPlusMinusHeap(direction).insert(edge.slack, edge);
+        edge.handle = blossomVTreeEdgeProduct.getCurrentPlusMinusHeap(direction).insert(edge.slack, edge);
     }
 
     /**
@@ -209,7 +201,7 @@ class BlossomVTreeEdge
      */
     public MergeableAddressableHeap<Double, BlossomVEdge> getCurrentMinusPlusHeap(int currentDir)
     {
-        return currentDir == 0 ? plusMinusEdges0 : plusMinusEdges1;
+        return blossomVTreeEdgeProduct.getCurrentMinusPlusHeap(currentDir);
     }
 
     /**
@@ -221,6 +213,6 @@ class BlossomVTreeEdge
      */
     public MergeableAddressableHeap<Double, BlossomVEdge> getCurrentPlusMinusHeap(int currentDir)
     {
-        return currentDir == 0 ? plusMinusEdges1 : plusMinusEdges0;
+        return blossomVTreeEdgeProduct.getCurrentPlusMinusHeap(currentDir);
     }
 }

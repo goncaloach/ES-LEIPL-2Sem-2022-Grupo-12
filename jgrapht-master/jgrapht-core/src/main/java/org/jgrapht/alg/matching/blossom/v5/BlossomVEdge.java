@@ -126,7 +126,7 @@ class BlossomVEdge
     public BlossomVNode getOpposite(BlossomVNode endpoint)
     {
         if (endpoint != head[0] && endpoint != head[1]) { // we need this check during finishing
-                                                          // phase
+            // phase
             return null;
         }
         return head[0] == endpoint ? head[1] : head[0];
@@ -142,7 +142,7 @@ class BlossomVEdge
     public BlossomVNode getCurrentOriginal(BlossomVNode endpoint)
     {
         if (endpoint != head[0] && endpoint != head[1]) { // we need this check during finishing
-                                                          // phase
+            // phase
             return null;
         }
         return head[0] == endpoint ? headOriginal[0] : headOriginal[1];
@@ -164,8 +164,8 @@ class BlossomVEdge
     public String toString()
     {
         return "BlossomVEdge (" + head[0].pos + "," + head[1].pos + "), original: ["
-            + headOriginal[0].pos + "," + headOriginal[1].pos + "], slack: " + slack
-            + ", true slack: " + getTrueSlack() + (getTrueSlack() == 0 ? ", tight" : "");
+                + headOriginal[0].pos + "," + headOriginal[1].pos + "], slack: " + slack
+                + ", true slack: " + getTrueSlack() + (getTrueSlack() == 0 ? ", tight" : "");
     }
 
     /**
@@ -231,17 +231,10 @@ class BlossomVEdge
      * direction is 0. This feature is needed to setup the blossomSibling references correctly
      */
     public static class BlossomNodesIterator
-        implements
-        Iterator<BlossomVNode>
+            implements
+            Iterator<BlossomVNode>
     {
-        /**
-         * Blossom's root
-         */
-        private BlossomVNode root;
-        /**
-         * The node this iterator is currently on
-         */
-        private BlossomVNode currentNode;
+        private BlossomNodesIteratorProduct blossomNodesIteratorProduct = new BlossomNodesIteratorProduct();
         /**
          * Helper variable, is used to determine whether currentNode has been returned or not
          */
@@ -251,11 +244,6 @@ class BlossomVEdge
          */
         private int currentDirection;
         /**
-         * The (+, +) edge of the blossom
-         */
-        private BlossomVEdge blossomFormingEdge;
-
-        /**
          * Constructs a new BlossomNodeIterator for the {@code root} and {@code blossomFormingEdge}
          *
          * @param root the root of the blossom (the node which isn't matched to another node in the
@@ -264,9 +252,9 @@ class BlossomVEdge
          */
         public BlossomNodesIterator(BlossomVNode root, BlossomVEdge blossomFormingEdge)
         {
-            this.root = root;
-            this.blossomFormingEdge = blossomFormingEdge;
-            currentNode = current = blossomFormingEdge.head[0];
+            blossomNodesIteratorProduct.setRoot(root);
+            blossomNodesIteratorProduct.setBlossomFormingEdge(blossomFormingEdge);
+            blossomNodesIteratorProduct.setCurrentNode(current = blossomFormingEdge.head[0]);
             currentDirection = 0;
         }
 
@@ -279,7 +267,7 @@ class BlossomVEdge
             if (current != null) {
                 return true;
             }
-            current = advance();
+            current = blossomNodesIteratorProduct.advance(this);
             return current != null;
         }
 
@@ -305,30 +293,8 @@ class BlossomVEdge
             return result;
         }
 
-        /**
-         * Advances this iterator to the next node in the blossom
-         *
-         * @return an unvisited node in the blossom
-         */
-        private BlossomVNode advance()
-        {
-            if (currentNode == null) {
-                return null;
-            }
-            if (currentNode == root && currentDirection == 0) {
-                // we have just traversed blossom's root and now start to traverse the second branch
-                currentDirection = 1;
-                currentNode = blossomFormingEdge.head[1];
-                if (currentNode == root) {
-                    currentNode = null;
-                }
-            } else if (currentNode.getTreeParent() == root && currentDirection == 1) {
-                // we have just finished traversing the blossom's nodes
-                currentNode = null;
-            } else {
-                currentNode = currentNode.getTreeParent();
-            }
-            return currentNode;
+        public void setCurrentDirection(int currentDirection) {
+            this.currentDirection = currentDirection;
         }
     }
 }
