@@ -20,10 +20,8 @@ package org.jgrapht.alg.connectivity;
 import org.jgrapht.util.*;
 
 import java.util.*;
-import java.util.stream.*;
 
 import static org.jgrapht.util.AVLTree.TreeNode;
-import static org.jgrapht.util.DoublyLinkedList.ListNode;
 
 /**
  * Data structure for storing dynamic trees and querying node connectivity
@@ -53,6 +51,7 @@ import static org.jgrapht.util.DoublyLinkedList.ListNode;
 public class TreeDynamicConnectivity<T>
 {
 
+    private TreeDynamicConnectivityProduct<T> tdcProduct = new TreeDynamicConnectivityProduct<T>();
     /**
      * Mapping from tree minimums to the trees they're stored in. This map contains one entry per
      * each tree, which has at least two nodes.
@@ -61,12 +60,12 @@ public class TreeDynamicConnectivity<T>
     /**
      * Mapping from the user specified values to the internal nodes they're represented by
      */
-    private Map<T, Node> nodeMap;
+    private Map<T, Node<T>> nodeMap;
     /**
      * Mapping from zero-degree nodes to their trees. This map contains one entry for each
      * zero-degree node
      */
-    private Map<Node, AVLTree<T>> singletonNodes;
+    private Map<Node<T>, AVLTree<T>> singletonNodes;
 
     /**
      * Constructs a new {@code TreeDynamicConnectivity} instance
@@ -94,7 +93,7 @@ public class TreeDynamicConnectivity<T>
         }
 
         AVLTree<T> newTree = new AVLTree<>();
-        Node node = new Node(element);
+        Node<T> node = new Node<T>(element);
 
         nodeMap.put(element, node);
         singletonNodes.put(node, newTree);
@@ -117,7 +116,7 @@ public class TreeDynamicConnectivity<T>
             return false;
         }
 
-        Node node = getNode(element);
+        Node<T> node = getNode(element);
         while (!node.isSingleton()) {
             T targetValue = node.arcs.getLast().target.value;
             cut(element, targetValue);
@@ -172,8 +171,8 @@ public class TreeDynamicConnectivity<T>
             return false;
         }
 
-        Node firstNode = getNode(first);
-        Node secondNode = getNode(second);
+        Node<T> firstNode = getNode(first);
+        Node<T> secondNode = getNode(second);
 
         AVLTree<T> firstTree = getTree(firstNode);
         AVLTree<T> secondTree = getTree(secondNode);
@@ -186,8 +185,8 @@ public class TreeDynamicConnectivity<T>
          *
          * [1 - 2] --> [1 - 2] [3 - 4 - 5 - 4] --> [5 - 4 - 3 - 4]
          */
-        makeRoot(firstTree, firstNode);
-        makeRoot(secondTree, secondNode);
+        tdcProduct.makeRoot(firstTree, firstNode);
+        tdcProduct.makeRoot(secondTree, secondNode);
 
         /*
          * Add one more occurrence for the first element to the second tree:
@@ -195,7 +194,7 @@ public class TreeDynamicConnectivity<T>
          * [5 - 4 - 3 - 4] --> [1 - 5 - 4 - 3 - 4]
          */
         TreeNode<T> newFirstOccurrence = secondTree.addMin(first);
-        Arc newFirstArc = new Arc(secondNode, newFirstOccurrence);
+        Arc<T> newFirstArc = new Arc<T>(secondNode, newFirstOccurrence);
         if (firstNode.isSingleton()) {
             // newFirstArc becomes the first arc of the first node
             singletonNodes.remove(firstNode);
@@ -228,8 +227,8 @@ public class TreeDynamicConnectivity<T>
              * | ------------------------------------
              */
             T lastChild = firstTree.getMax().getValue();
-            Node lastChildNode = getNode(lastChild);
-            Arc arcToLastChild = firstNode.getArcTo(lastChildNode);
+            Node<T> lastChildNode = getNode(lastChild);
+            Arc<T> arcToLastChild = firstNode.getArcTo(lastChildNode);
             firstNode.addArcAfter(arcToLastChild, newFirstArc);
         }
 
@@ -240,7 +239,7 @@ public class TreeDynamicConnectivity<T>
          *
          */
         TreeNode<T> newSecondOccurrence = secondTree.addMax(second);
-        Arc newSecondArc = new Arc(firstNode, newSecondOccurrence);
+        Arc<T> newSecondArc = new Arc<T>(firstNode, newSecondOccurrence);
         if (secondNode.isSingleton()) {
             // newSecondArc becomes the first arc of the second node
             singletonNodes.remove(secondNode);
@@ -264,8 +263,8 @@ public class TreeDynamicConnectivity<T>
              * reference of the arc (5, 1).
              */
             T lastChild = secondTree.getMax().getPredecessor().getValue();
-            Node lastChildNode = getNode(lastChild);
-            Arc arcToLastChild = secondNode.getArcTo(lastChildNode);
+            Node<T> lastChildNode = getNode(lastChild);
+            Arc<T> arcToLastChild = secondNode.getArcTo(lastChildNode);
             secondNode.addArcAfter(arcToLastChild, newSecondArc);
         }
 
@@ -295,11 +294,11 @@ public class TreeDynamicConnectivity<T>
         if (!contains(first) || !contains(second)) {
             return false;
         }
-        Node firstNode = getNode(first);
+        Node<T> firstNode = getNode(first);
         if (firstNode.isSingleton()) {
             return false;
         }
-        Node secondNode = getNode(second);
+        Node<T> secondNode = getNode(second);
         if (secondNode.isSingleton()) {
             return false;
         }
@@ -328,8 +327,8 @@ public class TreeDynamicConnectivity<T>
          *
          * Let's assume that we received a query: cut(1, 2)
          */
-        Node firstNode = getNode(first);
-        Node secondNode = getNode(second);
+        Node<T> firstNode = getNode(first);
+        Node<T> secondNode = getNode(second);
 
         AVLTree<T> tree = getTree(firstNode);
         minToTreeMap.remove(tree.getMin());
@@ -343,12 +342,12 @@ public class TreeDynamicConnectivity<T>
          *
          * After this operation, a subtree of the arc (1, 2) is at the end of the Euler tour
          */
-        Arc arcToSecond = firstNode.getArcTo(secondNode);
+        Arc<T> arcToSecond = firstNode.getArcTo(secondNode);
         if (arcToSecond == null) {
             throw new IllegalArgumentException(
-                String.format("Elements {%s} and {%s} are not connected", first, second));
+                    String.format("Elements {%s} and {%s} are not connected", first, second));
         }
-        makeLastArc(tree, firstNode, arcToSecond);
+        tdcProduct.makeLastArc(tree, firstNode, arcToSecond);
 
         /*
          * Now we remove the subtree of the arc (1, 2) from the Euler tour:
@@ -383,7 +382,7 @@ public class TreeDynamicConnectivity<T>
          *
          * That's why we place it to the map for zero degree nodes
          */
-        Arc secondToFirst = secondNode.getArcTo(firstNode);
+        Arc<T> secondToFirst = secondNode.getArcTo(firstNode);
         right.removeMax();
         secondNode.removeArc(secondToFirst);
         if (!secondNode.isSingleton()) {
@@ -396,56 +395,12 @@ public class TreeDynamicConnectivity<T>
     }
 
     /**
-     * Makes the {@code node} the root of the tree. In practice, this means that the value of the
-     * {@code node} is the first in the Euler tour
-     *
-     * @param tree a tree the {@code node} is stored in
-     * @param node a node to make a root
-     */
-    private void makeRoot(AVLTree<T> tree, Node node)
-    {
-        if (node.arcs.isEmpty()) {
-            return;
-        }
-        makeFirstArc(tree, node.arcs.get(0));
-    }
-
-    /**
-     * Makes the {@code arc} the first arc traversed by the Euler tour
-     *
-     * @param tree corresponding binary tree the Euler tour is stored in
-     * @param arc an arc to use for tree re-rooting
-     */
-    private void makeFirstArc(AVLTree<T> tree, Arc arc)
-    {
-        AVLTree<T> right = tree.splitBefore(arc.arcTreeNode);
-        tree.mergeBefore(right);
-    }
-
-    /**
-     * Makes the {@code arc} the last arc of the {@code node} according to the Euler tour
-     *
-     * @param tree corresponding binary tree the Euler tour is stored in
-     * @param node a new root node
-     * @param arc an arc incident to the {@code node}
-     */
-    private void makeLastArc(AVLTree<T> tree, Node node, Arc arc)
-    {
-        if (node.arcs.size() == 1) {
-            makeRoot(tree, node);
-        } else {
-            Arc nextArc = node.getNextArc(arc);
-            makeFirstArc(tree, nextArc);
-        }
-    }
-
-    /**
      * Returns an internal representation of the {@code element}
      *
      * @param element a user specified node element
      * @return an internal representation of the {@code element}
      */
-    private Node getNode(T element)
+    private Node<T> getNode(T element)
     {
         return nodeMap.get(element);
     }
@@ -456,7 +411,7 @@ public class TreeDynamicConnectivity<T>
      * @param node a node
      * @return a corresponding binary tree an Euler tour is stored in
      */
-    private AVLTree<T> getTree(Node node)
+    private AVLTree<T> getTree(Node<T> node)
     {
         if (node.isSingleton()) {
             return singletonNodes.get(node);
@@ -475,167 +430,4 @@ public class TreeDynamicConnectivity<T>
             add(element);
         }
     }
-
-    /**
-     * An internal representation of the tree nodes.
-     * <p>
-     * Keeps track of the node values and outgoing arcs. The outgoing arcs are placed according to
-     * the order they are traversed in the Euler tour
-     */
-    private class Node
-    {
-        /**
-         * Node value
-         */
-        T value;
-        /**
-         * Arcs list
-         */
-        DoublyLinkedList<Arc> arcs;
-        /**
-         * Target node to arc mapping
-         */
-        Map<Node, Arc> targetMap;
-
-        /**
-         * Constructs a new node
-         *
-         * @param value a user specified element to store in this node
-         */
-        public Node(T value)
-        {
-            this.value = value;
-            arcs = new DoublyLinkedList<>();
-            targetMap = new HashMap<>();
-        }
-
-        /**
-         * Removes the {@code arc} from the arc list
-         *
-         * @param arc an arc to remove
-         */
-        void removeArc(Arc arc)
-        {
-            arcs.removeNode(arc.listNode);
-            arc.listNode = null;
-            targetMap.remove(arc.target);
-        }
-
-        /**
-         * Append the {@code arc} to the arc list
-         *
-         * @param arc an arc to add
-         */
-        void addArcLast(Arc arc)
-        {
-            arc.listNode = arcs.addElementLast(arc);
-            targetMap.put(arc.target, arc);
-        }
-
-        /**
-         * Inserts the {@code newArc} in the arc list after the {@code arc}
-         *
-         * @param arc an arc already stored in the arc list
-         * @param newArc a new arc to add to the arc list
-         */
-        void addArcAfter(Arc arc, Arc newArc)
-        {
-            newArc.listNode = arcs.addElementBeforeNode(arc.listNode.getNext(), newArc);
-            targetMap.put(newArc.target, newArc);
-        }
-
-        /**
-         * Returns an arc, which target is equal to the {@code node}
-         *
-         * @param node a target of the returned arc
-         * @return an arc, which target is equal to the {@code node}
-         */
-        Arc getArcTo(Node node)
-        {
-            return targetMap.get(node);
-        }
-
-        /**
-         * Returns an arc which is stored right after the {@code arc}. The result may be equal to
-         * the {@code arc}
-         *
-         * @param arc an arc stored in the arc list
-         * @return an arc which is stored right after the {@code arc}
-         */
-        Arc getNextArc(Arc arc)
-        {
-            return arc.listNode.getNext().getValue();
-        }
-
-        /**
-         * Checks if this node is a zero-degree node
-         *
-         * @return {@code true} if this node is a singleton node, {@code false otherwise}
-         */
-        public boolean isSingleton()
-        {
-            return arcs.isEmpty();
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String toString()
-        {
-            return String
-                .format(
-                    "{%s} -> [%s]", value,
-                    arcs
-                        .stream().map(a -> a.target.value.toString())
-                        .collect(Collectors.joining(",")));
-        }
-    }
-
-    /**
-     * An internal representation of the tree edges.
-     * <p>
-     * Two arcs are created for every existing tree edge. This complies with the way an Euler tour
-     * is constructed.
-     */
-    private class Arc
-    {
-        /**
-         * The target of this arc
-         */
-        Node target;
-        /**
-         * A list node this arc is stored in. This is needed for constant time query time on the
-         * doubly linked list.
-         */
-        ListNode<Arc> listNode;
-        /**
-         * The occurrence of the source node, which precedes the subtree Euler tour stored in the
-         * binary tree
-         */
-        TreeNode<T> arcTreeNode;
-
-        /**
-         * Constructs a new arc with the target node {@code target} and the tree node reference
-         * {@code arcTreeNode}
-         *
-         * @param target target node of this arc
-         * @param arcTreeNode source tree node reference
-         */
-        public Arc(Node target, TreeNode<T> arcTreeNode)
-        {
-            this.target = target;
-            this.arcTreeNode = arcTreeNode;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public String toString()
-        {
-            return String.format("{%s} -> {%s}", arcTreeNode.getValue(), target.value);
-        }
-    }
-
 }
