@@ -331,4 +331,44 @@ class BlossomVEdge
             return currentNode;
         }
     }
+
+	/**
+	 * Adds "best edges" to the  {@code  heap}
+	 * @param heap      the heap for storing best edges
+	 * @param node      infinity node  {@code  bestEdge}  is incident to
+	 */
+	public void addToHead(AddressableHeap<Double, BlossomVEdge> heap, BlossomVNode node) {
+		this.handle = heap.insert(this.slack, this);
+		node.bestEdge = this;
+	}
+
+	/**
+	 * Removes the  {@code  edge}  from the heap of (+, +) edges
+	 */
+	public void removePlusPlusEdge() {
+		this.handle.delete();
+	}
+
+	/**
+	 * Removes the  {@code  edge}  from the heap of (+, inf) edges
+	 */
+	public void removePlusInfinityEdge() {
+		this.handle.delete();
+	}
+
+	/**
+	 * Removes  {@code  edge}  from the current heap of (-, +) cross-tree edges. As explained in the class description, this method chooses  {@link BlossomVTreeEdge#plusMinusEdges0}  or {@link BlossomVTreeEdge#plusMinusEdges1}  based upon the  {@code  direction} .
+	 */
+	public void removeFromCurrentMinusPlusHeap() {
+		this.handle.delete();
+		this.handle = null;
+	}
+
+	/**
+	 * Removes  {@code  edge}  from the heap of (+, +) cross-tree edges.
+	 */
+	public void removeFromPlusPlusHeap() {
+		this.handle.delete();
+		this.handle = null;
+	}
 }

@@ -218,34 +218,13 @@ class BlossomVInitializer<V, E> {
             if (source != target) { // we avoid self-loops in order to support pseudographs
                 edgeNum++;
                 BlossomVEdge edge =
-                        addEdge(source, target, graph.getEdgeWeight(e) - minEdgeWeight, i);
+                		target.addEdge(source, graph.getEdgeWeight(e) - minEdgeWeight, i);
                 edges[i] = edge;
                 graphEdges.add(e);
                 i++;
             }
         }
         return minEdgeWeight;
-    }
-
-    /**
-     * Adds a new edge between {@code from} and {@code to}. The resulting edge points from
-     * {@code from} to {@code to}
-     *
-     * @param from  the tail of this edge
-     * @param to    the head of this edge
-     * @param slack the slack of the resulting edge
-     * @param pos   position of the resulting edge in the array {@code edges}
-     * @return the newly added edge
-     */
-    public BlossomVEdge addEdge(BlossomVNode from, BlossomVNode to, double slack, int pos) {
-        BlossomVEdge edge = new BlossomVEdge(pos);
-        edge.slack = slack;
-        edge.headOriginal[0] = to;
-        edge.headOriginal[1] = from;
-        // the call to the BlossomVNode#addEdge implies setting head[dir] reference
-        from.addEdge(edge, 0);
-        to.addEdge(edge, 1);
-        return edge;
     }
 
     /**
@@ -476,19 +455,6 @@ class BlossomVInitializer<V, E> {
     }
 
     /**
-     * Adds "best edges" to the {@code heap}
-     *
-     * @param heap     the heap for storing best edges
-     * @param node     infinity node {@code bestEdge} is incident to
-     * @param bestEdge current best edge of the {@code node}
-     */
-    private void addToHead(
-            AddressableHeap<Double, BlossomVEdge> heap, BlossomVNode node, BlossomVEdge bestEdge) {
-        bestEdge.handle = heap.insert(bestEdge.slack, bestEdge);
-        node.bestEdge = bestEdge;
-    }
-
-    /**
      * Removes "best edge" from {@code heap}
      *
      * @param node the node which best edge should be removed from the heap it is stored in
@@ -566,11 +532,11 @@ class BlossomVInitializer<V, E> {
             // edge
             if (infinityEdge.slack < criticalEps) { // this edge can become a best edge
                 if (oppositeNode.bestEdge == null) { // inTreeNode hadn't had any best edge before
-                    addToHead(heap, oppositeNode, infinityEdge);
+                	infinityEdge.addToHead(heap, oppositeNode);
                 } else {
                     if (infinityEdge.slack < oppositeNode.bestEdge.slack) {
                         removeFromHeap(oppositeNode);
-                        addToHead(heap, oppositeNode, infinityEdge);
+                        infinityEdge.addToHead(heap, oppositeNode);
                     }
                 }
             }

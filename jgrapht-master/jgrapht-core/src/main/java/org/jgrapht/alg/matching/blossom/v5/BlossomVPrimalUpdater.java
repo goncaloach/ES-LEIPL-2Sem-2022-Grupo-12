@@ -607,14 +607,14 @@ class BlossomVPrimalUpdater<V, E>
             current.tree = null;
             current.matched = current.blossomSibling;
             BlossomVEdge prevMatched = current.blossomSibling;
-            expandInfinityNode(current, tree);
+            tree.expandInfinityNode(current);
             current = current.blossomSibling.getOpposite(current);
 
             current.label = BlossomVNode.Label.INFINITY;
             current.isOuter = true;
             current.tree = null;
             current.matched = prevMatched;
-            expandInfinityNode(current, tree);
+            tree.expandInfinityNode(current);
             current = current.blossomSibling.getOpposite(current);
         }
     }
@@ -720,34 +720,6 @@ class BlossomVPrimalUpdater<V, E>
             if (opposite.isMarked && !opposite.isPlusNode()) {
                 // this is a (-, inf) or (-, -) inner edge
                 edge.slack -= eps;
-            }
-        }
-    }
-
-    /**
-     * Expands an infinity node from the odd branch
-     *
-     * @param infinityNode a node from the odd branch
-     * @param tree the tree the blossom was previously in
-     */
-    private void expandInfinityNode(BlossomVNode infinityNode, BlossomVTree tree)
-    {
-        double eps = tree.eps;
-        for (BlossomVNode.IncidentEdgeIterator iterator = infinityNode.incidentEdgesIterator();
-            iterator.hasNext();)
-        {
-            BlossomVEdge edge = iterator.next();
-            BlossomVNode opposite = edge.head[iterator.getDir()];
-            if (!opposite.isMarked) {
-                edge.slack += eps; // since edge's label changes to inf and this is a boundary edge
-                if (opposite.isPlusNode()) {
-                    // if this node is marked => it's a blossom node => this edge has been processed
-                    // already
-                    if (opposite.tree != tree) {
-                        opposite.tree.currentEdge.removeFromCurrentMinusPlusHeap(edge);
-                    }
-                    opposite.tree.addPlusInfinityEdge(edge);
-                }
             }
         }
     }

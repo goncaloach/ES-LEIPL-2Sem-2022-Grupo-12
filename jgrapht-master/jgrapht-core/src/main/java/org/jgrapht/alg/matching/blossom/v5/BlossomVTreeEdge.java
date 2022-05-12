@@ -172,8 +172,7 @@ class BlossomVTreeEdge
      */
     public void removeFromCurrentMinusPlusHeap(BlossomVEdge edge)
     {
-        edge.handle.delete();
-        edge.handle = null;
+        edge.removeFromCurrentMinusPlusHeap();
     }
 
     /**
@@ -196,8 +195,7 @@ class BlossomVTreeEdge
      */
     public void removeFromPlusPlusHeap(BlossomVEdge edge)
     {
-        edge.handle.delete();
-        edge.handle = null;
+        edge.removeFromPlusPlusHeap();
     }
 
     /**

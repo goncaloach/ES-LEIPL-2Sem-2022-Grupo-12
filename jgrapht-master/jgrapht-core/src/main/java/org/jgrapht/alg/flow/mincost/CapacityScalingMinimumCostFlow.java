@@ -504,7 +504,7 @@ public class CapacityScalingMinimumCostFlow<V, E>
             Node currentNode = currentFibNode.getValue();
             if (negativeExcessNodes.contains(currentNode)) {
                 // the path to push at least delta units of flow is found
-                augmentPath(start, currentNode);
+                start.augmentPath(currentNode);
                 if (currentNode.excess > -delta) {
                     negativeExcessNodes.remove(currentNode);
                 }
@@ -550,40 +550,6 @@ public class CapacityScalingMinimumCostFlow<V, E>
             }
             currentNode.potential -= distance; // allows not to store the distances of the nodes
         }
-    }
-
-    /**
-     * Augments the path from {@code start} to the {@code end} sending as much flow as possible.
-     * Uses {@link Node#parentArc} computed by the Dijkstra's algorithm. Updates the excesses of the
-     * {@code start} and the {@code end} nodes.
-     *
-     * @param start the start of the augmenting path
-     * @param end   the end of the augmenting path
-     */
-    private void augmentPath(Node start, Node end) {
-        // compute delta to augment
-        int valueToAugment = Math.min(start.excess, -end.excess);
-        for (Arc arc = end.parentArc; arc != null; arc = arc.revArc.head.parentArc) {
-            valueToAugment = Math.min(valueToAugment, arc.residualCapacity);
-        }
-        if (DEBUG) {
-            ArrayList<Node> stack = new ArrayList<>();
-            for (Arc arc = end.parentArc; arc != null; arc = arc.revArc.head.parentArc) {
-                stack.add(arc.head);
-            }
-            stack.add(start);
-            System.out.println("Printing augmenting path");
-            for (int i = stack.size() - 1; i > 0; i--) {
-                System.out.print(stack.get(i).id + " -> ");
-            }
-            System.out.println(stack.get(0).id + ", delta = " + valueToAugment);
-        }
-        // augmenting the flow
-        end.excess += valueToAugment;
-        for (Arc arc = end.parentArc; arc != null; arc = arc.revArc.head.parentArc) {
-            arc.sendFlow(valueToAugment);
-        }
-        start.excess -= valueToAugment;
     }
 
     /**
@@ -757,6 +723,34 @@ public class CapacityScalingMinimumCostFlow<V, E>
         public String toString() {
             return String.format("Id = %d, excess = %d, potential = %.1f", id, excess, potential);
         }
+
+		/**
+		 * Augments the path from  {@code  start}  to the  {@code  end}  sending as much flow as possible. Uses  {@link Node#parentArc}  computed by the Dijkstra's algorithm. Updates the excesses of the {@code  start}  and the  {@code  end}  nodes.
+		 * @param end    the end of the augmenting path
+		 */
+		public void augmentPath(Node end) {
+			int valueToAugment = Math.min(this.excess, -end.excess);
+			for (Arc arc = end.parentArc; arc != null; arc = arc.revArc.head.parentArc) {
+				valueToAugment = Math.min(valueToAugment, arc.residualCapacity);
+			}
+			if (CapacityScalingMinimumCostFlow.DEBUG) {
+				ArrayList<Node> stack = new ArrayList<>();
+				for (Arc arc = end.parentArc; arc != null; arc = arc.revArc.head.parentArc) {
+					stack.add(arc.head);
+				}
+				stack.add(this);
+				System.out.println("Printing augmenting path");
+				for (int i = stack.size() - 1; i > 0; i--) {
+					System.out.print(stack.get(i).id + " -> ");
+				}
+				System.out.println(stack.get(0).id + ", delta = " + valueToAugment);
+			}
+			end.excess += valueToAugment;
+			for (Arc arc = end.parentArc; arc != null; arc = arc.revArc.head.parentArc) {
+				arc.sendFlow(valueToAugment);
+			}
+			this.excess -= valueToAugment;
+		}
     }
 
     /**

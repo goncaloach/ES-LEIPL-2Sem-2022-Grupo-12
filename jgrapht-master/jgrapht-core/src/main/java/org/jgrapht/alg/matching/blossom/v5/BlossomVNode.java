@@ -604,4 +604,28 @@ class BlossomVNode
             }
         }
     }
+
+	/**
+	 * Adds a new edge between  {@code  from}  and  {@code  to} . The resulting edge points from {@code  from}  to  {@code  to}
+	 * @param to     the head of this edge
+	 * @param slack  the slack of the resulting edge
+	 * @param pos    position of the resulting edge in the array  {@code  edges}
+	 * @return  the newly added edge
+	 */
+	public BlossomVEdge addEdge(BlossomVNode to, double slack, int pos) {
+		BlossomVEdge edge = new BlossomVEdge(pos);
+		edge.slack = slack;
+		edge.headOriginal[0] = to;
+		edge.headOriginal[1] = this;
+		addEdge(edge, 0);
+		to.addEdge(edge, 1);
+		return edge;
+	}
+
+	/**
+	 * Removes the  {@code  blossom}  from the heap of "-" blossoms
+	 */
+	public void removeMinusBlossom() {
+		this.handle.delete();
+	}
 }
