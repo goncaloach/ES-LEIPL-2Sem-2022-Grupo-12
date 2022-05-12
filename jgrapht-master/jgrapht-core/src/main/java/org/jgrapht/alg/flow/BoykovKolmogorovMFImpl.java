@@ -470,15 +470,8 @@ public class BoykovKolmogorovMFImpl<V, E>
     private void adopt()
     {
         while (!orphans.isEmpty() || !childOrphans.isEmpty()) {
-            VertexExtension currentVertex;
-
             // child orphans take precedence
-            if (childOrphans.isEmpty()) {
-                currentVertex = orphans.get(orphans.size() - 1);
-                orphans.remove(orphans.size() - 1);
-            } else {
-                currentVertex = childOrphans.removeLast();
-            }
+            VertexExtension currentVertex = takePrecedence();
 
             if (currentVertex.isSourceTreeVertex()) {
 
@@ -511,27 +504,11 @@ public class BoykovKolmogorovMFImpl<V, E>
                     // can't adopt this vertex
                     currentVertex.timestamp = FREE_NODE_TIMESTAMP;
                     currentVertex.treeStatus = VertexTreeStatus.FREE_VERTEX;
-
-                    for (AnnotatedFlowEdge edge : currentVertex.getOutgoing()) {
-                        VertexExtension targetVertex = edge.getTarget();
-                        if (targetVertex.isSourceTreeVertex()) {
-                            if (edge.getInverse().hasCapacity()) {
-                                makeActive(targetVertex);
-                            }
-                            if (targetVertex.parentEdge == edge) {
-                                // target vertex is a child of the current vertex
-                                targetVertex.makeOrphan();
-                                childOrphans.addFirst(targetVertex);
-                            }
-                        }
-                    }
+                    makeActiveOrOrphanSource(currentVertex);
                 } else {
 
                     if (DEBUG) {
-                        System.out
-                            .printf(
-                                "Vertex %s get's adopted via %s\n\n", currentVertex.prototype,
-                                newParentEdge);
+                        System.out.printf("Vertex %s get's adopted via %s\n\n", currentVertex.prototype, newParentEdge);
                     }
                     // adopt this vertex
                     makeCheckedInThisIteration(currentVertex);
@@ -558,30 +535,14 @@ public class BoykovKolmogorovMFImpl<V, E>
                         }
                     }
                 }
-
                 if (newParentEdge == null) {
-
                     if (DEBUG) {
                         System.out.printf("Vertex %s becomes free\n\n", currentVertex.prototype);
                     }
-
                     // can't adopt this vertex
                     currentVertex.timestamp = FREE_NODE_TIMESTAMP;
                     currentVertex.treeStatus = VertexTreeStatus.FREE_VERTEX;
-
-                    for (AnnotatedFlowEdge edge : currentVertex.getOutgoing()) {
-                        VertexExtension targetVertex = edge.getTarget();
-                        if (targetVertex.isSinkTreeVertex()) {
-                            if (edge.hasCapacity()) {
-                                makeActive(targetVertex);
-                            }
-                            if (targetVertex.parentEdge == edge.getInverse()) {
-                                // target vertex is a child of the current vertex
-                                targetVertex.makeOrphan();
-                                childOrphans.addFirst(targetVertex);
-                            }
-                        }
-                    }
+                    makeActiveOrOrphanSink(currentVertex);
                 } else {
 
                     if (DEBUG) {
@@ -594,6 +555,49 @@ public class BoykovKolmogorovMFImpl<V, E>
                     makeCheckedInThisIteration(currentVertex);
                     currentVertex.parentEdge = newParentEdge;
                     currentVertex.distance = minDistance + 1;
+                }
+            }
+        }
+    }
+
+    private VertexExtension takePrecedence(){
+        VertexExtension currentVertex;
+        if (childOrphans.isEmpty()) {
+            currentVertex = orphans.get(orphans.size() - 1);
+            orphans.remove(orphans.size() - 1);
+        } else {
+            currentVertex = childOrphans.removeLast();
+        }
+        return currentVertex;
+    }
+
+    private void makeActiveOrOrphanSource(VertexExtension currentVertex){
+        for (AnnotatedFlowEdge edge : currentVertex.getOutgoing()) {
+            VertexExtension targetVertex = edge.getTarget();
+            if (targetVertex.isSourceTreeVertex()) {
+                if (edge.getInverse().hasCapacity()) {
+                    makeActive(targetVertex);
+                }
+                if (targetVertex.parentEdge == edge) {
+                    // target vertex is a child of the current vertex
+                    targetVertex.makeOrphan();
+                    childOrphans.addFirst(targetVertex);
+                }
+            }
+        }
+    }
+
+    private void makeActiveOrOrphanSink(VertexExtension currentVertex){
+        for (AnnotatedFlowEdge edge : currentVertex.getOutgoing()) {
+            VertexExtension targetVertex = edge.getTarget();
+            if (targetVertex.isSinkTreeVertex()) {
+                if (edge.hasCapacity()) {
+                    makeActive(targetVertex);
+                }
+                if (targetVertex.parentEdge == edge.getInverse()) {
+                    // target vertex is a child of the current vertex
+                    targetVertex.makeOrphan();
+                    childOrphans.addFirst(targetVertex);
                 }
             }
         }

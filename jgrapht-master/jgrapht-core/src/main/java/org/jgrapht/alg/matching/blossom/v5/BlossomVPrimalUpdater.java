@@ -658,38 +658,43 @@ class BlossomVPrimalUpdater<V, E>
                 edge.slack += eps;
             }
             // update its presence in the heap of edges
-            if (opposite.isPlusNode()) {
-                if (opposite.tree == plusNode.tree) {
-                    // this edge becomes a (+, +) in-tree edge
-                    if (!opposite.isProcessed) {
-                        // if opposite.isProcessed = true => this is an inner (+, +) edge => its
-                        // slack has been
-                        // updated already and it has been added to the plus-plus edges heap already
-                        plusNode.tree.addPlusPlusEdge(edge);
-                    }
-                } else {
-                    // opposite is from another tree since it's label is "+"
-                    opposite.tree.currentEdge.removeFromCurrentMinusPlusHeap(edge);
-                    opposite.tree.currentEdge.addPlusPlusEdge(edge);
-                    if (edge.slack <= eps + opposite.tree.eps) {
-                        augmentEdge = edge;
-                    }
-                }
-            } else if (opposite.isMinusNode()) {
-                if (opposite.tree != plusNode.tree) {
-                    // this edge becomes a (+, -) cross-tree edge
-                    if (opposite.tree.currentEdge == null) {
-                        BlossomVTree.addTreeEdge(plusNode.tree, opposite.tree);
-                    }
-                    opposite.tree.currentEdge
-                        .addToCurrentPlusMinusHeap(edge, opposite.tree.currentDirection);
+            augmentEdge = updatePresence(opposite, plusNode, edge, eps, augmentEdge);
+        }
+        return augmentEdge;
+    }
+
+    private BlossomVEdge updatePresence(BlossomVNode opposite, BlossomVNode plusNode, BlossomVEdge edge, double eps, BlossomVEdge augmentEdge){
+        if (opposite.isPlusNode()) {
+            if (opposite.tree == plusNode.tree) {
+                // this edge becomes a (+, +) in-tree edge
+                if (!opposite.isProcessed) {
+                    // if opposite.isProcessed = true => this is an inner (+, +) edge => its
+                    // slack has been
+                    // updated already and it has been added to the plus-plus edges heap already
+                    plusNode.tree.addPlusPlusEdge(edge);
                 }
             } else {
-                // this is either an inner edge, that becomes a (+, inf) edge, or it is a former (-,
-                // +) edge,
-                // that also becomes a (+, inf) edge
-                plusNode.tree.addPlusInfinityEdge(edge); // updating edge's key
+                // opposite is from another tree since it's label is "+"
+                opposite.tree.currentEdge.removeFromCurrentMinusPlusHeap(edge);
+                opposite.tree.currentEdge.addPlusPlusEdge(edge);
+                if (edge.slack <= eps + opposite.tree.eps) {
+                    augmentEdge = edge;
+                }
             }
+        } else if (opposite.isMinusNode()) {
+            if (opposite.tree != plusNode.tree) {
+                // this edge becomes a (+, -) cross-tree edge
+                if (opposite.tree.currentEdge == null) {
+                    BlossomVTree.addTreeEdge(plusNode.tree, opposite.tree);
+                }
+                opposite.tree.currentEdge
+                        .addToCurrentPlusMinusHeap(edge, opposite.tree.currentDirection);
+            }
+        } else {
+            // this is either an inner edge, that becomes a (+, inf) edge, or it is a former (-,
+            // +) edge,
+            // that also becomes a (+, inf) edge
+            plusNode.tree.addPlusInfinityEdge(edge); // updating edge's key
         }
         return augmentEdge;
     }
@@ -779,39 +784,7 @@ class BlossomVPrimalUpdater<V, E>
                 } else {
                     node.dual -= eps;
                 }
-                for (BlossomVNode.IncidentEdgeIterator incidentEdgeIterator =
-                    node.incidentEdgesIterator(); incidentEdgeIterator.hasNext();)
-                {
-                    BlossomVEdge edge = incidentEdgeIterator.next();
-                    int dir = incidentEdgeIterator.getDir();
-                    BlossomVNode opposite = edge.head[dir];
-                    BlossomVTree oppositeTree = opposite.tree;
-                    if (node.isPlusNode()) {
-                        edge.slack -= eps;
-                        if (oppositeTree != null && oppositeTree != tree) {
-                            // if this edge is a cross-tree edge
-                            BlossomVTreeEdge treeEdge = oppositeTree.currentEdge;
-                            if (opposite.isPlusNode()) {
-                                // this is a (+,+) cross-tree edge
-                                treeEdge.removeFromPlusPlusHeap(edge);
-                                oppositeTree.addPlusInfinityEdge(edge);
-                            } else if (opposite.isMinusNode()) {
-                                // this is a (+,-) cross-tree edge
-                                treeEdge.removeFromCurrentPlusMinusHeap(edge);
-                            }
-                        }
-                    } else {
-                        // current node is a "-" node
-                        edge.slack += eps;
-                        if (oppositeTree != null && oppositeTree != tree && opposite.isPlusNode()) {
-                            // this is a (-,+) cross-tree edge
-                            BlossomVTreeEdge treeEdge = oppositeTree.currentEdge;
-                            treeEdge.removeFromCurrentMinusPlusHeap(edge);
-                            oppositeTree.addPlusInfinityEdge(edge);
-                        }
-
-                    }
-                }
+                forAux(node, eps, tree);
                 node.label = INFINITY;
             } else {
                 // this node was added to the tree by the grow operation,
@@ -819,12 +792,54 @@ class BlossomVPrimalUpdater<V, E>
                 node.isMarked = false;
             }
         }
-
         // add all elements from the (-,+) and (+,+) heaps to (+, inf) heaps of the opposite trees
         // and
         // delete tree edges
+        aux(tree,augmentEdge,firstNode,root);
+    }
+
+    private void forAux(BlossomVNode node,  double eps, BlossomVTree tree){
+        for (BlossomVNode.IncidentEdgeIterator incidentEdgeIterator =
+             node.incidentEdgesIterator(); incidentEdgeIterator.hasNext();)
+        {
+            BlossomVEdge edge = incidentEdgeIterator.next();
+            int dir = incidentEdgeIterator.getDir();
+            BlossomVNode opposite = edge.head[dir];
+            BlossomVTree oppositeTree = opposite.tree;
+            checkNodeIsPlusNode(node,edge,eps,oppositeTree,tree,opposite);
+        }
+    }
+
+    private void checkNodeIsPlusNode(BlossomVNode node, BlossomVEdge edge, double eps, BlossomVTree oppositeTree, BlossomVTree tree, BlossomVNode opposite){
+        if (node.isPlusNode()) {
+            edge.slack -= eps;
+            if (oppositeTree != null && oppositeTree != tree) {
+                // if this edge is a cross-tree edge
+                BlossomVTreeEdge treeEdge = oppositeTree.currentEdge;
+                if (opposite.isPlusNode()) {
+                    // this is a (+,+) cross-tree edge
+                    treeEdge.removeFromPlusPlusHeap(edge);
+                    oppositeTree.addPlusInfinityEdge(edge);
+                } else if (opposite.isMinusNode()) {
+                    // this is a (+,-) cross-tree edge
+                    treeEdge.removeFromCurrentPlusMinusHeap(edge);
+                }
+            }
+        } else {
+            // current node is a "-" node
+            edge.slack += eps;
+            if (oppositeTree != null && oppositeTree != tree && opposite.isPlusNode()) {
+                // this is a (-,+) cross-tree edge
+                BlossomVTreeEdge treeEdge = oppositeTree.currentEdge;
+                treeEdge.removeFromCurrentMinusPlusHeap(edge);
+                oppositeTree.addPlusInfinityEdge(edge);
+            }
+        }
+    }
+
+    private void aux(BlossomVTree tree, BlossomVEdge augmentEdge, BlossomVNode firstNode, BlossomVNode root){
         for (BlossomVTree.TreeEdgeIterator treeEdgeIterator = tree.treeEdgeIterator();
-            treeEdgeIterator.hasNext();)
+             treeEdgeIterator.hasNext();)
         {
             BlossomVTreeEdge treeEdge = treeEdgeIterator.next();
             int dir = treeEdgeIterator.getCurrentDirection();
@@ -855,6 +870,7 @@ class BlossomVPrimalUpdater<V, E>
 
         state.treeNum--;
     }
+
 
     /**
      * Updates the tree structure in the shrink operation. Moves the endpoints of the boundary edges

@@ -99,9 +99,8 @@ import java.util.*;
  * @see MinimumCostFlowAlgorithm
  */
 public class CapacityScalingMinimumCostFlow<V, E>
-    implements
-    MinimumCostFlowAlgorithm<V, E>
-{
+        implements
+        MinimumCostFlowAlgorithm<V, E> {
 
     /**
      * A capacity which is considered to be infinite. Every arc, which has upper capacity greater
@@ -170,8 +169,7 @@ public class CapacityScalingMinimumCostFlow<V, E>
     /**
      * Constructs a new instance of the algorithm which uses default scaling factor.
      */
-    public CapacityScalingMinimumCostFlow()
-    {
+    public CapacityScalingMinimumCostFlow() {
         this(DEFAULT_SCALING_FACTOR);
     }
 
@@ -181,8 +179,7 @@ public class CapacityScalingMinimumCostFlow<V, E>
      *
      * @param scalingFactor custom scaling factor
      */
-    public CapacityScalingMinimumCostFlow(int scalingFactor)
-    {
+    public CapacityScalingMinimumCostFlow(int scalingFactor) {
         this.scalingFactor = scalingFactor;
         Node.nextID = 0; // for debug
     }
@@ -193,8 +190,7 @@ public class CapacityScalingMinimumCostFlow<V, E>
      * @return maximum flow mapping, or null if a MinimumCostFlowProblem has not yet been solved.
      */
     @Override
-    public Map<E, Double> getFlowMap()
-    {
+    public Map<E, Double> getFlowMap() {
         return minimumCostFlow == null ? null : this.minimumCostFlow.getFlowMap();
     }
 
@@ -202,8 +198,7 @@ public class CapacityScalingMinimumCostFlow<V, E>
      * {@inheritDoc}
      */
     @Override
-    public V getFlowDirection(E edge)
-    {
+    public V getFlowDirection(E edge) {
         return problem.getGraph().getEdgeTarget(edge);
     }
 
@@ -212,12 +207,11 @@ public class CapacityScalingMinimumCostFlow<V, E>
      */
     @Override
     public MinimumCostFlow<E> getMinimumCostFlow(
-        final MinimumCostFlowProblem<V, E> minimumCostFlowProblem)
-    {
+            final MinimumCostFlowProblem<V, E> minimumCostFlowProblem) {
         this.problem = Objects.requireNonNull(minimumCostFlowProblem);
         if (problem.getGraph().getType().isUndirected()) {
             throw new IllegalArgumentException(
-                "The algorithm doesn't support undirected flow networks");
+                    "The algorithm doesn't support undirected flow networks");
         }
         n = problem.getGraph().vertexSet().size();
         m = problem.getGraph().edgeSet().size();
@@ -237,10 +231,9 @@ public class CapacityScalingMinimumCostFlow<V, E>
      * equal to $0$.
      *
      * @return solution to the dual linear program formulated on the network, or null if a
-     *         MinimumCostFlowProblem has not yet been solved.
+     * MinimumCostFlowProblem has not yet been solved.
      */
-    public Map<V, Double> getDualSolution()
-    {
+    public Map<V, Double> getDualSolution() {
 
         if (minimumCostFlow == null)
             return null;
@@ -256,8 +249,7 @@ public class CapacityScalingMinimumCostFlow<V, E>
      * Calculated a solution to the specified minimum cost flow problem. If the scaling factor is
      * greater than 1, performs scaling phases, otherwise uses simple capacity scaling algorithm.
      */
-    private void calculateMinimumCostFlow()
-    {
+    private void calculateMinimumCostFlow() {
         init();
         if (scalingFactor > 1) {
             // run with scaling
@@ -293,8 +285,7 @@ public class CapacityScalingMinimumCostFlow<V, E>
      * If the flow network has a feasible solution, at the end there will be no flow on the added
      * arcs. Otherwise, the specified problem has no feasible solution.
      */
-    private void init()
-    {
+    private void init() {
         int supplySum = 0;
 
         // initialize data structures
@@ -306,8 +297,17 @@ public class CapacityScalingMinimumCostFlow<V, E>
 
         Map<V, Node> nodeMap = CollectionUtil.newHashMapWithExpectedSize(n);
         Graph<V, E> graph = problem.getGraph();
+        converVertices(nodeMap, graph, supplySum);
+        convertEdges(nodeMap, graph);
+        if (DEBUG) {
+            System.out.println("Printing mapping");
+            for (Map.Entry<V, Node> entry : nodeMap.entrySet()) {
+                System.out.println(entry + " -> " + entry);
+            }
+        }
+    }
 
-        // convert vertices into internal nodes
+    private void converVertices(Map<V, Node> nodeMap, Graph<V, E> graph, int supplySum) {
         int i = 0;
         for (V vertex : graph.vertexSet()) {
             graphVertices.add(vertex);
@@ -323,8 +323,12 @@ public class CapacityScalingMinimumCostFlow<V, E>
         if (Math.abs(supplySum) > 0) {
             throw new IllegalArgumentException("Total node supply isn't equal to 0");
         }
-        i = 0;
-        // convert edges into their internal counterparts
+    }
+
+
+    // convert edges into their internal counterparts
+    private void convertEdges(Map<V, Node> nodeMap, Graph<V, E> graph) {
+        int i = 0;
         for (E edge : graph.edgeSet()) {
             graphEdges.add(edge);
             Node node = nodeMap.get(graph.getEdgeSource(edge));
@@ -337,43 +341,40 @@ public class CapacityScalingMinimumCostFlow<V, E>
                 throw new IllegalArgumentException("Negative edge capacities are not allowed");
             } else if (lowerCap > upperCap) {
                 throw new IllegalArgumentException(
-                    "Lower edge capacity must not exceed upper edge capacity");
+                        "Lower edge capacity must not exceed upper edge capacity");
             } else if (lowerCap >= CAP_INF) {
                 throw new IllegalArgumentException(
-                    "The problem is unbounded due to the infinite lower capacity");
+                        "The problem is unbounded due to the infinite lower capacity");
             } else if (upperCap >= CAP_INF && cost < 0) {
                 throw new IllegalArgumentException(
-                    "The algorithm doesn't support infinite capacity arcs with negative cost");
+                        "The algorithm doesn't support infinite capacity arcs with negative cost");
             } else if (Math.abs(cost) >= COST_INF) {
                 throw new IllegalArgumentException(
-                    "Specified flow network contains an edge of infinite cost");
+                        "Specified flow network contains an edge of infinite cost");
             } else if (node == opposite) {
                 throw new IllegalArgumentException("Self-loops aren't allowed");
             }
-            // remove non-zero lower capacity
-            node.excess -= lowerCap;
-            opposite.excess += lowerCap;
-            if (cost < 0) {
-                // removing negative edge costs
-                node.excess -= upperCap - lowerCap;
-                opposite.excess += upperCap - lowerCap;
-                Node t = node;
-                node = opposite;
-                opposite = t;
-                cost *= -1;
-            }
-            arcs[i] = node.addArcTo(opposite, upperCap - lowerCap, cost);
+            opposite(i, node, opposite, upperCap, lowerCap, cost);
             if (DEBUG) {
                 System.out.println(arcs[i]);
             }
             ++i;
         }
-        if (DEBUG) {
-            System.out.println("Printing mapping");
-            for (Map.Entry<V, Node> entry : nodeMap.entrySet()) {
-                System.out.println(entry + " -> " + entry);
-            }
+    }
+
+    private void opposite(int i, CapacityScalingMinimumCostFlow.Node node, CapacityScalingMinimumCostFlow.Node opposite,
+                          int upperCap, int lowerCap, double cost) {
+        node.excess -= lowerCap;
+        opposite.excess += lowerCap;
+        if (cost < 0) {
+            node.excess -= upperCap - lowerCap;
+            opposite.excess += upperCap - lowerCap;
+            Node t = node;
+            node = opposite;
+            opposite = t;
+            cost *= -1;
         }
+        arcs[i] = node.addArcTo(opposite, upperCap - lowerCap, cost);
     }
 
     /**
@@ -381,8 +382,7 @@ public class CapacityScalingMinimumCostFlow<V, E>
      *
      * @return the largest magnitude of any supply/demand or finite arc capacity.
      */
-    private int getU()
-    {
+    private int getU() {
         int result = 0;
         for (Node node : nodes) {
             result = Math.max(result, Math.abs(node.excess));
@@ -405,8 +405,7 @@ public class CapacityScalingMinimumCostFlow<V, E>
      * @param delta current value of $\Delta$
      * @return the nodes with excesses no less than {@code delta} and no greater than {@code -delta}
      */
-    private Pair<List<Node>, Set<Node>> scale(int delta)
-    {
+    private Pair<List<Node>, Set<Node>> scale(int delta) {
         if (DEBUG) {
             System.out.println(String.format("Current delta = %d", delta));
         }
@@ -447,14 +446,13 @@ public class CapacityScalingMinimumCostFlow<V, E>
      * reduction during the initialization phase.
      *
      * @param positiveExcessNodes nodes from the network with positive excesses no less than
-     *        {@code delta}
+     *                            {@code delta}
      * @param negativeExcessNodes nodes from the network with negative excesses no greater than
-     *        {@code delta}
-     * @param delta the current value of $\Delta$
+     *                            {@code delta}
+     * @param delta               the current value of $\Delta$
      */
     private void pushAllFlow(
-        List<Node> positiveExcessNodes, Set<Node> negativeExcessNodes, int delta)
-    {
+            List<Node> positiveExcessNodes, Set<Node> negativeExcessNodes, int delta) {
         for (Node node : positiveExcessNodes) {
             while (node.excess >= delta) {
                 if (negativeExcessNodes.isEmpty()) {
@@ -486,13 +484,12 @@ public class CapacityScalingMinimumCostFlow<V, E>
      * node potentials: $v.potential = v.potential + dist(v) - dist(u)$. The potentials of the
      * temporarily labeled and unvisited vertices stay unchanged.
      *
-     * @param start the start node for Dijkstra's algorithm
+     * @param start               the start node for Dijkstra's algorithm
      * @param negativeExcessNodes nodes from the network with negative excesses no greater than
-     *        {@code delta}
-     * @param delta the current value of $\Delta$
+     *                            {@code delta}
+     * @param delta               the current value of $\Delta$
      */
-    private void pushDijkstra(Node start, Set<Node> negativeExcessNodes, int delta)
-    {
+    private void pushDijkstra(Node start, Set<Node> negativeExcessNodes, int delta) {
         int temporarilyLabeledType = counter++;
         int permanentlyLabeledType = counter++;
         AddressableHeap.Handle<Double, Node> currentFibNode;
@@ -519,9 +516,9 @@ public class CapacityScalingMinimumCostFlow<V, E>
                     System.out.println(String.format("Distance = %.1f", distance));
                     for (Node node : nodes) {
                         System.out
-                            .println(
-                                String
-                                    .format("Id = %d, potential = %.1f", node.id, node.potential));
+                                .println(
+                                        String
+                                                .format("Id = %d, potential = %.1f", node.id, node.potential));
                     }
                 }
                 return;
@@ -529,8 +526,7 @@ public class CapacityScalingMinimumCostFlow<V, E>
             currentNode.labelType = permanentlyLabeledType; // currentNode becomes permanently labeled
             permanentlyLabeled.add(currentNode);
             for (Arc currentArc = currentNode.firstNonSaturated; currentArc != null;
-                currentArc = currentArc.next)
-            {
+                 currentArc = currentArc.next) {
                 // looking only for arcs with residual capacity greater than delta
                 if (currentArc.residualCapacity < delta) {
                     continue;
@@ -547,7 +543,7 @@ public class CapacityScalingMinimumCostFlow<V, E>
                         // opposite is encountered for the first time
                         opposite.labelType = temporarilyLabeledType;
                         opposite.handle =
-                            heap.insert(distance + currentArc.getReducedCost(), opposite);
+                                heap.insert(distance + currentArc.getReducedCost(), opposite);
                         opposite.parentArc = currentArc;
                     }
                 }
@@ -562,10 +558,9 @@ public class CapacityScalingMinimumCostFlow<V, E>
      * {@code start} and the {@code end} nodes.
      *
      * @param start the start of the augmenting path
-     * @param end the end of the augmenting path
+     * @param end   the end of the augmenting path
      */
-    private void augmentPath(Node start, Node end)
-    {
+    private void augmentPath(Node start, Node end) {
         // compute delta to augment
         int valueToAugment = Math.min(start.excess, -end.excess);
         for (Arc arc = end.parentArc; arc != null; arc = arc.revArc.head.parentArc) {
@@ -598,15 +593,14 @@ public class CapacityScalingMinimumCostFlow<V, E>
      *
      * @return the solution to the minimum cost flow problem
      */
-    private MinimumCostFlow<E> finish()
-    {
+    private MinimumCostFlow<E> finish() {
         Map<E, Double> flowMap = CollectionUtil.newHashMapWithExpectedSize(m);
         double totalCost = 0;
         // check feasibility
         for (Arc arc = nodes[n].firstNonSaturated; arc != null; arc = arc.next) {
             if (arc.revArc.residualCapacity > 0) {
                 throw new IllegalArgumentException(
-                    "Specified flow network problem has no feasible solution");
+                        "Specified flow network problem has no feasible solution");
             }
         }
         // create the solution object
@@ -614,11 +608,11 @@ public class CapacityScalingMinimumCostFlow<V, E>
             E graphEdge = graphEdges.get(i);
             Arc arc = arcs[i];
             double flowOnArc = arc.revArc.residualCapacity; // this value equals to the flow on the
-                                                            // initial arc
+            // initial arc
             if (problem.getGraph().getEdgeWeight(graphEdge) < 0) {
                 // the initial arc goes in the opposite direction
                 flowOnArc = problem.getArcCapacityUpperBounds().apply(graphEdge)
-                    - problem.getArcCapacityLowerBounds().apply(graphEdge) - flowOnArc;
+                        - problem.getArcCapacityLowerBounds().apply(graphEdge) - flowOnArc;
             }
             flowOnArc += problem.getArcCapacityLowerBounds().apply(graphEdge);
             flowMap.put(graphEdge, flowOnArc);
@@ -640,11 +634,10 @@ public class CapacityScalingMinimumCostFlow<V, E>
      * @param eps the precision to use
      * @return true, if the computed solution is optimal, false otherwise.
      */
-    public boolean testOptimality(double eps)
-    {
+    public boolean testOptimality(double eps) {
         if (minimumCostFlow == null)
             throw new RuntimeException(
-                "Cannot return a dual solution before getMinimumCostFlow(MinimumCostFlowProblem minimumCostFlowProblem) is invoked!");
+                    "Cannot return a dual solution before getMinimumCostFlow(MinimumCostFlowProblem minimumCostFlowProblem) is invoked!");
 
         for (Node node : nodes) {
             for (Arc arc = node.firstNonSaturated; arc != null; arc = arc.next) {
@@ -665,8 +658,7 @@ public class CapacityScalingMinimumCostFlow<V, E>
      * @author Timofey Chudakov
      * @since July 2018
      */
-    private static class Node
-    {
+    private static class Node {
         /**
          * Variable for debug purposes
          */
@@ -715,8 +707,7 @@ public class CapacityScalingMinimumCostFlow<V, E>
          *
          * @param excess the excess of this node
          */
-        public Node(int excess)
-        {
+        public Node(int excess) {
             this.excess = excess;
         }
 
@@ -726,11 +717,10 @@ public class CapacityScalingMinimumCostFlow<V, E>
          *
          * @param opposite the head of the resulting arc.
          * @param capacity the capacity of the resulting arc.
-         * @param cost the cost of the resulting arc
+         * @param cost     the cost of the resulting arc
          * @return the resulting arc to the {@code opposite} node
          */
-        Arc addArcTo(Node opposite, int capacity, double cost)
-        {
+        Arc addArcTo(Node opposite, int capacity, double cost) {
             Arc forwardArc = new Arc(opposite, capacity, cost);
             if (capacity > 0) {
                 // forward arc becomes the first arc in the linked list of non-saturated arcs
@@ -764,8 +754,7 @@ public class CapacityScalingMinimumCostFlow<V, E>
          * {@inheritDoc}
          */
         @Override
-        public String toString()
-        {
+        public String toString() {
             return String.format("Id = %d, excess = %d, potential = %.1f", id, excess, potential);
         }
     }
@@ -779,8 +768,7 @@ public class CapacityScalingMinimumCostFlow<V, E>
      * @author Timofey Chudakov
      * @since July 2018
      */
-    private static class Arc
-    {
+    private static class Arc {
         /**
          * The head (target) of this arc.
          */
@@ -814,12 +802,11 @@ public class CapacityScalingMinimumCostFlow<V, E>
         /**
          * Creates a new arc
          *
-         * @param head the head (target) of this arc
+         * @param head             the head (target) of this arc
          * @param residualCapacity its residual capacity
-         * @param cost its cost
+         * @param cost             its cost
          */
-        Arc(Node head, int residualCapacity, double cost)
-        {
+        Arc(Node head, int residualCapacity, double cost) {
             this.head = head;
             this.cost = cost;
             this.residualCapacity = residualCapacity;
@@ -830,8 +817,7 @@ public class CapacityScalingMinimumCostFlow<V, E>
          *
          * @return reduced cost of this arc.
          */
-        double getReducedCost()
-        {
+        double getReducedCost() {
             return cost + head.potential - revArc.head.potential;
         }
 
@@ -840,8 +826,7 @@ public class CapacityScalingMinimumCostFlow<V, E>
          *
          * @param value how many units of flow to send
          */
-        void sendFlow(int value)
-        {
+        void sendFlow(int value) {
             decreaseResidualCapacity(value);
             revArc.increaseResidualCapacity(value);
         }
@@ -852,8 +837,7 @@ public class CapacityScalingMinimumCostFlow<V, E>
          *
          * @param value the value to subtract from the residual capacity of this arc
          */
-        private void decreaseResidualCapacity(int value)
-        {
+        private void decreaseResidualCapacity(int value) {
             if (residualCapacity >= CAP_INF) {
                 return;
             }
@@ -884,8 +868,7 @@ public class CapacityScalingMinimumCostFlow<V, E>
          *
          * @param value the value to add to the residual capacity of this arc
          */
-        private void increaseResidualCapacity(int value)
-        {
+        private void increaseResidualCapacity(int value) {
             if (residualCapacity >= CAP_INF) {
                 return;
             }
@@ -915,8 +898,7 @@ public class CapacityScalingMinimumCostFlow<V, E>
          *
          * @return true if the arc has infinite capacity, false otherwise.
          */
-        public boolean isInfiniteCapacityArc()
-        {
+        public boolean isInfiniteCapacityArc() {
             return residualCapacity >= CAP_INF;
         }
 
@@ -924,14 +906,13 @@ public class CapacityScalingMinimumCostFlow<V, E>
          * {@inheritDoc}
          */
         @Override
-        public String toString()
-        {
+        public String toString() {
             return String
-                .format(
-                    "(%d, %d), residual capacity = %s, reduced cost = %.1f, cost = %.1f",
-                    revArc.head.id, head.id,
-                    residualCapacity >= CAP_INF ? "INF" : String.valueOf(residualCapacity),
-                    getReducedCost(), cost);
+                    .format(
+                            "(%d, %d), residual capacity = %s, reduced cost = %.1f, cost = %.1f",
+                            revArc.head.id, head.id,
+                            residualCapacity >= CAP_INF ? "INF" : String.valueOf(residualCapacity),
+                            getReducedCost(), cost);
         }
     }
 }
