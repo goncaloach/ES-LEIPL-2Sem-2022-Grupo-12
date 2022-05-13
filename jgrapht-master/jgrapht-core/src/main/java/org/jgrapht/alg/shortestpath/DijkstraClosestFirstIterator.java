@@ -87,21 +87,6 @@ class DijkstraClosestFirstIterator<V, E>
     }
 
     /**
-     * Creates a new iterator for the specified graph. Iteration will start at the specified start
-     * vertex and will be limited to the connected component that includes that vertex. This
-     * iterator will use heap supplied by the {@code heapSupplier}
-     *
-     * @param graph the graph to be iterated.
-     * @param source the source vertex
-     * @param heapSupplier supplier of the preferable heap implementation
-     */
-    public DijkstraClosestFirstIterator(
-        Graph<V, E> graph, V source, Supplier<AddressableHeap<Double, Pair<V, E>>> heapSupplier)
-    {
-        this(graph, source, Double.POSITIVE_INFINITY, heapSupplier);
-    }
-
-    /**
      * Creates a new radius-bounded iterator for the specified graph. Iteration will start at the
      * specified start vertex and will be limited to the subset of the connected component which
      * includes that vertex and is reachable via paths of weighted length less than or equal to the
