@@ -166,12 +166,7 @@ public class ContractionHierarchyBidirectionalDijkstra<V, E>
     @Override
     public GraphPath<V, E> getPath(V source, V sink)
     {
-        if (!graph.containsVertex(source)) {
-            throw new IllegalArgumentException(GRAPH_MUST_CONTAIN_THE_SOURCE_VERTEX);
-        }
-        if (!graph.containsVertex(sink)) {
-            throw new IllegalArgumentException(GRAPH_MUST_CONTAIN_THE_SINK_VERTEX);
-        }
+        parametersVerification(source, sink);
 
         // handle special case if source equals target
         if (source.equals(sink)) {
@@ -182,15 +177,9 @@ public class ContractionHierarchyBidirectionalDijkstra<V, E>
         ContractionVertex<V> contractedSink = contractionMapping.get(sink);
 
         // create frontiers
-        ContractionSearchFrontier<ContractionVertex<V>, ContractionEdge<E>> forwardFrontier =
-            new ContractionSearchFrontier<>(
-                new MaskSubgraph<>(contractionGraph, v -> false, e -> !e.isUpward), heapSupplier);
+        ContractionSearchFrontier<ContractionVertex<V>, ContractionEdge<E>> forwardFrontier = new ContractionSearchFrontier<>(new MaskSubgraph<>(contractionGraph, v -> false, e -> !e.isUpward), heapSupplier);
 
-        ContractionSearchFrontier<ContractionVertex<V>,
-            ContractionEdge<E>> backwardFrontier = new ContractionSearchFrontier<>(
-                new MaskSubgraph<>(
-                    new EdgeReversedGraph<>(contractionGraph), v -> false, e -> e.isUpward),
-                heapSupplier);
+        ContractionSearchFrontier<ContractionVertex<V>, ContractionEdge<E>> backwardFrontier = new ContractionSearchFrontier<>(new MaskSubgraph<>(new EdgeReversedGraph<>(contractionGraph), v -> false, e -> e.isUpward), heapSupplier);
 
         // initialize both frontiers
         forwardFrontier.updateDistance(contractedSource, null, 0d);
@@ -206,12 +195,8 @@ public class ContractionHierarchyBidirectionalDijkstra<V, E>
             backwardFrontier;
 
         while (true) {
-            if (frontier.heap.isEmpty()) {
-                frontier.isFinished = true;
-            }
-            if (otherFrontier.heap.isEmpty()) {
-                otherFrontier.isFinished = true;
-            }
+            setFrontierAsFinishedIfEmpty(frontier);
+            setFrontierAsFinishedIfEmpty(otherFrontier);
 
             // stopping condition for search
             if (frontier.isFinished && otherFrontier.isFinished) {
@@ -256,13 +241,32 @@ public class ContractionHierarchyBidirectionalDijkstra<V, E>
             }
         }
 
+        return createNewPath(source, sink, contractedSource, contractedSink, forwardFrontier, backwardFrontier, bestPath, bestPathCommonVertex);
+    }
+
+    private GraphPath<V, E> createNewPath(V source, V sink, ContractionVertex<V> contractedSource, ContractionVertex<V> contractedSink, ContractionSearchFrontier<ContractionVertex<V>, ContractionEdge<E>> forwardFrontier, ContractionSearchFrontier<ContractionVertex<V>, ContractionEdge<E>> backwardFrontier, double bestPath, ContractionVertex<V> bestPathCommonVertex) {
         // create path if found
         if (Double.isFinite(bestPath) && bestPath <= radius) {
             return createPath(
-                forwardFrontier, backwardFrontier, bestPath, contractedSource, bestPathCommonVertex,
-                contractedSink);
+                    forwardFrontier, backwardFrontier, bestPath, contractedSource, bestPathCommonVertex,
+                    contractedSink);
         } else {
             return createEmptyPath(source, sink);
+        }
+    }
+
+    private void parametersVerification(V source, V sink) throws IllegalArgumentException {
+        if (!graph.containsVertex(source)) {
+            throw new IllegalArgumentException(GRAPH_MUST_CONTAIN_THE_SOURCE_VERTEX);
+        }
+        if (!graph.containsVertex(sink)) {
+            throw new IllegalArgumentException(GRAPH_MUST_CONTAIN_THE_SINK_VERTEX);
+        }
+    }
+
+    private void setFrontierAsFinishedIfEmpty(ContractionSearchFrontier<ContractionVertex<V>, ContractionEdge<E>> frontier) {
+        if (frontier.heap.isEmpty()) {
+            frontier.isFinished = true;
         }
     }
 
