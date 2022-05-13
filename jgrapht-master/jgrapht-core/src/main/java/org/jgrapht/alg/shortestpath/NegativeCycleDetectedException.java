@@ -22,7 +22,7 @@ import org.jgrapht.*;
 /**
  * An exception used to notify about the detection of a negative cycle. The exception may carry the
  * negative cycle to the user.
- *
+ * 
  * @author Dimitrios Michail
  */
 public class NegativeCycleDetectedException
@@ -49,6 +49,10 @@ public class NegativeCycleDetectedException
      * @param message the detail message. The detail message is saved for later retrieval by the
      *        {@link #getMessage()} method.
      */
+    public NegativeCycleDetectedException(String message)
+    {
+        super(message);
+    }
 
     /**
      * Constructs a new exception with the specified detail message. The cause is not initialized,
@@ -66,7 +70,7 @@ public class NegativeCycleDetectedException
 
     /**
      * Get the actual negative cycle, or null if not provided.
-     *
+     * 
      * @return the negative cycle or null.
      */
     public GraphPath<?, ?> getCycle()
@@ -76,7 +80,7 @@ public class NegativeCycleDetectedException
 
     /**
      * Set the negative cycle.
-     *
+     * 
      * @param cycle the negative cycle.
      */
     public void setCycle(GraphPath<?, ?> cycle)

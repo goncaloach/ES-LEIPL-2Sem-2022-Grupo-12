@@ -304,22 +304,14 @@ class BlossomVTree
      * tree.
      */
     public static class TreeNodeIterator
-        implements
-        Iterator<BlossomVNode>
+            implements
+            Iterator<BlossomVNode>
     {
-        /**
-         * The node this iterator is currently on
-         */
-        private BlossomVNode currentNode;
+        private TreeNodeIteratorProduct treeNodeIteratorProduct = new TreeNodeIteratorProduct();
         /**
          * Variable to determine whether {@code currentNode} has been returned or not
          */
         private BlossomVNode current;
-        /**
-         * A root of the subtree of a tree
-         */
-        private BlossomVNode treeRoot;
-
         /**
          * Constructs a new TreeNodeIterator for a {@code root}.
          * <p>
@@ -330,8 +322,8 @@ class BlossomVTree
          */
         public TreeNodeIterator(BlossomVNode root)
         {
-            this.currentNode = this.current = root;
-            this.treeRoot = root;
+            treeNodeIteratorProduct.setCurrentNode(this.current = root);
+            treeNodeIteratorProduct.setTreeRoot(root);
         }
 
         /**
@@ -343,7 +335,7 @@ class BlossomVTree
             if (current != null) {
                 return true;
             }
-            current = advance();
+            current = treeNodeIteratorProduct.advance();
             return current != null;
         }
 
@@ -360,41 +352,14 @@ class BlossomVTree
             current = null;
             return result;
         }
-
-        /**
-         * Advances the iterator to the next tree node
-         *
-         * @return the next tree node
-         */
-        private BlossomVNode advance()
-        {
-            if (currentNode == null) {
-                return null;
-            } else if (currentNode.firstTreeChild != null) {
-                // advance deeper
-                currentNode = currentNode.firstTreeChild;
-                return currentNode;
-            } else {
-                // advance to the next unvisited sibling of the current node or
-                // of some of its ancestors
-                while (currentNode != treeRoot && currentNode.treeSiblingNext == null) {
-                    currentNode = currentNode.parentEdge.getOpposite(currentNode);
-                }
-                currentNode = currentNode.treeSiblingNext;
-                if (currentNode == treeRoot.treeSiblingNext) {
-                    currentNode = null;
-                }
-                return currentNode;
-            }
-        }
     }
 
     /**
      * An iterator over tree edges incident to this tree.
      */
     public class TreeEdgeIterator
-        implements
-        Iterator<BlossomVTreeEdge>
+            implements
+            Iterator<BlossomVTreeEdge>
     {
         /**
          * The direction of the {@code currentEdge}

@@ -108,9 +108,9 @@ public class CliqueMinimalSeparatorDecomposition<V, E>
     {
         // initialize chordGraph with same vertices as graph
         chordalGraph = GraphTypeBuilder
-                .<V, E> undirected().edgeSupplier(graph.getEdgeSupplier())
-                .vertexSupplier(graph.getVertexSupplier()).allowingMultipleEdges(false)
-                .allowingSelfLoops(false).buildGraph();
+            .<V, E> undirected().edgeSupplier(graph.getEdgeSupplier())
+            .vertexSupplier(graph.getVertexSupplier()).allowingMultipleEdges(false)
+            .allowingSelfLoops(false).buildGraph();
 
         for (V v : graph.vertexSet()) {
             chordalGraph.addVertex(v);
@@ -161,8 +161,8 @@ public class CliqueMinimalSeparatorDecomposition<V, E>
                     for (V z : Graphs.neighborListOf(gprime, y)) {
                         if (!reached.contains(z)) {
                             reached.add(z);
-                            neighborsY(vertexLabels, neighborsY, j, z);
                             if (vertexLabels.get(z) > j) {
+                                neighborsY.add(z);
                                 E fillEdge = graph.getEdgeSupplier().get();
                                 fillEdges.add(fillEdge);
                                 addToReach(vertexLabels.get(z), z, reach);
@@ -182,13 +182,6 @@ public class CliqueMinimalSeparatorDecomposition<V, E>
             meo.addLast(v);
             gprime.removeVertex(v);
             vertexLabels.remove(v);
-        }
-    }
-
-    private <V> void neighborsY(final Map<V, Integer> vertexLabels, LinkedList<V> neighborsY, int j, V z) {
-        if (vertexLabels.get(z) > j) {
-            neighborsY.add(z);
-        } else {
         }
     }
 
@@ -261,7 +254,7 @@ public class CliqueMinimalSeparatorDecomposition<V, E>
                     if (separator.size() > 0) {
                         if (separators.contains(separator)) {
                             fullComponentCount
-                                    .put(separator, fullComponentCount.get(separator) + 1);
+                                .put(separator, fullComponentCount.get(separator) + 1);
                         } else {
                             fullComponentCount.put(separator, 2);
                             separators.add(separator);
@@ -325,7 +318,7 @@ public class CliqueMinimalSeparatorDecomposition<V, E>
     private static <V, E> Graph<V, E> copyAsSimpleGraph(Graph<V, E> graph)
     {
         Graph<V,
-                E> copy = GraphTypeBuilder
+            E> copy = GraphTypeBuilder
                 .<V, E> undirected().edgeSupplier(graph.getEdgeSupplier())
                 .vertexSupplier(graph.getVertexSupplier()).allowingMultipleEdges(false)
                 .allowingSelfLoops(false).buildGraph();

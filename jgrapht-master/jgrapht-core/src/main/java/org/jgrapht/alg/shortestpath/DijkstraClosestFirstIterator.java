@@ -95,7 +95,11 @@ class DijkstraClosestFirstIterator<V, E>
      * @param source the source vertex
      * @param heapSupplier supplier of the preferable heap implementation
      */
-
+    public DijkstraClosestFirstIterator(
+        Graph<V, E> graph, V source, Supplier<AddressableHeap<Double, Pair<V, E>>> heapSupplier)
+    {
+        this(graph, source, Double.POSITIVE_INFINITY, heapSupplier);
+    }
 
     /**
      * Creates a new radius-bounded iterator for the specified graph. Iteration will start at the

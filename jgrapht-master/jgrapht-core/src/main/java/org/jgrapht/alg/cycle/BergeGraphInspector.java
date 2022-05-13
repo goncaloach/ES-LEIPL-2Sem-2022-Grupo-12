@@ -60,9 +60,11 @@ import java.util.stream.*;
  * @param <V> the graph vertex type
  * @param <E> the graph edge type
  */
+
 public class BergeGraphInspector<V, E>
 {
 
+    private BergeGraphInspectorProduct<V,E> bergeGraphInspectorProduct = new BergeGraphInspectorProduct<V,E>();
     private GraphPath<V, E> certificate = null;
     private boolean certify = false;
 
@@ -439,6 +441,7 @@ public class BergeGraphInspector<V, E>
      * @param g Graph
      * @return Decides whether there is a jewel in g
      */
+
     boolean containsJewel(Graph<V, E> g)
     {
         for (V v2 : g.vertexSet()) {
@@ -481,7 +484,7 @@ public class BergeGraphInspector<V, E>
                             if (v1 == v4 || g.containsEdge(v1, v4) || g.containsEdge(v2, v4))
                                 continue;
                             for (Set<V> fPrime : componentsOfF) {
-                                if (hasANeighbour(g, fPrime, v1) && hasANeighbour(g, fPrime, v4)) {
+                                if (bergeGraphInspectorProduct.hasANeighbour(g, fPrime, v1) && bergeGraphInspectorProduct.hasANeighbour(g, fPrime, v4)) {
                                     if (certify) {
                                         Set<V> validSet = new HashSet<>();
                                         validSet.addAll(fPrime);
@@ -631,10 +634,10 @@ public class BergeGraphInspector<V, E>
 
                         V y2 = null;
                         for (V y2Candidate : rx2y1.getVertexList()) {
-                            y2 = y2(g, y1, x1, x3, x2, y2, y2Candidate);
                             if (g.containsEdge(y1, y2Candidate) && y2Candidate != x1
                                     && y2Candidate != x2 && y2Candidate != x3 && y2Candidate != y1)
                             {
+                                y2 = y2Candidate;
                                 break;
                             }
                         }
@@ -668,14 +671,6 @@ public class BergeGraphInspector<V, E>
             }
         }
         return false;
-    }
-
-    private <V, E> V y2(Graph<V, E> g, V y1, V x1, V x3, V x2, V y2, V y2Candidate) {
-        if (g.containsEdge(y1, y2Candidate) && y2Candidate != x1 && y2Candidate != x2 && y2Candidate != x3
-                && y2Candidate != y1) {
-            y2 = y2Candidate;
-        }
-        return y2;
     }
 
     /**
@@ -750,7 +745,7 @@ public class BergeGraphInspector<V, E>
      */
     boolean isYXComplete(Graph<V, E> g, V y, Set<V> x)
     {
-        return x.stream().allMatch(t -> g.containsEdge(t, y));
+        return bergeGraphInspectorProduct.isYXComplete(g, y, x);
     }
 
     /**
@@ -817,56 +812,8 @@ public class BergeGraphInspector<V, E>
                             }
                         }
                         List<Set<V>> anticomponentsOfY = findAllAnticomponentsOfY(g, setY);
-                        for (Set<V> setX : anticomponentsOfY) {
-                            Set<V> v2v3 = new HashSet<>();
-                            v2v3.addAll(g.vertexSet());
-                            v2v3.remove(v2);
-                            v2v3.remove(v3);
-                            v2v3.removeAll(setX);
-                            if (!v2v3.contains(v1) || !v2v3.contains(v4))
-                                continue;
-
-                            GraphPath<V, E> path =
-                                    new DijkstraShortestPath<>(new AsSubgraph<>(g, v2v3))
-                                            .getPath(v1, v4);
-                            if (path == null)
-                                continue;
-                            List<V> listP = path.getVertexList();
-                            if (!listP.contains(v1) || !listP.contains(v4))
-                                continue;
-
-                            boolean cont = true;
-                            for (V p : listP) {
-                                if (p != v1 && p != v4 && (g.containsEdge(p, v2)
-                                        || g.containsEdge(p, v3) || isYXComplete(g, p, setX)))
-                                {
-                                    cont = false;
-                                    break;
-                                }
-                            }
-                            if (cont) {
-                                if (certify) {
-                                    List<E> edgeList = new LinkedList<>();
-                                    if (path.getLength() % 2 == 0) {
-                                        edgeList.add(g.getEdge(v1, v2));
-                                        edgeList.add(g.getEdge(v2, v3));
-                                        edgeList.add(g.getEdge(v3, v4));
-                                        edgeList.addAll(path.getEdgeList());
-                                    } else {
-                                        edgeList.addAll(path.getEdgeList());
-                                        V x = setX.iterator().next();
-                                        edgeList.add(g.getEdge(v4, x));
-                                        edgeList.add(g.getEdge(x, v1));
-                                    }
-
-                                    double weight =
-                                            edgeList.stream().mapToDouble(g::getEdgeWeight).sum();
-                                    certificate = new GraphWalk<>(g, v1, v1, edgeList, weight);
-                                }
-                                return true;
-
-                            }
-                        }
+                        if(checkAntiComponents(anticomponentsOfY, g, v1, v2, v3, v4))
+                            return true;
                     }
                 }
             }
@@ -874,52 +821,58 @@ public class BergeGraphInspector<V, E>
         return false;
     }
 
-    /**
-     * Reports whether v has at least one neighbour in set
-     *
-     * @param g A Graph
-     * @param set A set of vertices
-     * @param v A vertex
-     * @return whether v has at least one neighbour in set
-     */
-    private boolean hasANeighbour(Graph<V, E> g, Set<V> set, V v)
-    {
-        return set.stream().anyMatch(s -> g.containsEdge(s, v));
-    }
+    private boolean checkAntiComponents(List<Set<V>> anticomponentsOfY, Graph<V, E> g, V v1, V v2, V v3, V v4){
+        for (Set<V> setX : anticomponentsOfY) {
+            Set<V> v2v3 = new HashSet<>();
+            v2v3.addAll(g.vertexSet());
+            v2v3.remove(v2);
+            v2v3.remove(v3);
+            v2v3.removeAll(setX);
+            if (!v2v3.contains(v1) || !v2v3.contains(v4))
+                continue;
 
-    /**
-     * For each anticomponent X, find the maximal connected subset F' containing v5 with the
-     * properties that v1,v2 have no neighbours in F' and no vertex of F'\v5 is X-complete
-     *
-     * @param g A Graph
-     * @param setX A set of vertices
-     * @param v1 A vertex
-     * @param v2 A vertex
-     * @param v5 A Vertex
-     * @return The maximal connected vertex subset containing v5, no neighbours of v1 and v2, and no
-     *         X-complete vertex except v5
-     */
-    private Set<V> findMaximalConnectedSubset(Graph<V, E> g, Set<V> setX, V v1, V v2, V v5)
-    {
-        Set<V> fPrime = new ConnectivityInspector<>(g).connectedSetOf(v5);
-        fPrime
-                .removeIf(
-                        t -> t != v5 && isYXComplete(g, t, setX) || v1 == t || v2 == t || g.containsEdge(v1, t)
-                                || g.containsEdge(v2, t));
-        return fPrime;
-    }
+            GraphPath<V, E> path =
+                    new DijkstraShortestPath<>(new AsSubgraph<>(g, v2v3))
+                            .getPath(v1, v4);
+            if (path == null)
+                continue;
+            List<V> listP = path.getVertexList();
+            if (!listP.contains(v1) || !listP.contains(v4))
+                continue;
 
-    /**
-     * Reports whether a vertex has at least one nonneighbour in X
-     *
-     * @param g A Graph
-     * @param v A Vertex
-     * @param setX A set of vertices
-     * @return whether v has a nonneighbour in X
-     */
-    private boolean hasANonneighbourInX(Graph<V, E> g, V v, Set<V> setX)
-    {
-        return setX.stream().anyMatch(x -> !g.containsEdge(v, x));
+            boolean cont = true;
+            for (V p : listP) {
+                if (p != v1 && p != v4 && (g.containsEdge(p, v2)
+                        || g.containsEdge(p, v3) || isYXComplete(g, p, setX)))
+                {
+                    cont = false;
+                    break;
+                }
+            }
+            if (cont) {
+                if (certify) {
+                    List<E> edgeList = new LinkedList<>();
+                    if (path.getLength() % 2 == 0) {
+                        edgeList.add(g.getEdge(v1, v2));
+                        edgeList.add(g.getEdge(v2, v3));
+                        edgeList.add(g.getEdge(v3, v4));
+                        edgeList.addAll(path.getEdgeList());
+                    } else {
+                        edgeList.addAll(path.getEdgeList());
+                        V x = setX.iterator().next();
+                        edgeList.add(g.getEdge(v4, x));
+                        edgeList.add(g.getEdge(x, v1));
+                    }
+
+                    double weight =
+                            edgeList.stream().mapToDouble(g::getEdgeWeight).sum();
+                    certificate = new GraphWalk<>(g, v1, v1, edgeList, weight);
+                }
+                return true;
+
+            }
+        }
+        return false;
     }
 
     /**
@@ -962,19 +915,19 @@ public class BergeGraphInspector<V, E>
                     }
                     List<Set<V>> anticomponents = findAllAnticomponentsOfY(g, setY);
                     for (Set<V> setX : anticomponents) {
-                        Set<V> fPrime = findMaximalConnectedSubset(g, setX, v1, v2, v5);
+                        Set<V> fPrime = bergeGraphInspectorProduct.findMaximalConnectedSubset(g, setX, v1, v2, v5);
                         Set<V> setF = new HashSet<>();
                         setF.addAll(fPrime);
                         for (V x : setX) {
                             if (!g.containsEdge(x, v1) && !g.containsEdge(x, v2)
-                                    && !g.containsEdge(x, v5) && hasANeighbour(g, fPrime, x))
+                                    && !g.containsEdge(x, v5) && bergeGraphInspectorProduct.hasANeighbour(g, fPrime, x))
                                 setF.add(x);
                         }
 
                         for (V v4 : g.vertexSet()) {
                             if (v4 == v1 || v4 == v2 || v4 == v5 || g.containsEdge(v2, v4)
                                     || g.containsEdge(v5, v4) || !g.containsEdge(v1, v4)
-                                    || !hasANeighbour(g, setF, v4) || !hasANonneighbourInX(g, v4, setX)
+                                    || !bergeGraphInspectorProduct.hasANeighbour(g, setF, v4) || !bergeGraphInspectorProduct.hasANonneighbourInX(g, v4, setX)
                                     || isYXComplete(g, v4, setX))
                                 continue;
 
@@ -982,7 +935,7 @@ public class BergeGraphInspector<V, E>
                                 if (v3 == v1 || v3 == v2 || v3 == v4 || v3 == v5
                                         || !g.containsEdge(v2, v3) || !g.containsEdge(v3, v4)
                                         || !g.containsEdge(v5, v3) || g.containsEdge(v1, v3)
-                                        || !hasANonneighbourInX(g, v3, setX) || isYXComplete(g, v3, setX))
+                                        || !bergeGraphInspectorProduct.hasANonneighbourInX(g, v3, setX) || isYXComplete(g, v3, setX))
                                     continue;
                                 for (V v6 : setF) {
                                     if (v6 == v1 || v6 == v2 || v6 == v3 || v6 == v4 || v6 == v5

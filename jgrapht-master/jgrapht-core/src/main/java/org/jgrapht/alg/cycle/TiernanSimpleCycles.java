@@ -36,8 +36,8 @@ import java.util.function.Consumer;
  * @author Nikolay Ognyanov
  */
 public class TiernanSimpleCycles<V, E>
-    implements
-    DirectedSimpleCycles<V, E>
+        implements
+        DirectedSimpleCycles<V, E>
 {
     private Graph<V, E> graph;
 
@@ -81,6 +81,18 @@ public class TiernanSimpleCycles<V, E>
         this.graph = GraphTests.requireDirected(graph, "Graph must be directed");
     }
 
+    private Map<V, Integer> indices = new HashMap<>();
+    private List<V> path = new ArrayList<>();
+    private Set<V> pathSet = new HashSet<>();
+    private Map<V, Set<V>> blocked = new HashMap<>();
+
+    private V startOfPath;
+    private V endOfPath;
+    private V temp;
+    private int endIndex;
+    private boolean extensionFound;
+
+    Iterator<V> vertexIterator;
     /**
      * {@inheritDoc}
      */
@@ -90,10 +102,7 @@ public class TiernanSimpleCycles<V, E>
         if (graph == null) {
             throw new IllegalArgumentException("Null graph.");
         }
-        Map<V, Integer> indices = new HashMap<>();
-        List<V> path = new ArrayList<>();
-        Set<V> pathSet = new HashSet<>();
-        Map<V, Set<V>> blocked = new HashMap<>();
+
 
         int index = 0;
         for (V v : graph.vertexSet()) {
@@ -101,16 +110,10 @@ public class TiernanSimpleCycles<V, E>
             indices.put(v, index++);
         }
 
-        Iterator<V> vertexIterator = graph.vertexSet().iterator();
+        vertexIterator = graph.vertexSet().iterator();
         if (!vertexIterator.hasNext()) {
             return;
         }
-
-        V startOfPath;
-        V endOfPath;
-        V temp;
-        int endIndex;
-        boolean extensionFound;
 
         endOfPath = vertexIterator.next();
         path.add(endOfPath);
@@ -122,20 +125,7 @@ public class TiernanSimpleCycles<V, E>
         // the original paper.
         while (true) {
             // path extension
-            do {
-                extensionFound = false;
-                for (E e : graph.outgoingEdgesOf(endOfPath)) {
-                    V n = graph.getEdgeTarget(e);
-                    int cmp = indices.get(n).compareTo(indices.get(path.get(0)));
-                    if ((cmp > 0) && !pathSet.contains(n) && !blocked.get(endOfPath).contains(n)) {
-                        path.add(n);
-                        pathSet.add(n);
-                        endOfPath = n;
-                        extensionFound = true;
-                        break;
-                    }
-                }
-            } while (extensionFound);
+            findExtensions();
 
             // circuit confirmation
             startOfPath = path.get(0);
@@ -146,32 +136,70 @@ public class TiernanSimpleCycles<V, E>
 
             // vertex closure
             if (path.size() > 1) {
-                blocked.get(endOfPath).clear();
-                endIndex = path.size() - 1;
-                path.remove(endIndex);
-                pathSet.remove(endOfPath);
-                --endIndex;
-                temp = endOfPath;
-                endOfPath = path.get(endIndex);
-                blocked.get(endOfPath).add(temp);
+                closeVertex();
                 continue;
             }
 
             // advance initial index
             if (vertexIterator.hasNext()) {
-                path.clear();
-                pathSet.clear();
-                endOfPath = vertexIterator.next();
-                path.add(endOfPath);
-                pathSet.add(endOfPath);
-                for (V vt : blocked.keySet()) {
-                    blocked.get(vt).clear();
-                }
+                advanceIndex();
                 continue;
             }
 
             // terminate
             break;
+        }
+
+        indices = new HashMap<>();
+        path = new ArrayList<>();
+        pathSet = new HashSet<>();
+        blocked = new HashMap<>();
+
+        startOfPath = null;
+        endOfPath = null;
+        temp = null;
+        endIndex = 0;
+        extensionFound= false;
+
+        vertexIterator = null;
+    }
+
+    private void findExtensions() {
+        do {
+            extensionFound = false;
+            for (E e : graph.outgoingEdgesOf(endOfPath)) {
+                V n = graph.getEdgeTarget(e);
+                int cmp = indices.get(n).compareTo(indices.get(path.get(0)));
+                if ((cmp > 0) && !pathSet.contains(n) && !blocked.get(endOfPath).contains(n)) {
+                    path.add(n);
+                    pathSet.add(n);
+                    endOfPath = n;
+                    extensionFound = true;
+                    break;
+                }
+            }
+        } while (extensionFound);
+    }
+
+    private void closeVertex() {
+        blocked.get(endOfPath).clear();
+        endIndex = path.size() - 1;
+        path.remove(endIndex);
+        pathSet.remove(endOfPath);
+        --endIndex;
+        temp = endOfPath;
+        endOfPath = path.get(endIndex);
+        blocked.get(endOfPath).add(temp);
+    }
+
+    private void advanceIndex() {
+        path.clear();
+        pathSet.clear();
+        endOfPath = vertexIterator.next();
+        path.add(endOfPath);
+        pathSet.add(endOfPath);
+        for (V vt : blocked.keySet()) {
+            blocked.get(vt).clear();
         }
     }
 }

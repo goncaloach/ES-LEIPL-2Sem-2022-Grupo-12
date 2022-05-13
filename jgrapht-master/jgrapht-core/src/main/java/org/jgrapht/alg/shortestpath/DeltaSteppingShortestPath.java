@@ -181,6 +181,10 @@ public class DeltaSteppingShortestPath<V, E>
      * @param executor executor which will be used for parallelization
      * @param vertexComparator comparator for vertices of the {@code graph}
      */
+    public DeltaSteppingShortestPath(Graph<V, E> graph, ThreadPoolExecutor executor, Comparator<V> vertexComparator)
+    {
+        this(graph, 0.0, executor, vertexComparator);
+    }
 
     /**
      * Constructs a new instance of the algorithm for a given graph, delta.

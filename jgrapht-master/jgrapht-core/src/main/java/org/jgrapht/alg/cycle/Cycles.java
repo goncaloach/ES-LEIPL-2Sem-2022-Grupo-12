@@ -81,6 +81,9 @@ public abstract class Cycles
         }
 
         // traverse
+        return traverse(cycle, graph, firstEdge, secondEdge);
+    }
+    private static <V, E> GraphPath<V, E> traverse(List<E> cycle, Graph<V, E> graph, Map<V, E> firstEdge, Map<V, E> secondEdge) {
         List<E> edges = new ArrayList<>();
         double weight = 0d;
         E e = cycle.stream().findAny().get();
@@ -114,5 +117,4 @@ public abstract class Cycles
         // return result
         return new GraphWalk<>(graph, start, start, edges, weight);
     }
-
 }

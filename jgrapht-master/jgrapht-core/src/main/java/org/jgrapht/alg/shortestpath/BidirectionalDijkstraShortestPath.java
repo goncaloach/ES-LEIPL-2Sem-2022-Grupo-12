@@ -68,6 +68,11 @@ public final class BidirectionalDijkstraShortestPath<V, E>
      * @param graph the input graph
      * @param heapSupplier supplier of the preferable heap implementation
      */
+    public BidirectionalDijkstraShortestPath(
+        Graph<V, E> graph, Supplier<AddressableHeap<Double, Pair<V, E>>> heapSupplier)
+    {
+        this(graph, Double.POSITIVE_INFINITY, heapSupplier);
+    }
 
     /**
      * Constructs a new instance for a specified graph.

@@ -60,8 +60,8 @@ import java.util.Objects;
  * @author Semen Chudakov
  */
 public class HowardMinimumMeanCycle<V, E>
-        implements
-        MinimumCycleMeanAlgorithm<V, E>
+    implements
+    MinimumCycleMeanAlgorithm<V, E>
 {
     /**
      * The underlying graph.
@@ -148,13 +148,13 @@ public class HowardMinimumMeanCycle<V, E>
      * @param toleranceEpsilon tolerance to compare floating point numbers
      */
     public HowardMinimumMeanCycle(
-            Graph<V, E> graph, int maximumIterations,
-            StrongConnectivityAlgorithm<V, E> strongConnectivityAlgorithm, double toleranceEpsilon)
+        Graph<V, E> graph, int maximumIterations,
+        StrongConnectivityAlgorithm<V, E> strongConnectivityAlgorithm, double toleranceEpsilon)
     {
         this.graph = Objects.requireNonNull(graph, "graph should not be null!");
         this.strongConnectivityAlgorithm = Objects
-                .requireNonNull(
-                        strongConnectivityAlgorithm, "strongConnectivityAlgorithm should not be null!");
+            .requireNonNull(
+                strongConnectivityAlgorithm, "strongConnectivityAlgorithm should not be null!");
         if (maximumIterations < 0) {
             throw new IllegalArgumentException("maximumIterations should be non-negative");
         }
@@ -199,7 +199,7 @@ public class HowardMinimumMeanCycle<V, E>
             // or contains one vertex with no incoming edges
             boolean skip = component.vertexSet().size() == 0;
             skip |= component.vertexSet().size() == 1
-                    && component.incomingEdgesOf(component.vertexSet().iterator().next()).size() == 0;
+                && component.incomingEdgesOf(component.vertexSet().iterator().next()).size() == 0;
             if (skip) {
                 continue;
             }
@@ -216,14 +216,14 @@ public class HowardMinimumMeanCycle<V, E>
                 ++numberOfIterations;
             }
 
-            bestCycleVertex = bestCycleVertex(isBestCycleFound, bestCycleWeight, bestCycleLength, bestCycleVertex);
             // update best cycle information if necessary
             if (isCurrentCycleFound && (!isBestCycleFound
-                    || currentCycleWeight * bestCycleLength < bestCycleWeight * currentCycleLength))
+                || currentCycleWeight * bestCycleLength < bestCycleWeight * currentCycleLength))
             {
                 isBestCycleFound = true;
                 bestCycleWeight = currentCycleWeight;
                 bestCycleLength = currentCycleLength;
+                bestCycleVertex = currentCycleVertex;
             }
 
             // iterations limit reached
@@ -237,15 +237,6 @@ public class HowardMinimumMeanCycle<V, E>
         }
         // no cycle found in the graph
         return null;
-    }
-
-    private V bestCycleVertex(boolean isBestCycleFound, double bestCycleWeight, int bestCycleLength,
-                              V bestCycleVertex) {
-        if (isCurrentCycleFound
-                && (!isBestCycleFound || currentCycleWeight * bestCycleLength < bestCycleWeight * currentCycleLength)) {
-            bestCycleVertex = currentCycleVertex;
-        }
-        return bestCycleVertex;
     }
 
     /**
@@ -325,7 +316,7 @@ public class HowardMinimumMeanCycle<V, E>
 
                 // update minimum mean value
                 if (!isCurrentCycleFound
-                        || (currentWeight * currentCycleLength < currentCycleWeight * currentSize))
+                    || (currentWeight * currentCycleLength < currentCycleWeight * currentSize))
                 {
                     isCurrentCycleFound = true;
                     currentCycleWeight = currentWeight;
@@ -367,7 +358,7 @@ public class HowardMinimumMeanCycle<V, E>
                 if (policyGraph.get(v).equals(e) && !reachedVertices.get(v)) {
                     reachedVertices.put(v, true);
                     double updatedDistance =
-                            vertexDistance.get(u) + component.getEdgeWeight(e) - currentMean;
+                        vertexDistance.get(u) + component.getEdgeWeight(e) - currentMean;
                     vertexDistance.put(v, updatedDistance);
                     queue.addLast(v);
                 }
@@ -383,7 +374,7 @@ public class HowardMinimumMeanCycle<V, E>
 
                 double oldDistance = vertexDistance.get(v);
                 double updatedDistance =
-                        vertexDistance.get(u) + component.getEdgeWeight(e) - currentMean;
+                    vertexDistance.get(u) + component.getEdgeWeight(e) - currentMean;
 
                 if (oldDistance > updatedDistance) {
                     // check if the value of minimum mean
@@ -408,7 +399,7 @@ public class HowardMinimumMeanCycle<V, E>
      * @return constructed minimum mean cycle
      */
     private GraphPath<V, E> buildPath(
-            V bestCycleVertex, int bestCycleLength, double bestCycleWeight)
+        V bestCycleVertex, int bestCycleLength, double bestCycleWeight)
     {
         List<E> pathEdges = new ArrayList<>(bestCycleLength);
         List<V> pathVertices = new ArrayList<>(bestCycleLength + 1);
@@ -425,6 +416,6 @@ public class HowardMinimumMeanCycle<V, E>
         } while (!v.equals(bestCycleVertex));
 
         return new GraphWalk<>(
-                graph, bestCycleVertex, bestCycleVertex, pathVertices, pathEdges, bestCycleWeight);
+            graph, bestCycleVertex, bestCycleVertex, pathVertices, pathEdges, bestCycleWeight);
     }
 }
