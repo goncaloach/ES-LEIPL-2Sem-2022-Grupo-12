@@ -1255,6 +1255,25 @@ public class BoyerMyrvoldPlanarityInspector<V, E>
         }
     }
 
+    private void lazyExtractDebbugging(String message){
+        if (DEBUG){
+            System.out.println(message);
+        }
+    }
+
+    private void lazyExtractDebbugPrint(){
+        if (DEBUG){
+            printState();
+        }
+    }
+
+    private void lazyExtractPrintCases(String message){
+        if (PRINT_CASES){
+            System.out.println(message);
+        }
+    }
+
+
     /**
      * Lazily extracts a Kuratowski subdivision from the {@code graph}. The process of adding the
      * edges of the subdivision to the resulting set of edges had been made explicit for every case.
@@ -1266,9 +1285,7 @@ public class BoyerMyrvoldPlanarityInspector<V, E>
         if (kuratowskiSubdivision == null) {
             // remove short-circuit edges and orient all embedded lists clockwise
             kuratowskiCleanUp();
-            if (DEBUG) {
-                printState();
-            }
+            lazyExtractDebbugPrint();
             Set<Edge> subdivision = new HashSet<>();
             // find the needed unembedded back edge which can be used to find Kuratowski subgraph
             Edge failedEdge = findFailedEdge(failedV);
@@ -1296,17 +1313,9 @@ public class BoyerMyrvoldPlanarityInspector<V, E>
             }
             Edge xBackEdge = searchEdge(x, v.height);
             Edge yBackEdge = searchEdge(y, v.height);
-            if (DEBUG) {
-                System.out
-                    .printf(
-                        "Failed v = %s, failed edge = %s\n", failedV.toString(false),
-                        failedEdge.toString());
-                System.out.printf("x = %s, y = %s\n", x.toString(false), y.toString(false));
-                System.out
-                    .printf(
-                        "xBackEdge = %s, yBackEdge = %s\n", xBackEdge.toString(),
-                        yBackEdge.toString());
-            }
+            lazyExtractDebbugging("Failed v = " + failedV.toString(false) + ", failed edge = " + failedEdge.toString() + "\n" +
+                    "x = " + x.toString(false) + ", y = " + y.toString(false) + "\n" +
+                    "xBackEdge = " + xBackEdge.toString() + ", yBackEdge = " + yBackEdge.toString() + "\n");
             Node backLower = lowest(xBackEdge.target, yBackEdge.target);
             Node backHigher = highest(xBackEdge.target, yBackEdge.target);
             addPathEdges(subdivision, xBackEdge, x);
@@ -1315,12 +1324,7 @@ public class BoyerMyrvoldPlanarityInspector<V, E>
 
             if (componentRoot.getParent() != v) {
                 // case A, v isn't a parent of the component we've found
-                if (PRINT_CASES) {
-                    System.out.println("Case A");
-                }
-                addPathEdges(subdivision, componentRoot.getParent(), backLower);
-                addPathEdges(subdivision, failedEdge, w);
-                return finish(subdivision);
+                return handleA(subdivision, failedEdge, w, componentRoot, backLower);
             }
             // node z will be null only if the tree path from w to failedEdge is failedEdge itself
             Node z = getNextOnPath(w, failedEdge);
@@ -1330,16 +1334,7 @@ public class BoyerMyrvoldPlanarityInspector<V, E>
             }
             if (backEdge != null) {
                 // case B
-                if (PRINT_CASES) {
-                    System.out.println("Case B");
-                }
-                addPathEdges(subdivision, backEdge, w);
-                addPathEdges(subdivision, failedEdge, w);
-                Node highest =
-                    highest(xBackEdge.target, highest(yBackEdge.target, backEdge.target));
-                Node lowest = lowest(xBackEdge.target, lowest(yBackEdge.target, backEdge.target));
-                addPathEdges(subdivision, highest, lowest);
-                return finish(subdivision);
+                return handleCaseB(subdivision, backEdge, xBackEdge, yBackEdge, failedEdge, w);
             }
             /*
              * If we failed to either case A or B, we have to find a highest obstructing path and
@@ -1351,120 +1346,146 @@ public class BoyerMyrvoldPlanarityInspector<V, E>
             assert x.boundaryHeight > 0;
             List<Edge> path = findHighestObstructingPath(componentRoot, w);
             assert !path.isEmpty();
-            if (DEBUG) {
-                System.out.println("Path = " + path);
-            }
-
+            debugging("Path = " + path);
             Edge firstEdge = path.get(0);
             Edge lastEdge = path.get(path.size() - 1);
             Node firstNode =
-                firstEdge.source.boundaryHeight > 0 ? firstEdge.source : firstEdge.target;
+                    firstEdge.source.boundaryHeight > 0 ? firstEdge.source : firstEdge.target;
             Node lastNode = lastEdge.source.boundaryHeight < 0 ? lastEdge.source : lastEdge.target;
             if (firstNode.boundaryHeight < x.boundaryHeight
-                || lastNode.boundaryHeight > y.boundaryHeight)
+                    || lastNode.boundaryHeight > y.boundaryHeight)
             {
                 // case C, either the first node or the last node of the path is higher than x or y
                 // respectively
-                if (PRINT_CASES) {
-                    System.out.println("Case C");
-                }
-                Node removeStart;
-                if (lastNode.boundaryHeight > y.boundaryHeight) {
-                    removeStart = firstNode.boundaryHeight < x.boundaryHeight ? firstNode : x;
-                    removeUp(removeStart, componentRoot, 1, subdivision);
-                } else {
-                    removeUp(y, componentRoot, 0, subdivision);
-                }
-                addPathEdges(subdivision, failedEdge, w);
-                subdivision.addAll(path);
-                addPathEdges(subdivision, v, backLower);
-                return finish(subdivision);
+                return handleCaseC(subdivision, failedEdge, x, y, v, w, componentRoot, backLower, path, firstNode, lastNode);
             }
             path.forEach(e -> e.source.marked = e.target.marked = true);
             List<Edge> pathToV = findPathToV(path, v);
             if (!pathToV.isEmpty()) {
                 // case D, we have a path to the node v
-                if (PRINT_CASES) {
-                    System.out.println("Case D");
-                }
-                removeUp(x, componentRoot, 1, subdivision);
-                removeUp(y, componentRoot, 0, subdivision);
-                subdivision.addAll(path);
-                subdivision.addAll(pathToV);
-                addPathEdges(subdivision, v, backLower);
-                addPathEdges(subdivision, failedEdge, w);
-                return finish(subdivision);
+                return handleCaseD(subdivision, failedEdge, x, y, v, w, componentRoot, backLower, path, pathToV);
             }
             Edge externallyActive = searchEdge(w, v.height, failedEdge);
             assert externallyActive != null;
-            if (DEBUG) {
-                System.out.printf("Externally active edge = %s\n", externallyActive.toString());
-            }
+            debugging("Externally active edge = " + externallyActive.toString() + "\n");
             addPathEdges(subdivision, externallyActive, w);
             if (firstStrictlyHigher(externallyActive.target, xBackEdge.target, yBackEdge.target)) {
                 // case E_2, equivalent to A
-                if (PRINT_CASES) {
-                    System.out.println("Case E_2");
-                }
+                lazyExtractPrintCases("Case E_2");
                 addPathEdges(subdivision, componentRoot.getParent(), backLower);
             } else if (firstStrictlyHigher(
-                xBackEdge.target, yBackEdge.target, externallyActive.target))
+                    xBackEdge.target, yBackEdge.target, externallyActive.target))
             {
                 // case E_2, u_x is higher
-                if (PRINT_CASES) {
-                    System.out.println("Case E_2, u_x is higher");
-                }
-                removeUp(componentRoot, x, 0, subdivision);
-                removeUp(w, lastNode, 0, subdivision);
-                subdivision.addAll(path);
-                addPathEdges(subdivision, failedEdge, w);
-                addPathEdges(subdivision, v, lowest(backLower, externallyActive.target));
+                handleCaseE2UxIsHigher(subdivision, failedEdge, x, v, w, componentRoot, backLower, path, lastNode, externallyActive);
             } else if (firstStrictlyHigher(
-                yBackEdge.target, xBackEdge.target, externallyActive.target))
+                    yBackEdge.target, xBackEdge.target, externallyActive.target))
             {
                 // case E_2, u_y is higher
-                if (PRINT_CASES) {
-                    System.out.println("Case E_2, u_y is higher");
-                }
-                removeUp(y, componentRoot, 0, subdivision);
-                removeUp(firstNode, w, 0, subdivision);
-                subdivision.addAll(path);
-                addPathEdges(subdivision, failedEdge, w);
-                addPathEdges(subdivision, v, lowest(backLower, externallyActive.target));
+                handleCaseE2UyIsHigher(subdivision, failedEdge, y, v, w, componentRoot, backLower, path, firstNode, externallyActive);
             } else if (firstNode.boundaryHeight > x.boundaryHeight) {
                 // case E_4, p_x is lower than x
-                if (PRINT_CASES) {
-                    System.out.println("Case E_3, p_x is lower than x");
-                }
-                removeUp(w, lastNode, 0, subdivision);
-                subdivision.addAll(path);
-                addPathEdges(subdivision, failedEdge, w);
-                addPathEdges(
-                    subdivision, highest(backHigher, externallyActive.target),
-                    lowest(backLower, externallyActive.target));
+                handleCaseE4PxLowerThanX(subdivision, failedEdge, w, backLower, backHigher, path, lastNode, externallyActive);
             } else if (lastNode.boundaryHeight < y.boundaryHeight) {
                 // case E_4, p_y is lower than y
-                if (PRINT_CASES) {
-                    System.out.println("Case E_3, p_y is lower than y");
-                }
-                removeUp(firstNode, w, 0, subdivision);
-                subdivision.addAll(path);
-                addPathEdges(subdivision, failedEdge, w);
-                addPathEdges(
-                    subdivision, highest(backHigher, externallyActive.target),
-                    lowest(backLower, externallyActive.target));
+                handleCaseE4PyLowerThanX(subdivision, failedEdge, w, backLower, backHigher, path, firstNode, externallyActive);
             } else {
                 // case E, extracting K_5
-                if (PRINT_CASES) {
-                    System.out.println("Case E, extracting K_5");
-                }
-                subdivision.addAll(path);
-                addPathEdges(subdivision, v, lowest(backLower, externallyActive.target));
-                addPathEdges(subdivision, failedEdge, w);
+                handleCaseE(subdivision, failedEdge, v, w, backLower, path, externallyActive);
             }
             return finish(subdivision);
         }
         return kuratowskiSubdivision;
+    }
+
+    private Graph<V, E> handleA(Set<Edge> subdivision, Edge failedEdge, Node w, Node componentRoot, Node backLower) {
+        lazyExtractPrintCases("Case A");
+        addPathEdges(subdivision, componentRoot.getParent(), backLower);
+        addPathEdges(subdivision, failedEdge, w);
+        return finish(subdivision);
+    }
+
+    private void handleCaseE2UxIsHigher(Set<Edge> subdivision, Edge failedEdge, Node x, Node v, Node w, Node componentRoot, Node backLower, List<Edge> path, Node lastNode, Edge externallyActive) {
+        lazyExtractPrintCases("Case E_2, u_x is higher");
+        removeUp(componentRoot, x, 0, subdivision);
+        removeUp(w, lastNode, 0, subdivision);
+        subdivision.addAll(path);
+        addPathEdges(subdivision, failedEdge, w);
+        addPathEdges(subdivision, v, lowest(backLower, externallyActive.target));
+    }
+
+    private void handleCaseE2UyIsHigher(Set<Edge> subdivision, Edge failedEdge, Node y, Node v, Node w, Node componentRoot, Node backLower, List<Edge> path, Node firstNode, Edge externallyActive) {
+        lazyExtractPrintCases("Case E_2, u_y is higher");
+        removeUp(y, componentRoot, 0, subdivision);
+        removeUp(firstNode, w, 0, subdivision);
+        subdivision.addAll(path);
+        addPathEdges(subdivision, failedEdge, w);
+        addPathEdges(subdivision, v, lowest(backLower, externallyActive.target));
+    }
+
+    private void handleCaseE4PxLowerThanX(Set<Edge> subdivision, Edge failedEdge, Node w, Node backLower, Node backHigher, List<Edge> path, Node lastNode, Edge externallyActive) {
+        lazyExtractPrintCases("Case E_3, p_x is lower than x");
+        removeUp(w, lastNode, 0, subdivision);
+        subdivision.addAll(path);
+        addPathEdges(subdivision, failedEdge, w);
+        addPathEdges(
+                subdivision, highest(backHigher, externallyActive.target),
+                lowest(backLower, externallyActive.target));
+    }
+
+    private void handleCaseE4PyLowerThanX(Set<Edge> subdivision, Edge failedEdge, Node w, Node backLower, Node backHigher, List<Edge> path, Node firstNode, Edge externallyActive) {
+        lazyExtractPrintCases("Case E_3, p_y is lower than y");
+        removeUp(firstNode, w, 0, subdivision);
+        subdivision.addAll(path);
+        addPathEdges(subdivision, failedEdge, w);
+        addPathEdges(
+                subdivision, highest(backHigher, externallyActive.target),
+                lowest(backLower, externallyActive.target));
+    }
+
+    private void handleCaseE(Set<Edge> subdivision, Edge failedEdge, Node v, Node w, Node backLower, List<Edge> path, Edge externallyActive) {
+        lazyExtractPrintCases("Case E, extracting K_5");
+        subdivision.addAll(path);
+        addPathEdges(subdivision, v, lowest(backLower, externallyActive.target));
+        addPathEdges(subdivision, failedEdge, w);
+    }
+
+
+    private Graph<V, E> handleCaseB(Set<Edge> subdivision, Edge backEdge, Edge xBackEdge, Edge yBackEdge, Edge failedEdge, Node w){
+        lazyExtractPrintCases("Case B");
+        addPathEdges(subdivision, backEdge, w);
+        addPathEdges(subdivision, failedEdge, w);
+        Node highest = highest(xBackEdge.target, highest(yBackEdge.target, backEdge.target));
+        Node lowest = lowest(xBackEdge.target, lowest(yBackEdge.target, backEdge.target));
+        addPathEdges(subdivision, highest, lowest);
+        return finish(subdivision);
+    }
+
+
+    private Graph<V, E> handleCaseC(Set<Edge> subdivision, Edge failedEdge, Node x, Node y, Node v, Node w, Node componentRoot, Node backLower, List<Edge> path, Node firstNode, Node lastNode) {
+        lazyExtractPrintCases("Case C");
+        Node removeStart;
+        if (lastNode.boundaryHeight > y.boundaryHeight) {
+            removeStart = firstNode.boundaryHeight < x.boundaryHeight ? firstNode : x;
+            removeUp(removeStart, componentRoot, 1, subdivision);
+        } else {
+            removeUp(y, componentRoot, 0, subdivision);
+        }
+        addPathEdges(subdivision, failedEdge, w);
+        subdivision.addAll(path);
+        addPathEdges(subdivision, v, backLower);
+        return finish(subdivision);
+    }
+
+    private Graph<V, E> handleCaseD(Set<Edge> subdivision, Edge failedEdge, Node x, Node y, Node v, Node w, Node componentRoot, Node backLower, List<Edge> path, List<Edge> pathToV) {
+        lazyExtractPrintCases("Case D");
+        removeUp(x, componentRoot, 1, subdivision);
+        removeUp(y, componentRoot, 0, subdivision);
+        subdivision.addAll(path);
+        subdivision.addAll(pathToV);
+        addPathEdges(subdivision, v, backLower);
+        addPathEdges(subdivision, failedEdge, w);
+        return finish(subdivision);
     }
 
     /**
