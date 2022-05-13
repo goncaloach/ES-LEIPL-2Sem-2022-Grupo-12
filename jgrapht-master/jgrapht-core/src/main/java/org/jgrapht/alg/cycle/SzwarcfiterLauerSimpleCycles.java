@@ -38,8 +38,8 @@ import java.util.function.Consumer;
  * @author Nikolay Ognyanov
  */
 public class SzwarcfiterLauerSimpleCycles<V, E>
-    implements
-    DirectedSimpleCycles<V, E>
+        implements
+        DirectedSimpleCycles<V, E>
 {
     // The graph.
     private Graph<V, E> graph;
@@ -109,7 +109,7 @@ public class SzwarcfiterLauerSimpleCycles<V, E>
         }
         initState(consumer);
         KosarajuStrongConnectivityInspector<V, E> inspector =
-            new KosarajuStrongConnectivityInspector<>(graph);
+                new KosarajuStrongConnectivityInspector<>(graph);
         List<Set<V>> sccs = inspector.stronglyConnectedSets();
         for (Set<V> scc : sccs) {
             int maxInDegree = -1;
@@ -161,21 +161,7 @@ public class SzwarcfiterLauerSimpleCycles<V, E>
                 foundCycle = true;
                 List<V> cycle = new ArrayList<>();
                 Iterator<V> it = stack.descendingIterator();
-                V current;
-                while (it.hasNext()) {
-                    current = it.next();
-                    if (wV.equals(current)) {
-                        break;
-                    }
-                }
-                cycle.add(wV);
-                while (it.hasNext()) {
-                    current = it.next();
-                    cycle.add(current);
-                    if (current.equals(vV)) {
-                        break;
-                    }
-                }
+                cycle = findCycle(it, wV, cycle, vV);
                 cycleConsumer.accept(cycle);
             } else {
                 noCycle(v, w);
@@ -188,6 +174,25 @@ public class SzwarcfiterLauerSimpleCycles<V, E>
         reach[v] = true;
         position[v] = graph.vertexSet().size();
         return foundCycle;
+    }
+
+    private List<V> findCycle(Iterator<V> it, V wV, List<V> cycle, V vV){
+        V current;
+        while (it.hasNext()) {
+            current = it.next();
+            if (wV.equals(current)) {
+                break;
+            }
+        }
+        cycle.add(wV);
+        while (it.hasNext()) {
+            current = it.next();
+            cycle.add(current);
+            if (current.equals(vV)) {
+                break;
+            }
+        }
+        return cycle;
     }
 
     private void noCycle(int x, int y)

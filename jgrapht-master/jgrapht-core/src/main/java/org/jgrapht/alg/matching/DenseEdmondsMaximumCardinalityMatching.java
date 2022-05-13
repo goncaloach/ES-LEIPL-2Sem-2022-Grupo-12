@@ -90,8 +90,8 @@ import java.util.stream.*;
  * @author Joris Kinable
  */
 public class DenseEdmondsMaximumCardinalityMatching<V, E>
-    implements
-    MatchingAlgorithm<V, E>
+        implements
+        MatchingAlgorithm<V, E>
 {
     /* The graph we are matching on. */
     private final Graph<V, E> graph;
@@ -115,7 +115,7 @@ public class DenseEdmondsMaximumCardinalityMatching<V, E>
     private Levels levels;
 
     /** Special 'NIL' vertex. */
-    private static final int NIL = -1;
+    static final int NIL = -1;
 
     /** Queue of 'even' (exposed) vertices */
     private FixedSizeIntegerQueue queue;
@@ -140,7 +140,7 @@ public class DenseEdmondsMaximumCardinalityMatching<V, E>
     /**
      * Constructs a new instance of the algorithm. {@link GreedyMaximumCardinalityMatching} is used
      * to quickly generate a near optimal initial solution.
-     * 
+     *
      * @param graph undirected graph (graph does not have to be simple)
      */
     public DenseEdmondsMaximumCardinalityMatching(Graph<V, E> graph)
@@ -150,13 +150,13 @@ public class DenseEdmondsMaximumCardinalityMatching<V, E>
 
     /**
      * Constructs a new instance of the algorithm.
-     * 
+     *
      * @param graph undirected graph (graph does not have to be simple)
      * @param initializer heuristic matching algorithm used to quickly generate a (near optimal)
      *        initial feasible solution.
      */
     public DenseEdmondsMaximumCardinalityMatching(
-        Graph<V, E> graph, MatchingAlgorithm<V, E> initializer)
+            Graph<V, E> graph, MatchingAlgorithm<V, E> initializer)
     {
         this.graph = GraphTests.requireUndirected(graph);
         this.initializer = initializer;
@@ -188,7 +188,7 @@ public class DenseEdmondsMaximumCardinalityMatching<V, E>
 
     /**
      * Calculates an initial feasible matching.
-     * 
+     *
      * @param initializer algorithm used to compute the initial matching
      */
     private void warmStart(MatchingAlgorithm<V, E> initializer)
@@ -327,7 +327,7 @@ public class DenseEdmondsMaximumCardinalityMatching<V, E>
     /**
      * Computes the base of the blossom formed by bridge edge $(v,w)$. The base vertex is the
      * nearest common ancestor of $v$ and $w$.
-     * 
+     *
      * @param v one side of the bridge
      * @param w other side of the bridge
      * @return base of the blossom
@@ -446,7 +446,7 @@ public class DenseEdmondsMaximumCardinalityMatching<V, E>
      * Returns a matching of maximum cardinality. Each time this method is invoked, the matching is
      * computed from scratch. Consequently, it is possible to make changes to the graph and to
      * re-invoke this method on the altered graph.
-     * 
+     *
      * @return a matching of maximum cardinality.
      */
     @Override
@@ -493,7 +493,7 @@ public class DenseEdmondsMaximumCardinalityMatching<V, E>
      * the runtime of this method equals the time required to test for the existence of a single
      * augmenting path.<br>
      * This method does NOT check whether the matching is valid.
-     * 
+     *
      * @param matching matching
      * @return true if the matching is maximum, false otherwise.
      */
@@ -527,58 +527,54 @@ public class DenseEdmondsMaximumCardinalityMatching<V, E>
         // A(G)= {vertices labeled odd in the Edmonds Blossomg-Shrinking algorithm}. Note: we only
         // take odd vertices that are not consumed by blossoms (every blossom is even).
         Set<V> oddVertices = vertexIndexMap
-            .values().stream().filter(vx -> levels.isOdd(vx) && !bridges.containsKey(vx))
-            .map(vertices::get).collect(Collectors.toSet());
+                .values().stream().filter(vx -> levels.isOdd(vx) && !bridges.containsKey(vx))
+                .map(vertices::get).collect(Collectors.toSet());
         Set<V> otherVertices = graph
-            .vertexSet().stream().filter(v -> !oddVertices.contains(v)).collect(Collectors.toSet());
+                .vertexSet().stream().filter(v -> !oddVertices.contains(v)).collect(Collectors.toSet());
 
         Graph<V, E> subgraph = new AsSubgraph<>(graph, otherVertices, null); // Induced subgraph
-                                                                             // defined on all
-                                                                             // vertices which are
-                                                                             // not odd.
+        // defined on all
+        // vertices which are
+        // not odd.
         List<Set<V>> connectedComponents = new ConnectivityInspector<>(subgraph).connectedSets();
         long nrOddCardinalityComponents =
-            connectedComponents.stream().filter(s -> s.size() % 2 == 1).count();
+                connectedComponents.stream().filter(s -> s.size() % 2 == 1).count();
 
         return matching
-            .getEdges()
-            .size() == (graph.vertexSet().size() + oddVertices.size() - nrOddCardinalityComponents)
+                .getEdges()
+                .size() == (graph.vertexSet().size() + oddVertices.size() - nrOddCardinalityComponents)
                 / 2.0;
     }
 
     /**
      * Storage of the forest, even and odd levels.
-     * 
+     *
      * We explicitly maintain a dirty mark in order to be able to cleanup only the values that we
      * have changed. This is important when the graph is sparse to avoid performing an $O(n)$
      * operation per augmentation.
      */
-    private static class Levels
+    static class Levels
     {
-        private int[] even, odd;
-        private List<Integer> dirty;
-
+        private LevelsProduct levelsProduct = new LevelsProduct();
+        private int[] odd;
         public Levels(int n)
         {
-            this.even = new int[n];
+            levelsProduct.setEven2(new int[n]);
             this.odd = new int[n];
-            this.dirty = new ArrayList<>();
+            levelsProduct.setDirty(new ArrayList<>());
 
-            Arrays.fill(even, NIL);
+            Arrays.fill(levelsProduct.getEven2(), NIL);
             Arrays.fill(odd, NIL);
         }
 
         public int getEven(int v)
         {
-            return even[v];
+            return levelsProduct.getEven(v);
         }
 
         public void setEven(int v, int value)
         {
-            even[v] = value;
-            if (value != NIL) {
-                dirty.add(v);
-            }
+            levelsProduct.setEven(v, value);
         }
 
         public int getOdd(int v)
@@ -588,15 +584,12 @@ public class DenseEdmondsMaximumCardinalityMatching<V, E>
 
         public void setOdd(int v, int value)
         {
-            odd[v] = value;
-            if (value != NIL) {
-                dirty.add(v);
-            }
+            levelsProduct.setOdd(v, value, this.odd);
         }
 
         public boolean isEven(int v)
         {
-            return even[v] != NIL;
+            return levelsProduct.isEven(v);
         }
 
         public boolean isOddOrUnreached(int v)
@@ -611,29 +604,25 @@ public class DenseEdmondsMaximumCardinalityMatching<V, E>
 
         public void reset()
         {
-            for (int v : dirty) {
-                even[v] = NIL;
-                odd[v] = NIL;
-            }
-            dirty.clear();
+            levelsProduct.reset(this.odd);
         }
     }
 
     /**
      * Simple representation of a matching
      */
-    private static class SimpleMatching
+    static class SimpleMatching
     {
-        private static final int UNMATCHED = -1;
-        private final int[] match;
+        private SimpleMatchingProduct simpleMatchingProduct;
+        public static final int UNMATCHED = -1;
         private Set<Integer> exposed;
 
         private SimpleMatching(int n)
         {
-            this.match = new int[n];
+            this.simpleMatchingProduct = new SimpleMatchingProduct(n);
             this.exposed = CollectionUtil.newHashSetWithExpectedSize(n);
 
-            Arrays.fill(match, UNMATCHED);
+            Arrays.fill(simpleMatchingProduct.getMatch(), UNMATCHED);
             IntStream.range(0, n).forEach(exposed::add);
         }
 
@@ -642,7 +631,7 @@ public class DenseEdmondsMaximumCardinalityMatching<V, E>
          */
         boolean isMatched(int v)
         {
-            return match[v] != UNMATCHED;
+            return simpleMatchingProduct.isMatched(v);
         }
 
         /**
@@ -650,7 +639,7 @@ public class DenseEdmondsMaximumCardinalityMatching<V, E>
          */
         boolean isExposed(int v)
         {
-            return match[v] == UNMATCHED;
+            return simpleMatchingProduct.isExposed(v);
         }
 
         /**
@@ -658,8 +647,7 @@ public class DenseEdmondsMaximumCardinalityMatching<V, E>
          */
         int opposite(int v)
         {
-            assert isMatched(v);
-            return match[v];
+            return simpleMatchingProduct.opposite(v);
         }
 
         /**
@@ -667,8 +655,8 @@ public class DenseEdmondsMaximumCardinalityMatching<V, E>
          */
         void match(int u, int v)
         {
-            match[u] = v;
-            match[v] = u;
+            simpleMatchingProduct.getMatch()[u] = v;
+            simpleMatchingProduct.getMatch()[v] = u;
             exposed.remove(u);
             exposed.remove(v);
         }

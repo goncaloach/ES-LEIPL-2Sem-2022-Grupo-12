@@ -24,12 +24,12 @@ import java.util.*;
 
 /**
  * Find a cycle basis of an undirected graph using a variant of Paton's algorithm.
- * 
+ *
  * <p>
  * See:<br>
  * K. Paton, An algorithm for finding a fundamental set of cycles for an undirected linear graph,
  * Comm. ACM 12 (1969), pp. 514-518.
- * 
+ *
  * <p>
  * Note that Paton's algorithm produces a fundamental cycle basis while this implementation produces
  * a <a href=
@@ -45,8 +45,8 @@ import java.util.*;
  * @author Nikolay Ognyanov
  */
 public class PatonCycleBase<V, E>
-    implements
-    CycleBasisAlgorithm<V, E>
+        implements
+        CycleBasisAlgorithm<V, E>
 {
     private Graph<V, E> graph;
 
@@ -62,10 +62,16 @@ public class PatonCycleBase<V, E>
         this.graph = GraphTests.requireUndirected(graph);
     }
 
+
+    private Map<V, Map<V, E>> used;
+    private Map<V, E> parent;
+    private Set<List<E>> cycles;
+    private int totalLength;
+    private double totalWeight;
     /**
      * Return an undirected cycle basis of a graph. Works only for undirected graphs which do not
      * have multiple (parallel) edges.
-     * 
+     *
      * @return an undirected cycle basis
      * @throws IllegalArgumentException if the graph is not undirected
      * @throws IllegalArgumentException if the graph contains multiple edges between two vertices
@@ -79,14 +85,15 @@ public class PatonCycleBase<V, E>
             throw new IllegalArgumentException("Graphs with multiple edges not supported");
         }
 
-        Map<V, Map<V, E>> used = new HashMap<>();
-        Map<V, E> parent = new HashMap<>();
+        used = new HashMap<>();
+        parent = new HashMap<>();
         ArrayDeque<V> stack = new ArrayDeque<>();
 
-        Set<List<E>> cycles = new LinkedHashSet<>();
-        int totalLength = 0;
-        double totalWeight = 0d;
+        cycles = new LinkedHashSet<>();
+        totalLength = 0;
+        totalWeight = 0d;
 
+        CycleBasis<V, E> temp = new CycleBasisImpl<V, E>(graph, cycles, totalLength, totalWeight);
         for (V root : graph.vertexSet()) {
             // Loop over the connected
             // components of the graph.
@@ -112,6 +119,7 @@ public class PatonCycleBase<V, E>
                 Map<V, E> currentUsed = used.get(current);
                 for (E e : graph.edgesOf(current)) {
                     V neighbor = Graphs.getOppositeVertex(graph, e, current);
+
                     if (!used.containsKey(neighbor)) {
                         // found a new node
                         parent.put(neighbor, e);
@@ -119,6 +127,7 @@ public class PatonCycleBase<V, E>
                         neighbourUsed.put(current, e);
                         used.put(neighbor, neighbourUsed);
                         stack.push(neighbor);
+                        temp = new CycleBasisImpl<V, E>(graph, cycles, totalLength, totalWeight);
                     } else if (neighbor.equals(current)) {
                         // found a self loop
                         List<E> cycle = new ArrayList<>();
@@ -126,36 +135,49 @@ public class PatonCycleBase<V, E>
                         totalWeight += graph.getEdgeWeight(e);
                         totalLength += 1;
                         cycles.add(cycle);
+                        temp = new CycleBasisImpl<V, E>(graph, cycles, totalLength, totalWeight);
                     } else if (!currentUsed.containsKey(neighbor)) {
                         // found a cycle
-                        Map<V, E> neighbourUsed = used.get(neighbor);
-
-                        double weight = 0d;
-                        List<E> cycle = new ArrayList<>();
-
-                        cycle.add(e);
-                        weight += graph.getEdgeWeight(e);
-
-                        V v = current;
-                        while (!neighbourUsed.containsKey(v)) {
-                            E p = parent.get(v);
-                            cycle.add(p);
-                            weight += graph.getEdgeWeight(p);
-                            v = Graphs.getOppositeVertex(graph, p, v);
-                        }
-                        E a = neighbourUsed.get(v);
-                        cycle.add(a);
-                        weight += graph.getEdgeWeight(a);
-
-                        neighbourUsed.put(current, e);
-
-                        cycles.add(cycle);
-                        totalLength += cycle.size();
-                        totalWeight += weight;
+                        temp = treatCycle(neighbor, e, current);
                     }
                 }
             }
         }
+
+        used = new HashMap<>();
+        parent = new HashMap<>();
+        cycles = new LinkedHashSet<>();
+        totalLength = 0;
+        totalWeight = 0d;
+
+        return temp;
+    }
+
+    private CycleBasisImpl<V, E> treatCycle(V neighbor, E e, V current) {
+        Map<V, E> neighbourUsed = used.get(neighbor);
+
+        double weight = 0d;
+        List<E> cycle = new ArrayList<>();
+
+        cycle.add(e);
+        weight += graph.getEdgeWeight(e);
+
+        V v = current;
+        while (!neighbourUsed.containsKey(v)) {
+            E p = parent.get(v);
+            cycle.add(p);
+            weight += graph.getEdgeWeight(p);
+            v = Graphs.getOppositeVertex(graph, p, v);
+        }
+        E a = neighbourUsed.get(v);
+        cycle.add(a);
+        weight += graph.getEdgeWeight(a);
+
+        neighbourUsed.put(current, e);
+
+        cycles.add(cycle);
+        totalLength += cycle.size();
+        totalWeight += weight;
 
         return new CycleBasisImpl<V, E>(graph, cycles, totalLength, totalWeight);
     }
