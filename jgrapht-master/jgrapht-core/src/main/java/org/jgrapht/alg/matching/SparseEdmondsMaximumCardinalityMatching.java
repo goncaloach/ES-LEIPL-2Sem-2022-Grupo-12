@@ -26,7 +26,7 @@ import java.util.*;
 
 /**
  * Edmonds' blossom algorithm for maximum cardinality matching in general undirected graphs.
- * 
+ *
  * <p>
  * A matching in a graph $G(V,E)$ is a subset of edges $M$ such that no two edges in $M$ have a
  * vertex in common. A matching has at most $\frac{1}{2}|V|$ edges. A node $v$ in $G$ is matched by
@@ -35,7 +35,7 @@ import java.util.*;
  * algorithm will return a perfect matching if one exists. If no perfect matching exists, then the
  * largest (non-perfect) matching is returned instead. In the special case that the input graph is
  * bipartite, consider using {@link HopcroftKarpMaximumCardinalityBipartiteMatching} instead.
- * 
+ *
  * <p>
  * To compute a maximum cardinality matching, at most $n$ augmenting path computations are
  * performed. Each augmenting path computation takes $O(m \alpha(m,n))$ time, where $\alpha(m,n)$ is
@@ -44,7 +44,7 @@ import java.util.*;
  * augmenting path computations performed is far smaller than $n$, since an efficient heuristic is
  * used to compute a near-optimal initial solution. The heuristic by default is the
  * {@link GreedyMaximumCardinalityMatching} but can be changed using the appropriate constructor.
- * 
+ *
  * <p>
  * The runtime complexity of this implementation could be improved to $O(n m)$ when the UnionFind
  * data structure used in this implementation is replaced by the linear-time set union data
@@ -54,12 +54,12 @@ import java.util.*;
  * <p>
  * Edmonds' original algorithm first appeared in Edmonds, J. Paths, trees, and flowers. Canadian
  * Journal of Mathematics 17, 1965, pp. 449-467, and had a runtime complexity of $O(n^4)$.
- * 
+ *
  * <p>
  * This is the algorithm and implementation described in the
  * <a href="https://people.mpi-inf.mpg.de/~mehlhorn/LEDAbook.html">LEDA book</a>. See the LEDA
  * Platform of Combinatorial and Geometric Computing, Cambridge University Press, 1999.
- * 
+ *
  * <p>
  * For future reference - A more efficient algorithm exists: S. Micali and V. Vazirani. An
  * $O(\sqrt{n}m)$ algorithm for finding maximum matching in general graphs. Proc. 21st Ann. Symp. on
@@ -91,7 +91,7 @@ public class SparseEdmondsMaximumCardinalityMatching<V, E>
     /**
      * Constructs a new instance of the algorithm. {@link GreedyMaximumCardinalityMatching} is used
      * to quickly generate a near optimal initial solution.
-     * 
+     *
      * @param graph the input graph
      */
     public SparseEdmondsMaximumCardinalityMatching(Graph<V, E> graph)
@@ -101,7 +101,7 @@ public class SparseEdmondsMaximumCardinalityMatching<V, E>
 
     /**
      * Constructs a new instance of the algorithm.
-     * 
+     *
      * @param graph undirected graph (graph does not have to be simple)
      * @param initializer heuristic matching algorithm used to quickly generate a (near optimal)
      *        initial feasible solution
@@ -117,7 +117,7 @@ public class SparseEdmondsMaximumCardinalityMatching<V, E>
      * The actual implementation as an inner class. We use this pattern in order to free the work
      * memory after computation. The outer class can cache the result but can also release all the
      * auxiliary memory.
-     * 
+     *
      * @param <V> the vertex type
      * @param <E> the edge type
      */
@@ -261,9 +261,7 @@ public class SparseEdmondsMaximumCardinalityMatching<V, E>
             runInitializer();
 
             for (int i = 0; i < nodes; i++) {
-                if (mate[i] != NULL) {
-                    continue;
-                }
+                if (mate[i] != NULL) continue;
 
                 queue.clear();
                 queue.enqueue(i);
@@ -285,12 +283,7 @@ public class SparseEdmondsMaximumCardinalityMatching<V, E>
                         }
 
                         if (label[w] == Label.UNLABELED) { // grow tree
-                            label[w] = Label.ODD;
-                            labeledNodes.add(w);
-                            pred[w] = v;
-                            label[mate[w]] = Label.EVEN;
-                            labeledNodes.add(mate[w]);
-                            queue.enqueue(mate[w]);
+                            grow_tree(w, v);
                         } else { // augment or shrink blossom
                             int hv = base.find(v);
                             int hw = base.find(w);
@@ -312,27 +305,11 @@ public class SparseEdmondsMaximumCardinalityMatching<V, E>
                             }
                             if (path1[hw] == strue || path2[hv] == strue) {
                                 // shrink blossom
-                                int b = (path1[hw] == strue) ? hw : hv; // base
-                                shrinkPath(b, v, w);
-                                shrinkPath(b, w, v);
+                                aux_shrink(hw, hv, v, w);
                             } else {
                                 // augment
-                                Deque<Integer> p = new ArrayDeque<>();
-                                findPath(p, v, hv);
-                                p.addFirst(w);
-                                while (!p.isEmpty()) {
-                                    int a = p.pop();
-                                    int b = p.pop();
-                                    mate[a] = b;
-                                    mate[b] = a;
-                                }
-                                labeledNodes.add(w);
-
-                                for (Integer k : labeledNodes) {
-                                    label[k] = Label.UNLABELED;
-                                }
+                                aux_augment(v, hv, w);
                                 base.split(labeledNodes);
-
                                 breakThrough = true;
                                 break;
                             }
@@ -340,9 +317,45 @@ public class SparseEdmondsMaximumCardinalityMatching<V, E>
                     }
                 }
             }
-
             // compute resulting matching
             Set<E> matching = new HashSet<>();
+            aux_compute(matching);
+            return matching;
+        }
+
+        void grow_tree(int w, int v) {
+            label[w] = Label.ODD;
+            labeledNodes.add(w);
+            pred[w] = v;
+            label[mate[w]] = Label.EVEN;
+            labeledNodes.add(mate[w]);
+            queue.enqueue(mate[w]);
+        }
+
+        void aux_shrink(int hw, int hv, int v, int w) {
+            int b = (path1[hw] == strue) ? hw : hv; // base
+            shrinkPath(b, v, w);
+            shrinkPath(b, w, v);
+        }
+
+        void aux_augment(int v, int hv, int w) {
+            Deque<Integer> p = new ArrayDeque<>();
+            findPath(p, v, hv);
+            p.addFirst(w);
+            while (!p.isEmpty()) {
+                int a = p.pop();
+                int b = p.pop();
+                mate[a] = b;
+                mate[b] = a;
+            }
+            labeledNodes.add(w);
+
+            for (Integer k : labeledNodes) {
+                label[k] = Label.UNLABELED;
+            }
+        }
+
+        void aux_compute(Set<E> matching) {
             for (E e : graph.edgeSet()) {
                 V u = graph.getEdgeSource(e);
                 V v = graph.getEdgeTarget(e);
@@ -361,8 +374,6 @@ public class SparseEdmondsMaximumCardinalityMatching<V, E>
                     mate[vIndex] = vIndex;
                 }
             }
-
-            return matching;
         }
 
         public Map<V, Integer> computeOddSetCover()
@@ -388,14 +399,27 @@ public class SparseEdmondsMaximumCardinalityMatching<V, E>
                     }
                 }
             }
+            aux(numberOfUnlabeled, osc);
 
+            check(osc);
+
+            Map<V, Integer> oddSetCover = new HashMap<>();
+            for (int v = 0; v < nodes; v++) {
+                oddSetCover.put(vertexMap[v], osc[v]);
+            }
+            return oddSetCover;
+        }
+
+        void aux(int numberOfUnlabeled, int[] osc) {
             int kappa = (numberOfUnlabeled <= 2 ? 2 : 3);
             for (int v = 0; v < nodes; v++) {
                 if (base.find(v) != v && osc[base.find(v)] == -1) {
                     osc[base.find(v)] = kappa++;
                 }
             }
+        }
 
+        void check(int[] osc) {
             for (int v = 0; v < nodes; v++) {
                 if (base.find(v) == v && osc[v] == -1) {
                     if (label[v] == Label.EVEN) {
@@ -409,13 +433,6 @@ public class SparseEdmondsMaximumCardinalityMatching<V, E>
                     osc[v] = osc[base.find(v)];
                 }
             }
-
-            Map<V, Integer> oddSetCover = new HashMap<>();
-            for (int v = 0; v < nodes; v++) {
-                oddSetCover.put(vertexMap[v], osc[v]);
-            }
-
-            return oddSetCover;
         }
 
     }
@@ -437,18 +454,18 @@ public class SparseEdmondsMaximumCardinalityMatching<V, E>
 
     /**
      * Get an odd set cover which proves the optimality of the computed matching.
-     * 
+     *
      * <p>
      * In order to check for optimality one needs to check that the odd-set-cover is a node labeling
      * that (a) covers the graph and (b) whose capacity is equal to the cardinality of the matching.
      * For (a) we check that every edge is either incident to a node with label 1 or connects two
      * nodes labeled $i$ for some $i \ge 2$. For (b) we count for each $i$ the number $n_i$ of nodes
      * with label $i$ and compute $S = n_1 + \sum_{i \ge 2} \floor{n_i/2}$.
-     * 
+     *
      * <p>
      * Method {{@link #isOptimalMatching(Graph, Set, Map)} performs this check given a matching and
      * an odd-set-cover.
-     * 
+     *
      * @return an odd set cover whose capacity is the same as the matching's cardinality
      */
     public Map<V, Integer> getOddSetCover()
@@ -459,23 +476,23 @@ public class SparseEdmondsMaximumCardinalityMatching<V, E>
 
     /**
      * Check whether a matching is optimal.
-     * 
+     *
      * The method first checks whether the matching is indeed a matching. Then it checks whether the
      * odd-set-cover provided is a node labeling that covers the graph and whose capacity is equal
      * to the cardinality of the matching.
-     * 
+     *
      * First, we count for each $i$ the number $n_i$ of nodes with label $i$, and then compute $S =
      * n_1 + \sum_{i \ge 2} \floor{n_i/2}$. $S$ should be equal to the size of the matching. Then,
      * we check that every edge is incident to a node label one or connects two nodes labeled $i$
      * for some $i \ge 2$.
-     * 
+     *
      * This method runs in linear time.
-     * 
+     *
      * @param graph the graph
      * @param matching a matching
      * @param oddSetCover an odd set cover
      * @return true if the matching is optimal, false otherwise
-     * 
+     *
      * @param <V> graph vertex type
      * @param <E> graph edge type
      */
@@ -541,7 +558,7 @@ public class SparseEdmondsMaximumCardinalityMatching<V, E>
 
     /**
      * Special integer vertex union-find.
-     * 
+     *
      * @author Dimitrios Michail
      */
     private static class VertexPartition
@@ -587,7 +604,7 @@ public class SparseEdmondsMaximumCardinalityMatching<V, E>
 
         /**
          * Name the representative of the group where e belongs as e.
-         * 
+         *
          * @param e a vertex
          */
         public void name(int e)
@@ -598,7 +615,7 @@ public class SparseEdmondsMaximumCardinalityMatching<V, E>
 
         /**
          * Split a partition. Assumes that it contains all members, otherwise bad things may happen.
-         * 
+         *
          * @param toSplit all members of a partition
          */
         public void split(List<Integer> toSplit)

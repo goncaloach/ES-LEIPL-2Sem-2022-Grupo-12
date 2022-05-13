@@ -31,21 +31,21 @@ import java.util.*;
  * maximum weight matching. The implementation accepts directed and undirected graphs which may
  * contain self-loops and multiple edges. There is no assumption on the edge weights, i.e. they can
  * also be negative or zero.
- * 
+ *
  * <p>
  * The algorithm is due to Drake and Hougardy, described in detail in the following paper:
  * <ul>
  * <li>D.E. Drake, S. Hougardy, A Simple Approximation Algorithm for the Weighted Matching Problem,
  * Information Processing Letters 85, 211-213, 2003.</li>
  * </ul>
- * 
+ *
  * <p>
  * This particular implementation uses by default two additional heuristics discussed by the authors
  * which also take linear time but improve the quality of the matchings. These heuristics can be
  * disabled by calling the constructor {@link #PathGrowingWeightedMatching(Graph, boolean)}.
  * Disabling the heuristics has the effect of fewer passes over the edge set of the input graph,
  * probably at the expense of the total weight of the matching.
- * 
+ *
  * <p>
  * For a discussion on engineering approximate weighted matching algorithms see the following paper:
  * <ul>
@@ -54,7 +54,7 @@ import java.util.*;
  * </ul>
  *
  * @see GreedyWeightedMatching
- * 
+ *
  * @param <V> the graph vertex type
  * @param <E> the graph edge type
  *
@@ -77,7 +77,7 @@ public class PathGrowingWeightedMatching<V, E>
      * Construct a new instance of the path growing algorithm. Floating point values are compared
      * using {@link #DEFAULT_EPSILON} tolerance. By default two additional linear time heuristics
      * are used in order to improve the quality of the matchings.
-     * 
+     *
      * @param graph the input graph
      */
     public PathGrowingWeightedMatching(Graph<V, E> graph)
@@ -88,7 +88,7 @@ public class PathGrowingWeightedMatching<V, E>
     /**
      * Construct a new instance of the path growing algorithm. Floating point values are compared
      * using {@link #DEFAULT_EPSILON} tolerance.
-     * 
+     *
      * @param graph the input graph
      * @param useHeuristics if true an improved version with additional heuristics is executed. The
      *        running time remains linear but performs a few more passes over the input. While the
@@ -102,7 +102,7 @@ public class PathGrowingWeightedMatching<V, E>
 
     /**
      * Construct a new instance of the path growing algorithm.
-     * 
+     *
      * @param graph the input graph
      * @param useHeuristics if true an improved version with additional heuristics is executed. The
      *        running time remains linear but performs a few more passes over the input. While the
@@ -122,7 +122,7 @@ public class PathGrowingWeightedMatching<V, E>
 
     /**
      * Get a matching that is a $\frac{1}{2}$-approximation of the maximum weighted matching.
-     * 
+     *
      * @return a matching
      */
     @Override
@@ -138,7 +138,7 @@ public class PathGrowingWeightedMatching<V, E>
     /**
      * Compute all vertices that have positive degree by iterating over the edges on purpose. This
      * keeps the complexity to $O(m)$ where $m$ is the number of edges.
-     * 
+     *
      * @return set of vertices with positive degree
      */
     private Set<V> initVisibleVertices()
@@ -176,12 +176,13 @@ public class PathGrowingWeightedMatching<V, E>
                 double maxWeight = 0d;
                 E maxWeightedEdge = null;
                 V maxWeightedNeighbor = null;
+               // aux_growPathFromX(x, visibleVertex, maxWeightedEdge, maxWeight, maxWeightedNeighbor);
                 for (E e : graph.edgesOf(x)) {
                     V other = Graphs.getOppositeVertex(graph, e, x);
                     if (visibleVertex.contains(other) && !other.equals(x)) {
                         double curWeight = graph.getEdgeWeight(e);
                         if (comparator.compare(curWeight, 0d) > 0 && (maxWeightedEdge == null
-                            || comparator.compare(curWeight, maxWeight) > 0))
+                                || comparator.compare(curWeight, maxWeight) > 0))
                         {
                             maxWeight = curWeight;
                             maxWeightedEdge = e;
@@ -189,25 +190,24 @@ public class PathGrowingWeightedMatching<V, E>
                         }
                     }
                 }
-
                 // add it to either m1 or m2, alternating between them
+                //aux_add(maxWeightedEdge, m1,  m2, m1Weight, m2Weight, maxWeight, i);
                 if (maxWeightedEdge != null) {
                     switch (i) {
-                    case 1:
-                        m1.add(maxWeightedEdge);
-                        m1Weight += maxWeight;
-                        break;
-                    case 2:
-                        m2.add(maxWeightedEdge);
-                        m2Weight += maxWeight;
-                        break;
-                    default:
-                        throw new RuntimeException(
-                            "Failed to figure out matching, seems to be a bug");
+                        case 1:
+                            m1.add(maxWeightedEdge);
+                            m1Weight += maxWeight;
+                            break;
+                        case 2:
+                            m2.add(maxWeightedEdge);
+                            m2Weight += maxWeight;
+                            break;
+                        default:
+                            throw new RuntimeException(
+                                    "Failed to figure out matching, seems to be a bug");
                     }
                     i = 3 - i;
                 }
-
                 // remove x and incident edges
                 visibleVertex.remove(x);
 
@@ -221,6 +221,41 @@ public class PathGrowingWeightedMatching<V, E>
             return new MatchingImpl<>(graph, m1, m1Weight);
         } else {
             return new MatchingImpl<>(graph, m2, m2Weight);
+        }
+    }
+
+    void aux_growPathFromX(V x, Set<V> visibleVertex, E maxWeightedEdge, double maxWeight, V maxWeightedNeighbor) {
+        for (E e : graph.edgesOf(x)) {
+            V other = Graphs.getOppositeVertex(graph, e, x);
+            if (visibleVertex.contains(other) && !other.equals(x)) {
+                double curWeight = graph.getEdgeWeight(e);
+                if (comparator.compare(curWeight, 0d) > 0 && (maxWeightedEdge == null
+                        || comparator.compare(curWeight, maxWeight) > 0))
+                {
+                    maxWeight = curWeight;
+                    maxWeightedEdge = e;
+                    maxWeightedNeighbor = other;
+                }
+            }
+        }
+    }
+
+    void aux_add(E maxWeightedEdge, Set<E> m1,  Set<E> m2, double m1Weight, double m2Weight, double maxWeight, int i) {
+        if (maxWeightedEdge != null) {
+            switch (i) {
+                case 1:
+                    m1.add(maxWeightedEdge);
+                    m1Weight += maxWeight;
+                    break;
+                case 2:
+                    m2.add(maxWeightedEdge);
+                    m2Weight += maxWeight;
+                    break;
+                default:
+                    throw new RuntimeException(
+                            "Failed to figure out matching, seems to be a bug");
+            }
+            i = 3 - i;
         }
     }
 
@@ -242,58 +277,75 @@ public class PathGrowingWeightedMatching<V, E>
             // find vertex arbitrarily
             V x = visibleVertex.stream().findAny().get();
 
-            // grow path from x
             LinkedList<E> path = new LinkedList<>();
-            while (x != null) {
-                // first heaviest edge incident to vertex x (among visible neighbors)
-                double maxWeight = 0d;
-                E maxWeightedEdge = null;
-                V maxWeightedNeighbor = null;
-                for (E e : graph.edgesOf(x)) {
-                    V other = Graphs.getOppositeVertex(graph, e, x);
-                    if (visibleVertex.contains(other) && !other.equals(x)) {
-                        double curWeight = graph.getEdgeWeight(e);
-                        if (comparator.compare(curWeight, 0d) > 0 && (maxWeightedEdge == null
-                            || comparator.compare(curWeight, maxWeight) > 0))
-                        {
-                            maxWeight = curWeight;
-                            maxWeightedEdge = e;
-                            maxWeightedNeighbor = other;
-                        }
-                    }
-                }
 
-                // add edge to path and remove x
-                if (maxWeightedEdge != null) {
-                    path.add(maxWeightedEdge);
-                }
-                visibleVertex.remove(x);
-
-                // go to next vertex
-                x = maxWeightedNeighbor;
-            }
+            aux_growPath(x, visibleVertex, path);
 
             // find maximum weight matching of path using dynamic programming
             Pair<Double, Set<E>> pathMatching = pathSolver.getMaximumWeightMatching(graph, path);
 
             // add it to result while keeping track of matched vertices
             matchingWeight += pathMatching.getFirst();
-            for (E e : pathMatching.getSecond()) {
-                V s = graph.getEdgeSource(e);
-                V t = graph.getEdgeTarget(e);
-                if (!matchedVertices.add(s)) {
-                    throw new RuntimeException(
-                        "Set is not a valid matching, please submit a bug report");
-                }
-                if (!matchedVertices.add(t)) {
-                    throw new RuntimeException(
-                        "Set is not a valid matching, please submit a bug report");
-                }
-                matching.add(e);
-            }
+
+            aux_addToResult(matching, matchedVertices, pathMatching);
         }
 
         // extend matching to maximal cardinality (out of edges with positive weight)
+        aux_extendMatching(matching, matchedVertices, matchingWeight);
+
+        // return extended matching
+        return new MatchingImpl<>(graph, matching, matchingWeight);
+    }
+
+    void aux_growPath(V x, Set<V> visibleVertex, LinkedList<E> path) {
+        // grow path from x
+        while (x != null) {
+            // first heaviest edge incident to vertex x (among visible neighbors)
+            double maxWeight = 0d;
+            E maxWeightedEdge = null;
+            V maxWeightedNeighbor = null;
+            for (E e : graph.edgesOf(x)) {
+                V other = Graphs.getOppositeVertex(graph, e, x);
+                if (visibleVertex.contains(other) && !other.equals(x)) {
+                    double curWeight = graph.getEdgeWeight(e);
+                    if (comparator.compare(curWeight, 0d) > 0 && (maxWeightedEdge == null
+                            || comparator.compare(curWeight, maxWeight) > 0))
+                    {
+                        maxWeight = curWeight;
+                        maxWeightedEdge = e;
+                        maxWeightedNeighbor = other;
+                    }
+                }
+            }
+
+            // add edge to path and remove x
+            if (maxWeightedEdge != null) {
+                path.add(maxWeightedEdge);
+            }
+            visibleVertex.remove(x);
+
+            // go to next vertex
+            x = maxWeightedNeighbor;
+        }
+    }
+
+    void aux_addToResult(Set<E> matching, Set<V> matchedVertices, Pair<Double, Set<E>> pathMatching) {
+        for (E e : pathMatching.getSecond()) {
+            V s = graph.getEdgeSource(e);
+            V t = graph.getEdgeTarget(e);
+            if (!matchedVertices.add(s)) {
+                throw new RuntimeException(
+                        "Set is not a valid matching, please submit a bug report");
+            }
+            if (!matchedVertices.add(t)) {
+                throw new RuntimeException(
+                        "Set is not a valid matching, please submit a bug report");
+            }
+            matching.add(e);
+        }
+    }
+
+    void aux_extendMatching(Set<E> matching, Set<V> matchedVertices, double matchingWeight){
         for (E e : graph.edgeSet()) {
             double edgeWeight = graph.getEdgeWeight(e);
             if (comparator.compare(edgeWeight, 0d) <= 0) {
@@ -314,14 +366,11 @@ public class PathGrowingWeightedMatching<V, E>
             matching.add(e);
             matchingWeight += edgeWeight;
         }
-
-        // return extended matching
-        return new MatchingImpl<>(graph, matching, matchingWeight);
     }
 
     /**
      * Helper class for repeatedly solving the maximum weight matching on paths.
-     * 
+     *
      * The work array used in the dynamic programming algorithm is reused between invocations. In
      * case its size is smaller than the path provided, its length is increased. This class is not
      * thread-safe.
@@ -335,7 +384,7 @@ public class PathGrowingWeightedMatching<V, E>
 
         /**
          * Find the maximum weight matching of a path using dynamic programming.
-         * 
+         *
          * @param path a list of edges. The code assumes that the list of edges is a valid simple
          *        path, and that is not a cycle.
          * @return a maximum weight matching of the path
