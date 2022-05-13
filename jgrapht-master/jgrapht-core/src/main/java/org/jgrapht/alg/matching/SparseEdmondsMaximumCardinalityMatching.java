@@ -474,6 +474,19 @@ public class SparseEdmondsMaximumCardinalityMatching<V, E>
         return oddSetCover;
     }
 
+
+    public static <V,E> boolean isOptimalForHelper(Graph<V, E> graph, Set<V> matched,  Set<E> matching ) {
+            for (E e : matching) {
+                if (!matched.add(graph.getEdgeSource(e))) {
+                    return false;
+                }
+                if (!matched.add(graph.getEdgeTarget(e))) {
+                    return false;
+                }
+            }
+        return true;
+    }
+
     /**
      * Check whether a matching is optimal.
      *
@@ -501,18 +514,9 @@ public class SparseEdmondsMaximumCardinalityMatching<V, E>
     {
         // check matching
         Set<V> matched = new HashSet<>();
-        for (E e : matching) {
-            V s = graph.getEdgeSource(e);
-            if (!matched.add(s)) {
-                return false;
-            }
-
-            V t = graph.getEdgeTarget(e);
-            if (!matched.add(t)) {
-                return false;
-            }
+        if (!isOptimalForHelper(graph,matched,matching)) {
+            return false;
         }
-
         // check optimality
         int n = Math.max(2, graph.vertexSet().size());
         int kappa = 1;
@@ -520,7 +524,6 @@ public class SparseEdmondsMaximumCardinalityMatching<V, E>
         for (int i = 0; i < n; i++) {
             count[i] = 0;
         }
-
         for (V v : graph.vertexSet()) {
             Integer osc = oddSetCover.get(v);
             if (osc < 0 || osc >= n) {
@@ -531,7 +534,6 @@ public class SparseEdmondsMaximumCardinalityMatching<V, E>
                 kappa = osc;
             }
         }
-
         int s = count[1];
         for (int i = 2; i <= kappa; i++) {
             s += count[i] / 2;
@@ -539,7 +541,6 @@ public class SparseEdmondsMaximumCardinalityMatching<V, E>
         if (s != matching.size()) {
             return false;
         }
-
         for (E e : graph.edgeSet()) {
             V v = graph.getEdgeSource(e);
             V w = graph.getEdgeTarget(e);
@@ -552,7 +553,6 @@ public class SparseEdmondsMaximumCardinalityMatching<V, E>
             }
             return false;
         }
-
         return true;
     }
 
