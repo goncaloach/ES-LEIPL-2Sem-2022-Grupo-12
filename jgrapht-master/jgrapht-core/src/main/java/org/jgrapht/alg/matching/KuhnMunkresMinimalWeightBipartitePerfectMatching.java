@@ -36,7 +36,7 @@ import java.util.*;
  * $G = (S, T; E)$, such that $|S| = |T|$, and each edge has <i>non-negative</i> cost <i>c(i,
  * j)</i>, find <i>perfect</i> matching of <i>minimal cost</i>.
  * </p>
- * 
+ *
  * @param <V> the graph vertex type
  * @param <E> the graph edge type
  *
@@ -52,7 +52,7 @@ public class KuhnMunkresMinimalWeightBipartitePerfectMatching<V, E>
 
     /**
      * Construct a new instance of the algorithm.
-     * 
+     *
      * @param graph the input graph
      * @param partition1 the first partition of the vertex set
      * @param partition2 the second partition of the vertex set
@@ -162,7 +162,7 @@ public class KuhnMunkresMinimalWeightBipartitePerfectMatching<V, E>
 
         /**
          * Construct new instance
-         * 
+         *
          * @param g the input graph
          * @param s first partition of the vertex set
          * @param t second partition of the vertex set
@@ -194,7 +194,7 @@ public class KuhnMunkresMinimalWeightBipartitePerfectMatching<V, E>
          * Gets costs-matrix as input and returns assignment of tasks (designated by the columns of
          * cost-matrix) to the workers (designated by the rows of the cost-matrix) so that to
          * MINIMIZE total tasks-tackling costs
-         * 
+         *
          * @return assignment of tasks
          */
         protected int[] buildMatching()
@@ -370,6 +370,25 @@ public class KuhnMunkresMinimalWeightBipartitePerfectMatching<V, E>
 
             boolean[] invertible = new boolean[rowsCovered.length];
 
+            aux_invertible(invertible);
+
+            boolean cont = true;
+
+            aux_cont(cont);
+
+            // Invert covered rows selection
+
+            for (int i = 0; i < rowsCovered.length; ++i) {
+                if (invertible[i]) {
+                    rowsCovered[i] ^= true;
+                }
+            }
+
+            assert uncovered(excessMatrix, rowsCovered, columnsCovered) == 0;
+            assert minimal(rowMatched, rowsCovered, columnsCovered);
+        }
+
+        void aux_invertible(boolean[] invertible) {
             for (int i = 0; i < excessMatrix.length; ++i) {
                 if (columnMatched[i] != -1) {
                     invertible[i] = true;
@@ -383,26 +402,20 @@ public class KuhnMunkresMinimalWeightBipartitePerfectMatching<V, E>
                     }
                 }
             }
+        }
 
-            boolean cont = true;
-
+        void aux_cont(boolean cont) {
             while (cont) {
                 for (int i = 0; i < excessMatrix.length; ++i) {
                     if (rowsCovered[i]) {
                         for (int j = 0; j < excessMatrix[i].length; ++j) {
-                            if ((Double.compare(excessMatrix[i][j], 0.) == 0)
-                                && !columnsCovered[j])
-                            {
+                            if ((Double.compare(excessMatrix[i][j], 0.) == 0) && !columnsCovered[j])
                                 columnsCovered[j] = true;
-                            }
                         }
                     }
                 }
-
                 // Shall we continue?
-
                 cont = false;
-
                 for (int j = 0; j < columnsCovered.length; ++j) {
                     if (columnsCovered[j] && (rowMatched[j] != -1)) {
                         if (!rowsCovered[rowMatched[j]]) {
@@ -412,17 +425,6 @@ public class KuhnMunkresMinimalWeightBipartitePerfectMatching<V, E>
                     }
                 }
             }
-
-            // Invert covered rows selection
-
-            for (int i = 0; i < rowsCovered.length; ++i) {
-                if (invertible[i]) {
-                    rowsCovered[i] ^= true;
-                }
-            }
-
-            assert uncovered(excessMatrix, rowsCovered, columnsCovered) == 0;
-            assert minimal(rowMatched, rowsCovered, columnsCovered);
         }
 
         /**
