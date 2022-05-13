@@ -269,7 +269,6 @@ public class BoykovKolmogorovMFImpl<V, E>
         for (VertexExtension activeVertex = nextActiveVertex(); activeVertex != null;
             activeVertex = nextActiveVertex())
         {
-
             if (activeVertex.isSourceTreeVertex()) {
                 // processing source tree vertex
                 for (AnnotatedFlowEdge edge : activeVertex.getOutgoing()) {
@@ -286,77 +285,82 @@ public class BoykovKolmogorovMFImpl<V, E>
                             return edge;
                         } else if (target.isFreeVertex()) {
                             // found a node which can be added to the source tree
-                            if (DEBUG) {
-                                System.out
-                                    .printf(
-                                        "Growing source tree: %s -> %s\n\n", edge,
-                                        target.prototype);
-                            }
-
-                            target.parentEdge = edge;
-                            target.treeStatus = VertexTreeStatus.SOURCE_TREE_VERTEX;
-                            target.distance = activeVertex.distance + 1;
-                            target.timestamp = activeVertex.timestamp;
-                            makeActive(target);
+                            aux_isFreeVertex(activeVertex, target, edge);
                         } else {
                             /*
                              * The target node belongs to the source tree the distance heuristic can
                              * be applied to possibly build a tree with smaller height.
                              */
                             assert target.isSourceTreeVertex();
-                            if (isCloserToTerminal(activeVertex, target)) {
-                                target.parentEdge = edge;
-                                target.distance = activeVertex.distance + 1;
-                                target.timestamp = activeVertex.timestamp;
-                            }
+                            checkIfIsClosure(activeVertex, target, edge);
                         }
                     }
                 }
             } else {
                 assert activeVertex.isSinkTreeVertex();
-
                 // the logic for processing sink tree vertices is symmetrical
-                for (AnnotatedFlowEdge edge : activeVertex.getOutgoing()) {
-
-                    if (edge.hasCapacity()) {
-                        VertexExtension source = edge.getSource();
-
-                        if (source.isSourceTreeVertex()) {
-
-                            if (DEBUG) {
-                                System.out.printf("Bounding edge = %s\n\n", edge);
-                            }
-
-                            return edge;
-                        } else if (source.isFreeVertex()) {
-                            if (DEBUG) {
-                                System.out
-                                    .printf(
-                                        "Growing sink tree: %s -> %s\n\n", source.prototype, edge);
-                            }
-
-                            source.parentEdge = edge;
-                            source.treeStatus = VertexTreeStatus.SINK_TREE_VERTEX;
-                            source.distance = activeVertex.distance + 1;
-                            source.timestamp = activeVertex.timestamp;
-                            makeActive(source);
-                        } else {
-                            assert source.isSinkTreeVertex();
-
-                            if (isCloserToTerminal(activeVertex, source)) {
-                                source.parentEdge = edge;
-                                source.distance = activeVertex.distance + 1;
-                                source.timestamp = activeVertex.timestamp;
-                            }
-                        }
-                    }
-                }
+                processingSinkLogic(activeVertex);
             }
-
             // remove the vertex from the active vertex list
             finishVertex(activeVertex);
         }
+        return null;
+    }
 
+    void aux_isFreeVertex(VertexExtension activeVertex, VertexExtension target, AnnotatedFlowEdge edge) {
+        if (DEBUG) {
+            System.out
+                    .printf(
+                            "Growing source tree: %s -> %s\n\n", edge,
+                            target.prototype);
+        }
+        target.parentEdge = edge;
+        target.treeStatus = VertexTreeStatus.SOURCE_TREE_VERTEX;
+        target.distance = activeVertex.distance + 1;
+        target.timestamp = activeVertex.timestamp;
+        makeActive(target);
+    }
+
+    void checkIfIsClosure(VertexExtension activeVertex, VertexExtension target, AnnotatedFlowEdge edge) {
+        if (isCloserToTerminal(activeVertex, target)) {
+            target.parentEdge = edge;
+            target.distance = activeVertex.distance + 1;
+            target.timestamp = activeVertex.timestamp;
+        }
+    }
+
+    AnnotatedFlowEdge processingSinkLogic(VertexExtension activeVertex) {
+        for (AnnotatedFlowEdge edge : activeVertex.getOutgoing()) {
+
+            if (edge.hasCapacity()) {
+                VertexExtension source = edge.getSource();
+
+                if (source.isSourceTreeVertex()) {
+
+                    if (DEBUG) {
+                        System.out.printf("Bounding edge = %s\n\n", edge);
+                    }
+                    return edge;
+                } else if (source.isFreeVertex()) {
+                    if (DEBUG) {
+                        System.out.printf("Growing sink tree: %s -> %s\n\n", source.prototype, edge);
+                    }
+                    source.parentEdge = edge;
+                    source.treeStatus = VertexTreeStatus.SINK_TREE_VERTEX;
+                    source.distance = activeVertex.distance + 1;
+                    source.timestamp = activeVertex.timestamp;
+                    makeActive(source);
+                } else {
+                    assert source.isSinkTreeVertex();
+
+                    if (isCloserToTerminal(activeVertex, source)) {
+                        source.parentEdge = edge;
+                        source.distance = activeVertex.distance + 1;
+                        source.timestamp = activeVertex.timestamp;
+                    }
+                }
+            }
+        }
         return null;
     }
 

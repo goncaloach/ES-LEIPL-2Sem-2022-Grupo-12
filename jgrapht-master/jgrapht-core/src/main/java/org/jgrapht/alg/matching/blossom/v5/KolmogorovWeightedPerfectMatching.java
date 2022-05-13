@@ -355,19 +355,23 @@ public class KolmogorovWeightedPerfectMatching<V, E>
     /**
      * Lazily runs the algorithm on the specified graph.
      */
+
+    void initialize() {
+        BlossomVInitializer<V, E> initializer = new BlossomVInitializer<>(graph);
+        this.state = initializer.initialize(options);
+        this.primalUpdater = new BlossomVPrimalUpdater<>(state);
+        this.dualUpdater = new BlossomVDualUpdater<>(state, primalUpdater);
+    }
+
     private void lazyComputeWeightedPerfectMatching()
     {
         if (matching != null) {
             return;
         }
-        BlossomVInitializer<V, E> initializer = new BlossomVInitializer<>(graph);
-        this.state = initializer.initialize(options);
-        this.primalUpdater = new BlossomVPrimalUpdater<>(state);
-        this.dualUpdater = new BlossomVDualUpdater<>(state, primalUpdater);
+        initialize();
         if (DEBUG) {
             printMap();
         }
-
         while (true) {
             int cycleTreeNum = state.treeNum;
 
@@ -386,58 +390,15 @@ public class KolmogorovWeightedPerfectMatching<V, E>
                 if (DEBUG) {
                     printState();
                 }
-
                 // first phase
-                setCurrentEdgesAndTryToAugment(tree);
-
-                if (iterationTreeNum == state.treeNum && options.updateDualsBefore) {
-                    dualUpdater.updateDualsSingle(tree);
-                }
+                firstphase(tree, iterationTreeNum);
 
                 // second phase
                 // apply primal operations to the current tree while it is possible
-                while (iterationTreeNum == state.treeNum) {
-                    if (DEBUG) {
-                        printState();
-                        System.out
-                            .println(
-                                "Current tree is " + tree + ", current root is " + currentRoot);
-                    }
-
-                    if (!tree.plusInfinityEdges.isEmpty()) {
-                        // can grow tree
-                        BlossomVEdge edge = tree.plusInfinityEdges.findMin().getValue();
-                        if (edge.slack <= tree.eps) {
-                            primalUpdater.grow(edge, true, true);
-                            continue;
-                        }
-                    }
-                    if (!tree.plusPlusEdges.isEmpty()) {
-                        // can shrink blossom
-                        BlossomVEdge edge = tree.plusPlusEdges.findMin().getValue();
-                        if (edge.slack <= 2 * tree.eps) {
-                            primalUpdater.shrink(edge, true);
-                            continue;
-                        }
-                    }
-                    if (!tree.minusBlossoms.isEmpty()) {
-                        // can expand blossom
-                        BlossomVNode node = tree.minusBlossoms.findMin().getValue();
-                        if (node.dual <= tree.eps) {
-                            primalUpdater.expand(node, true);
-                            continue;
-                        }
-                    }
-                    // can't do anything
-                    if (DEBUG) {
-                        System.out.println("Can't do anything");
-                    }
-                    break;
-                }
+                secondphase(iterationTreeNum, tree, currentRoot);
                 if (DEBUG) {
                     printState();
                 }
-
                 // third phase
                 if (state.treeNum == iterationTreeNum) {
                     tree.currentEdge = null;
@@ -453,12 +414,10 @@ public class KolmogorovWeightedPerfectMatching<V, E>
                     currentRoot = nextNextRoot;
                 }
             }
-
             if (DEBUG) {
                 printTrees();
                 printState();
             }
-
             if (state.treeNum == 0) {
                 // we are done
                 break;
@@ -470,6 +429,54 @@ public class KolmogorovWeightedPerfectMatching<V, E>
             }
         }
         finish();
+    }
+
+    void firstphase(BlossomVTree tree, int iterationTreeNum) {
+        setCurrentEdgesAndTryToAugment(tree);
+
+        if (iterationTreeNum == state.treeNum && options.updateDualsBefore) {
+            dualUpdater.updateDualsSingle(tree);
+        }
+    }
+
+    void secondphase(int iterationTreeNum, BlossomVTree tree, BlossomVNode currentRoot) {
+        while (iterationTreeNum == state.treeNum) {
+            if (DEBUG) {
+                printState();
+                System.out
+                        .println(
+                                "Current tree is " + tree + ", current root is " + currentRoot);
+            }
+            if (!tree.plusInfinityEdges.isEmpty()) {
+                // can grow tree
+                BlossomVEdge edge = tree.plusInfinityEdges.findMin().getValue();
+                if (edge.slack <= tree.eps) {
+                    primalUpdater.grow(edge, true, true);
+                    continue;
+                }
+            }
+            if (!tree.plusPlusEdges.isEmpty()) {
+                // can shrink blossom
+                BlossomVEdge edge = tree.plusPlusEdges.findMin().getValue();
+                if (edge.slack <= 2 * tree.eps) {
+                    primalUpdater.shrink(edge, true);
+                    continue;
+                }
+            }
+            if (!tree.minusBlossoms.isEmpty()) {
+                // can expand blossom
+                BlossomVNode node = tree.minusBlossoms.findMin().getValue();
+                if (node.dual <= tree.eps) {
+                    primalUpdater.expand(node, true);
+                    continue;
+                }
+            }
+            // can't do anything
+            if (DEBUG) {
+                System.out.println("Can't do anything");
+            }
+            break;
+        }
     }
 
     /**
