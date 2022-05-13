@@ -663,7 +663,7 @@ public class KolmogorovWeightedPerfectMatching<V, E>
                     blossom.blossomGrandparent = blossomPrev;
                     blossomPrev = blossom;
                     blossom = blossomPrev.blossomParent;
-                } while (!blossom.isOuter);
+                }while (!blossom.isOuter);
                 // now node.blossomGrandparent points to the previous blossom in the hierarchy (not
                 // counting the blossom node)
                 while (true) {

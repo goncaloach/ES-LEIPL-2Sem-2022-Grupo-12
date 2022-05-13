@@ -425,6 +425,13 @@ class BlossomVPrimalUpdater<V, E>
         }
     }
 
+    private void debugging(String message){
+        if (DEBUG){
+            System.out.println(message);
+        }
+    }
+
+
     /**
      * Processes a plus node during the grow operation. Applies lazy delta spreading, removes former
      * (+, inf) edges, adds new (+, +) in-tree and cross-tree edges, new (+, -) cross-tree edges.
@@ -439,6 +446,7 @@ class BlossomVPrimalUpdater<V, E>
      * @param immediateAugment a flag that indicates whether to perform immediate augmentation if a
      *        tight (+, +) cross-tree edge is encountered
      */
+
     private void processPlusNodeGrow(
         BlossomVNode node, boolean recursiveGrow, boolean immediateAugment)
     {
@@ -486,9 +494,7 @@ class BlossomVPrimalUpdater<V, E>
                 // already added
                 // to this tree via some other grow operation
                 if (recursiveGrow && edge.slack <= eps && !edge.getOpposite(node).isMarked) {
-                    if (DEBUG) {
-                        System.out.println("Growing edge " + edge);
-                    }
+                    debugging("Growing edge " + edge);
                     BlossomVNode minusNode = edge.getOpposite(node);
                     BlossomVNode plusNode = minusNode.getOppositeMatched();
                     minusNode.isMarked = plusNode.isMarked = true;
@@ -498,9 +504,7 @@ class BlossomVPrimalUpdater<V, E>
             }
         }
         if (immediateAugment && augmentEdge != null) {
-            if (DEBUG) {
-                System.out.println("Bingo grow");
-            }
+            debugging("Bingo grow");
             augment(augmentEdge);
         }
         state.statistics.growNum++;
