@@ -637,12 +637,24 @@ public class KolmogorovWeightedPerfectMatching<V, E>
      * pseudonode to the set of nodes that are contracted in it. This map is needed to construct a
      * dual solution after the matching in the graph becomes valid.
      */
+
+    private void debugging(String message){
+        if(DEBUG){
+            System.out.println(message);
+        }
+    }
+
+    private double maximize(double weight){
+        if (objectiveSense == MAXIMIZE) {
+            weight = -weight;
+            return weight;
+        }
+        return weight;
+    }
+
     private void finish()
     {
-        if (DEBUG) {
-            System.out.println("Finishing matching");
-        }
-
+        debugging("Finishing matching");
         Set<E> edges = new HashSet<>();
         BlossomVNode[] nodes = state.nodes;
         List<BlossomVNode> processed = new LinkedList<>();
@@ -704,10 +716,7 @@ public class KolmogorovWeightedPerfectMatching<V, E>
                 weight += state.graph.getEdgeWeight(graphEdge);
             }
         }
-        if (objectiveSense == MAXIMIZE) {
-            weight = -weight;
-        }
-        matching = new MatchingAlgorithm.MatchingImpl<>(state.graph, edges, weight);
+        matching = new MatchingAlgorithm.MatchingImpl<>(state.graph, edges, maximize(weight));
     }
 
     /**
