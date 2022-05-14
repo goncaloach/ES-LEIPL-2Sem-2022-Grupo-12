@@ -617,62 +617,67 @@ public class BergeGraphInspector<V, E>
             for (V x1 : g.vertexSet()) {
                 if (x1 == y1)
                     continue;
-                GraphPath<V, E> rx1y1 = getPathAvoidingX(g, x1, y1, x);
-                for (V x3 : g.vertexSet()) {
-                    if (x3 == x1 || x3 == y1 || !g.containsEdge(x1, x3))
-                        continue;
-                    for (V x2 : g.vertexSet()) {
-                        if (x2 == x3 || x2 == x1 || x2 == y1 || g.containsEdge(x2, x1)
-                                || !g.containsEdge(x3, x2))
-                            continue;
-
-                        GraphPath<V, E> rx2y1 = getPathAvoidingX(g, x2, y1, x);
-
-                        double n;
-                        if (rx1y1 == null || rx2y1 == null)
-                            continue;
-
-                        V y2 = null;
-                        for (V y2Candidate : rx2y1.getVertexList()) {
-                            if (g.containsEdge(y1, y2Candidate) && y2Candidate != x1
-                                    && y2Candidate != x2 && y2Candidate != x3 && y2Candidate != y1)
-                            {
-                                y2 = y2Candidate;
-                                break;
-                            }
-                        }
-                        if (y2 == null)
-                            continue;
-
-                        GraphPath<V, E> rx3y1 = getPathAvoidingX(g, x3, y1, x);
-                        GraphPath<V, E> rx3y2 = getPathAvoidingX(g, x3, y2, x);
-                        GraphPath<V, E> rx1y2 = getPathAvoidingX(g, x1, y2, x);
-                        if (rx3y1 != null && rx3y2 != null && rx1y2 != null
-                                && rx2y1.getLength() == (n = rx1y1.getLength() + 1)
-                                && n == rx1y2.getLength() && rx3y1.getLength() >= n
-                                && rx3y2.getLength() >= n)
-                        {
-                            if (certify) {
-                                List<E> edgeList = new LinkedList<>();
-                                edgeList.addAll(rx1y1.getEdgeList());
-                                for (int i = rx2y1.getLength() - 1; i >= 0; i--)
-                                    edgeList.add(rx2y1.getEdgeList().get(i));
-                                edgeList.add(g.getEdge(x2, x3));
-                                edgeList.add(g.getEdge(x3, x1));
-
-                                double weight =
-                                        edgeList.stream().mapToDouble(g::getEdgeWeight).sum();
-                                certificate = new GraphWalk<>(g, x1, x1, edgeList, weight);
-                            }
-                            return true;
-                        }
-                    }
-                }
+                if(processGraph(x, x1, g, y1))
+                    return true;
             }
         }
         return false;
     }
 
+    private boolean processGraph(Set<V> x,V x1, Graph<V, E> g, V y1){
+        GraphPath<V, E> rx1y1 = getPathAvoidingX(g, x1, y1, x);
+        for (V x3 : g.vertexSet()) {
+            if (x3 == x1 || x3 == y1 || !g.containsEdge(x1, x3))
+                continue;
+            for (V x2 : g.vertexSet()) {
+                if (x2 == x3 || x2 == x1 || x2 == y1 || g.containsEdge(x2, x1)
+                        || !g.containsEdge(x3, x2))
+                    continue;
+
+                GraphPath<V, E> rx2y1 = getPathAvoidingX(g, x2, y1, x);
+
+                double n;
+                if (rx1y1 == null || rx2y1 == null)
+                    continue;
+
+                V y2 = null;
+                for (V y2Candidate : rx2y1.getVertexList()) {
+                    if (g.containsEdge(y1, y2Candidate) && y2Candidate != x1
+                            && y2Candidate != x2 && y2Candidate != x3 && y2Candidate != y1)
+                    {
+                        y2 = y2Candidate;
+                        break;
+                    }
+                }
+                if (y2 == null)
+                    continue;
+
+                GraphPath<V, E> rx3y1 = getPathAvoidingX(g, x3, y1, x);
+                GraphPath<V, E> rx3y2 = getPathAvoidingX(g, x3, y2, x);
+                GraphPath<V, E> rx1y2 = getPathAvoidingX(g, x1, y2, x);
+                if (rx3y1 != null && rx3y2 != null && rx1y2 != null
+                        && rx2y1.getLength() == (n = rx1y1.getLength() + 1)
+                        && n == rx1y2.getLength() && rx3y1.getLength() >= n
+                        && rx3y2.getLength() >= n)
+                {
+                    if (certify) {
+                        List<E> edgeList = new LinkedList<>();
+                        edgeList.addAll(rx1y1.getEdgeList());
+                        for (int i = rx2y1.getLength() - 1; i >= 0; i--)
+                            edgeList.add(rx2y1.getEdgeList().get(i));
+                        edgeList.add(g.getEdge(x2, x3));
+                        edgeList.add(g.getEdge(x3, x1));
+
+                        double weight =
+                                edgeList.stream().mapToDouble(g::getEdgeWeight).sum();
+                        certificate = new GraphWalk<>(g, x1, x1, edgeList, weight);
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     /**
      * Checks whether a clean shortest odd hole is in g or whether X is a cleaner for an amenable
      * shortest odd hole

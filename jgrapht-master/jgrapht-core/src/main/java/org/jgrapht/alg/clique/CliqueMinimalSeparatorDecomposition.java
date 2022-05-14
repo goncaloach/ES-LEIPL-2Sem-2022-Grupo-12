@@ -149,30 +149,7 @@ public class CliqueMinimalSeparatorDecomposition<V, E>
                 addToReach(vertexLabels.get(y), y, reach);
             }
 
-            for (int j = 0; j < graph.vertexSet().size(); j++) {
-                if (!reach.containsKey(j)) {
-                    continue;
-                }
-                while (reach.get(j).size() > 0) {
-                    // remove a vertex y from reach(j)
-                    V y = reach.get(j).iterator().next();
-                    reach.get(j).remove(y);
-
-                    for (V z : Graphs.neighborListOf(gprime, y)) {
-                        if (!reached.contains(z)) {
-                            reached.add(z);
-                            if (vertexLabels.get(z) > j) {
-                                neighborsY.add(z);
-                                E fillEdge = graph.getEdgeSupplier().get();
-                                fillEdges.add(fillEdge);
-                                addToReach(vertexLabels.get(z), z, reach);
-                            } else {
-                                addToReach(j, z, reach);
-                            }
-                        }
-                    }
-                }
-            }
+            neighborsY = computeReaches(neighborsY, reach, gprime, vertexLabels, reached);
 
             for (V y : neighborsY) {
                 chordalGraph.addEdge(v, y);
@@ -183,6 +160,35 @@ public class CliqueMinimalSeparatorDecomposition<V, E>
             gprime.removeVertex(v);
             vertexLabels.remove(v);
         }
+    }
+
+    private LinkedList<V> computeReaches(LinkedList<V> neighborsY, HashMap<Integer, HashSet<V>> reach,
+                                         Graph<V, E> gprime,Map<V, Integer> vertexLabels, HashSet<V> reached){
+        for (int j = 0; j < graph.vertexSet().size(); j++) {
+            if (!reach.containsKey(j)) {
+                continue;
+            }
+            while (reach.get(j).size() > 0) {
+                // remove a vertex y from reach(j)
+                V y = reach.get(j).iterator().next();
+                reach.get(j).remove(y);
+
+                for (V z : Graphs.neighborListOf(gprime, y)) {
+                    if (!reached.contains(z)) {
+                        reached.add(z);
+                        if (vertexLabels.get(z) > j) {
+                            neighborsY.add(z);
+                            E fillEdge = graph.getEdgeSupplier().get();
+                            fillEdges.add(fillEdge);
+                            addToReach(vertexLabels.get(z), z, reach);
+                        } else {
+                            addToReach(j, z, reach);
+                        }
+                    }
+                }
+            }
+        }
+        return neighborsY;
     }
 
     /**

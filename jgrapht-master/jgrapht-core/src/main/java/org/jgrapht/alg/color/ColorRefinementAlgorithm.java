@@ -30,7 +30,7 @@ import java.util.stream.*;
  * <a href="https://doi.org/10.1007/s00224-016-9686-0">paper</a>: C. Berkholz, P. Bonsma, and M.
  * Grohe. Tight lower and upper bounds for the complexity of canonical colour refinement. Theory of
  * Computing Systems, 60(4), p581--614, 2017.
- * 
+ *
  * <p>
  * The complexity of this algorithm is $O((|V| + |E|)log |V|)$.
  *
@@ -210,6 +210,21 @@ public class ColorRefinementAlgorithm<V, E>
         }
 
         // Go through all indices (color degrees) of numColorDegree
+        int[] newMapping = runColorDegrees(maxColorDegree, color, refineStack, numColorDegree, maxColorDegreeIndex, rep);
+
+        // Update colors classes if some color has changed
+        for (V v : positiveDegreeColorClasses) {
+            int value = newMapping[rep.colorDegree.get(v)];
+            if (value != color.intValue()) {
+                rep.colorClasses.get(color).remove(v);
+                rep.colorClasses.get(value).add(v);
+                rep.coloring.replace(v, value);
+            }
+        }
+    }
+
+    private int[] runColorDegrees(int maxColorDegree, Integer color, Deque<Integer> refineStack,
+                                  int[] numColorDegree, int maxColorDegreeIndex, ColoringRepresentation rep){
         int[] newMapping = new int[maxColorDegree + 1];
         boolean isCurrentColorInStack = refineStack.contains(color);
         for (int i = 0; i <= maxColorDegree; ++i) {
@@ -233,16 +248,7 @@ public class ColorRefinementAlgorithm<V, E>
                 }
             }
         }
-
-        // Update colors classes if some color has changed
-        for (V v : positiveDegreeColorClasses) {
-            int value = newMapping[rep.colorDegree.get(v)];
-            if (value != color.intValue()) {
-                rep.colorClasses.get(color).remove(v);
-                rep.colorClasses.get(value).add(v);
-                rep.coloring.replace(v, value);
-            }
-        }
+        return newMapping;
     }
 
     /**
