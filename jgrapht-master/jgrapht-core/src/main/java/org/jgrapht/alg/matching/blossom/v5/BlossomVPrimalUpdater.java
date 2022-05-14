@@ -114,7 +114,7 @@ class BlossomVPrimalUpdater<V, E>
             System.out.println("Growing edge " + growEdge);
         }
         long start = System.nanoTime();
-        int initialTreeNum = state.treeNum;
+        int initialTreeNum = state.getTreeNum();
         int dirToMinusNode = growEdge.head[0].isInfinityNode() ? 0 : 1;
 
         BlossomVNode nodeInTheTree = growEdge.head[1 - dirToMinusNode];
@@ -132,7 +132,7 @@ class BlossomVPrimalUpdater<V, E>
             minusNode.isMarked = plusNode.isMarked = false;
             processMinusNodeGrow(minusNode);
             processPlusNodeGrow(plusNode, recursiveGrow, immediateAugment);
-            if (initialTreeNum != state.treeNum) {
+            if (initialTreeNum != state.getTreeNum()) {
                 break;
             }
 
@@ -151,7 +151,7 @@ class BlossomVPrimalUpdater<V, E>
                 }
             }
         }
-        state.statistics.growTime += System.nanoTime() - start;
+        state.getStatistics().growTime += System.nanoTime() - start;
     }
 
     /**
@@ -192,7 +192,7 @@ class BlossomVPrimalUpdater<V, E>
             node.matched = augmentEdge;
         }
 
-        state.statistics.augmentTime += System.nanoTime() - start;
+        state.getStatistics().augmentTime += System.nanoTime() - start;
     }
 
     /**
@@ -233,7 +233,7 @@ class BlossomVPrimalUpdater<V, E>
          * We don't actually need position of the blossom node since blossom nodes aren't stored in
          * the state.nodes array. We use blossom's position as its id for debug purposes.
          */
-        BlossomVNode blossom = new BlossomVNode(state.nodeNum + state.blossomNum);
+        BlossomVNode blossom = new BlossomVNode(state.getNodeNum() + state.getBlossomNum());
         // initialize blossom node
         blossom.tree = tree;
         blossom.isBlossom = true;
@@ -270,10 +270,10 @@ class BlossomVPrimalUpdater<V, E>
         }
         blossomRoot.matched = null; // now new blossom is matched (used when finishing the matching
 
-        state.statistics.shrinkNum++;
-        state.blossomNum++;
+        state.getStatistics().shrinkNum++;
+        state.setBlossomNum(state.getBlossomNum()+1);
 
-        state.statistics.shrinkTime += System.nanoTime() - start;
+        state.getStatistics().shrinkTime += System.nanoTime() - start;
         if (augmentEdge != null && immediateAugment) {
             if (DEBUG) {
                 System.out.println("Bingo shrink");
@@ -370,12 +370,12 @@ class BlossomVPrimalUpdater<V, E>
             current.isProcessed = false;
             current = current.blossomSibling.getOpposite(current);
         } while (current != blossomRoot);
-        state.statistics.expandNum++;
-        state.removedNum++;
+        state.getStatistics().expandNum++;
+        state.setRemovedNum(state.getRemovedNum()+1);
         if (DEBUG) {
             tree.printTreeNodes();
         }
-        state.statistics.expandTime += System.nanoTime() - start;
+        state.getStatistics().expandTime += System.nanoTime() - start;
 
         if (immediateAugment && augmentEdge != null) {
             if (DEBUG) {
@@ -507,7 +507,7 @@ class BlossomVPrimalUpdater<V, E>
             debugging("Bingo grow");
             augment(augmentEdge);
         }
-        state.statistics.growNum++;
+        state.getStatistics().growNum++;
     }
 
     /**
@@ -844,7 +844,7 @@ class BlossomVPrimalUpdater<V, E>
         root.removeFromChildList();
         root.isTreeRoot = false;
 
-        state.treeNum--;
+        state.setTreeNum(state.getTreeNum()-1);
     }
 
 

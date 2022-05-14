@@ -43,9 +43,9 @@ public class BlossomVDebugger
      */
     public static <V, E> Map<V, BlossomVNode> getVertexMap(BlossomVState<V, E> state)
     {
-        Map<V, BlossomVNode> vertexMap = CollectionUtil.newHashMapWithExpectedSize(state.nodeNum);
-        for (int i = 0; i < state.nodeNum; i++) {
-            vertexMap.put(state.graphVertices.get(i), state.nodes[i]);
+        Map<V, BlossomVNode> vertexMap = CollectionUtil.newHashMapWithExpectedSize(state.getNodeNum());
+        for (int i = 0; i < state.getNodeNum(); i++) {
+            vertexMap.put(state.getGraphVertices().get(i), state.getNodes()[i]);
         }
         return vertexMap;
     }
@@ -60,9 +60,9 @@ public class BlossomVDebugger
      */
     public static <V, E> Map<E, BlossomVEdge> getEdgeMap(BlossomVState<V, E> state)
     {
-        Map<E, BlossomVEdge> edgeMap = CollectionUtil.newHashMapWithExpectedSize(state.edgeNum);
-        for (int i = 0; i < state.edgeNum; i++) {
-            edgeMap.put(state.graphEdges.get(i), state.edges[i]);
+        Map<E, BlossomVEdge> edgeMap = CollectionUtil.newHashMapWithExpectedSize(state.getEdgeNum());
+        for (int i = 0; i < state.getEdgeNum(); i++) {
+            edgeMap.put(state.getGraphEdges().get(i), state.getEdges()[i]);
         }
         return edgeMap;
     }
@@ -173,7 +173,7 @@ public class BlossomVDebugger
     public static <V, E> Set<BlossomVNode> getTreeRoots(BlossomVState<V, E> state)
     {
         Set<BlossomVNode> treeRoots = new HashSet<>();
-        for (BlossomVNode root = state.nodes[state.nodeNum].treeSiblingNext; root != null;
+        for (BlossomVNode root = state.getNodes()[state.getNodeNum()].treeSiblingNext; root != null;
             root = root.treeSiblingNext)
         {
             treeRoots.add(root);

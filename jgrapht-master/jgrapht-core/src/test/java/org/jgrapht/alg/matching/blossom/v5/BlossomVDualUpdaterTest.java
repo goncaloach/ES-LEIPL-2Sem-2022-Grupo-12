@@ -61,7 +61,7 @@ public class BlossomVDualUpdaterTest
         BlossomVDualUpdater<Integer, DefaultWeightedEdge> dualUpdater =
             new BlossomVDualUpdater<>(state, primalUpdater);
         assertTrue(dualUpdater.updateDuals(MULTIPLE_TREE_FIXED_DELTA) > 0);
-        for (BlossomVNode root = state.nodes[state.nodeNum].treeSiblingNext; root != null;
+        for (BlossomVNode root = state.getNodes()[state.getNodeNum()].treeSiblingNext; root != null;
             root = root.treeSiblingNext)
         {
             assertEquals(root.tree.eps, 2.5, EPS);
@@ -91,7 +91,7 @@ public class BlossomVDualUpdaterTest
         BlossomVDualUpdater<Integer, DefaultWeightedEdge> dualUpdater =
             new BlossomVDualUpdater<>(state, primalUpdater);
         dualUpdater.updateDuals(MULTIPLE_TREE_FIXED_DELTA);
-        for (BlossomVNode root = state.nodes[state.nodeNum].treeSiblingNext; root != null;
+        for (BlossomVNode root = state.getNodes()[state.getNodeNum()].treeSiblingNext; root != null;
             root = root.treeSiblingNext)
         {
             assertEquals(root.tree.eps, 3, EPS);

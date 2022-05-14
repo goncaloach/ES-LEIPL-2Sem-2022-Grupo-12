@@ -104,7 +104,7 @@ class BlossomVDualUpdater<V, E> {
         // go through all tree roots and determine the initial tree dual change wrt. in-tree
         // constraints
         // the cross-tree constraints are handles wrt. dual update strategy
-        for (BlossomVNode root = state.nodes[state.nodeNum].treeSiblingNext; root != null;
+        for (BlossomVNode root = state.getNodes()[state.getNodeNum()].treeSiblingNext; root != null;
              root = root.treeSiblingNext) {
             BlossomVTree tree = root.tree;
             double eps = tree.getEps();
@@ -118,7 +118,7 @@ class BlossomVDualUpdater<V, E> {
 
         double dualChange = 0;
         // add tree.accumulatedEps to the tree.eps
-        for (BlossomVNode root = state.nodes[state.nodeNum].treeSiblingNext; root != null;
+        for (BlossomVNode root = state.getNodes()[state.getNodeNum()].treeSiblingNext; root != null;
              root = root.treeSiblingNext) {
             if (root.tree.accumulatedEps > EPS) {
                 dualChange += root.tree.accumulatedEps;
@@ -126,13 +126,13 @@ class BlossomVDualUpdater<V, E> {
             }
         }
         if (KolmogorovWeightedPerfectMatching.DEBUG) {
-            for (BlossomVNode root = state.nodes[state.nodeNum].treeSiblingNext; root != null;
+            for (BlossomVNode root = state.getNodes()[state.getNodeNum()].treeSiblingNext; root != null;
                  root = root.treeSiblingNext) {
                 System.out
                         .println("Updating duals: now eps of " + root.tree + " is " + (root.tree.eps));
             }
         }
-        state.statistics.dualUpdatesTime += System.nanoTime() - start;
+        state.getStatistics().dualUpdatesTime += System.nanoTime() - start;
         if (augmentEdge != null) {
             primalUpdater.augment(augmentEdge);
         }
@@ -180,7 +180,7 @@ class BlossomVDualUpdater<V, E> {
             }
         }
 
-        state.statistics.dualUpdatesTime += System.nanoTime() - start;
+        state.getStatistics().dualUpdatesTime += System.nanoTime() - start;
 
         if (augmentEdge != null && epsAugment <= tree.eps) {
             primalUpdater.augment(augmentEdge);
@@ -228,11 +228,11 @@ class BlossomVDualUpdater<V, E> {
         double augmentEps = INFINITY;
 
         double oppositeEps;
-        for (BlossomVNode root = state.nodes[state.nodeNum].treeSiblingNext; root != null;
+        for (BlossomVNode root = state.getNodes()[state.getNodeNum()].treeSiblingNext; root != null;
              root = root.treeSiblingNext) {
             root.tree.nextTree = null;
         }
-        for (BlossomVNode root = state.nodes[state.nodeNum].treeSiblingNext; root != null;
+        for (BlossomVNode root = state.getNodes()[state.getNodeNum()].treeSiblingNext; root != null;
              root = root.treeSiblingNext) {
             BlossomVTree startTree = root.tree;
             if (startTree.nextTree != null) {
@@ -356,7 +356,7 @@ class BlossomVDualUpdater<V, E> {
         BlossomVEdge augmentEdge = null;
         double eps = INFINITY;
         double augmentEps = INFINITY;
-        for (BlossomVNode root = state.nodes[state.nodeNum].treeSiblingNext; root != null;
+        for (BlossomVNode root = state.getNodes()[state.getNodeNum()].treeSiblingNext; root != null;
              root = root.treeSiblingNext) {
             BlossomVTree tree = root.tree;
             double treeEps = tree.eps;
@@ -380,7 +380,7 @@ class BlossomVDualUpdater<V, E> {
             throw new IllegalArgumentException(
                     KolmogorovWeightedPerfectMatching.NO_PERFECT_MATCHING);
         }
-        for (BlossomVNode root = state.nodes[state.nodeNum].treeSiblingNext; root != null;
+        for (BlossomVNode root = state.getNodes()[state.getNodeNum()].treeSiblingNext; root != null;
              root = root.treeSiblingNext) {
             root.tree.accumulatedEps = eps;
         }

@@ -69,9 +69,9 @@ public class BlossomVPrimalUpdaterTest
         primalUpdater.grow(edge12, false, false);
         node1.tree.clearCurrentEdges();
 
-        assertEquals(1, state.statistics.growNum);
+        assertEquals(1, state.getStatistics().growNum);
 
-        assertEquals(1, state.treeNum);
+        assertEquals(1, state.getTreeNum());
         assertEquals(node1.tree, node2.tree);
         assertEquals(node1.tree, node3.tree);
 
@@ -535,7 +535,7 @@ public class BlossomVPrimalUpdaterTest
         assertEquals(edge12, node2.matched);
         Assert.assertEquals(BlossomVNode.Label.INFINITY, node1.label);
         Assert.assertEquals(BlossomVNode.Label.INFINITY, node2.label);
-        assertEquals(2, state.treeNum);
+        assertEquals(2, state.getTreeNum());
         assertEquals(0, edge12.slack, EPS);
         assertEquals(1, node1.dual, EPS);
         assertEquals(3, node2.dual, EPS);
@@ -795,8 +795,8 @@ public class BlossomVPrimalUpdaterTest
         BlossomVNode blossom = primalUpdater.shrink(edge13, false);
         node1.tree.clearCurrentEdges();
 
-        assertEquals(1, state.statistics.shrinkNum);
-        assertEquals(1, state.blossomNum);
+        assertEquals(1, state.getStatistics().shrinkNum);
+        assertEquals(1, state.getBlossomNum());
 
         assertFalse(node1.isTreeRoot);
 
@@ -1455,7 +1455,7 @@ public class BlossomVPrimalUpdaterTest
         primalUpdater.expand(blossom, false);
         node4.tree.clearCurrentEdges();
 
-        assertEquals(1, state.statistics.expandNum);
+        assertEquals(1, state.getStatistics().expandNum);
 
         // checking tree structure
         assertEquals(node4.tree, node3.tree);
