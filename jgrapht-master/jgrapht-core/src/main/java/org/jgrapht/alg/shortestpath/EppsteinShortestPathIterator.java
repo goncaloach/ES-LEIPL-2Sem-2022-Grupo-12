@@ -72,7 +72,7 @@ public class EppsteinShortestPathIterator<V, E>
     implements
     Iterator<GraphPath<V, E>>
 {
-    private EppsteinShortestPathIteratorProduct eppsteinShortestPathIteratorProduct = new EppsteinShortestPathIteratorProduct();
+    private EppsteinShortestPathIteratorProduct<V,E> eppsteinShortestPathIteratorProduct = new EppsteinShortestPathIteratorProduct<V,E>();
 	/**
      * Underlying graph.
      */

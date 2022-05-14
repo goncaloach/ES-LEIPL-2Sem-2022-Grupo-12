@@ -10,13 +10,13 @@ public class EppsteinShortestPathIteratorProduct<V, E> {
 	* @param vertices  vertices
 	* @param size  size of vertices
 	*/
-	public void heapify(List<PathsGraphVertex> vertices, int size) {
+	public void heapify(List<EppsteinShortestPathIterator<V, E>.PathsGraphVertex> vertices, int size) {
 		for (int i = size / 2 - 1; i >= 0; i--) {
 			siftDown(vertices, i, size);
 		}
 	}
 
-	public void siftDown(List<PathsGraphVertex> vertices, int i, int size) {
+	public void siftDown(List<EppsteinShortestPathIterator<V, E>.PathsGraphVertex> vertices, int i, int size) {
 		int left;
 		int right;
 		int smaller;
@@ -39,9 +39,9 @@ public class EppsteinShortestPathIteratorProduct<V, E> {
 		}
 	}
 
-	public void swap(List<PathsGraphVertex> vertices, int i, int j) {
+	public void swap(List<EppsteinShortestPathIterator<V, E>.PathsGraphVertex> vertices, int i, int j) {
 		if (i != j) {
-			PathsGraphVertex tmp = vertices.get(i);
+			EppsteinShortestPathIterator<V, E>.PathsGraphVertex tmp = vertices.get(i);
 			vertices.set(i, vertices.get(j));
 			vertices.set(j, tmp);
 		}
