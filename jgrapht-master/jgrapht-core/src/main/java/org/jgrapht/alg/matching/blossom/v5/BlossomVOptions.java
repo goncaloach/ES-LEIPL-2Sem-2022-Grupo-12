@@ -140,49 +140,6 @@ public class BlossomVOptions
             + ", updateDualsAfter=" + updateDualsAfter + '}';
     }
 
-    /**
-     * Returns the {@link BlossomVOptions#updateDualsBefore} flag
-     *
-     * @return the flag {@link BlossomVOptions#updateDualsBefore}
-     */
-    public boolean isUpdateDualsBefore()
-    {
-        return updateDualsBefore;
-    }
-
-    /**
-     * Returns the {@link BlossomVOptions#updateDualsAfter} flag
-     *
-     * @return the flag {@link BlossomVOptions#updateDualsAfter}
-     */
-    public boolean isUpdateDualsAfter()
-    {
-        return updateDualsAfter;
-    }
-
-    /**
-     * Returns dual updates strategy
-     *
-     * @return dual updates strategy
-     */
-    public DualUpdateStrategy getDualUpdateStrategy()
-    {
-        return dualUpdateStrategy;
-    }
-
-    /**
-     * Returns initialization type
-     *
-     * @return initialization type
-     */
-    public InitializationType getInitializationType()
-    {
-        return initializationType;
-    }
-
-    /**
-     * Enum for choosing dual updates strategy
-     */
     public enum DualUpdateStrategy
     {
         MULTIPLE_TREE_FIXED_DELTA
