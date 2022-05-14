@@ -92,7 +92,7 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="../interfaces/EdgeScoringAlgorithm.html" title="interface in org.jgrapht.alg.interfaces">EdgeScoringAlgorithm</a>&lt;E,<wbr><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;</span></div>
 <div class="block">Edge betweenness centrality.
- 
+
  <p>
  A natural extension of betweenness to edges by counting the total shortest paths that pass
  through an edge. See the paper: Ulrik Brandes: On Variants of Shortest-Path Betweenness
@@ -100,7 +100,7 @@ implements <a href="../interfaces/EdgeScoringAlgorithm.html" title="interface in
  discussion of different variants of betweenness centrality. Note that this implementation does
  not work for graphs which have multiple edges. Self-loops do not influence the result and are
  thus ignored.
- 
+
  <p>
  This implementation allows the user to compute centrality contributions only from a subset of the
  graph vertices, i.e. to start shortest path computations only from a subset of the vertices. This
@@ -143,15 +143,10 @@ implements <a href="../interfaces/EdgeScoringAlgorithm.html" title="interface in
 <div class="col-last even-row-color">
 <div class="block">Construct a new instance.</div>
 </div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(org.jgrapht.Graph,org.jgrapht.alg.scoring.EdgeBetweennessCentrality.OverflowStrategy)" class="member-name-link">EdgeBetweennessCentrality</a><wbr>(<a href="../../Graph.html" title="interface in org.jgrapht">Graph</a>&lt;<a href="EdgeBetweennessCentrality.html" title="type parameter in EdgeBetweennessCentrality">V</a>,<wbr><a href="EdgeBetweennessCentrality.html" title="type parameter in EdgeBetweennessCentrality">E</a>&gt;&nbsp;graph,
- <a href="EdgeBetweennessCentrality.OverflowStrategy.html" title="enum in org.jgrapht.alg.scoring">EdgeBetweennessCentrality.OverflowStrategy</a>&nbsp;overflowStrategy)</code></div>
-<div class="col-last odd-row-color">
-<div class="block">Construct a new instance.</div>
-</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(org.jgrapht.Graph,org.jgrapht.alg.scoring.EdgeBetweennessCentrality.OverflowStrategy,java.lang.Iterable)" class="member-name-link">EdgeBetweennessCentrality</a><wbr>(<a href="../../Graph.html" title="interface in org.jgrapht">Graph</a>&lt;<a href="EdgeBetweennessCentrality.html" title="type parameter in EdgeBetweennessCentrality">V</a>,<wbr><a href="EdgeBetweennessCentrality.html" title="type parameter in EdgeBetweennessCentrality">E</a>&gt;&nbsp;graph,
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(org.jgrapht.Graph,org.jgrapht.alg.scoring.EdgeBetweennessCentrality.OverflowStrategy,java.lang.Iterable)" class="member-name-link">EdgeBetweennessCentrality</a><wbr>(<a href="../../Graph.html" title="interface in org.jgrapht">Graph</a>&lt;<a href="EdgeBetweennessCentrality.html" title="type parameter in EdgeBetweennessCentrality">V</a>,<wbr><a href="EdgeBetweennessCentrality.html" title="type parameter in EdgeBetweennessCentrality">E</a>&gt;&nbsp;graph,
  <a href="EdgeBetweennessCentrality.OverflowStrategy.html" title="enum in org.jgrapht.alg.scoring">EdgeBetweennessCentrality.OverflowStrategy</a>&nbsp;overflowStrategy,
  <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="EdgeBetweennessCentrality.html" title="type parameter in EdgeBetweennessCentrality">V</a>&gt;&nbsp;startVertices)</code></div>
-<div class="col-last even-row-color">
+<div class="col-last odd-row-color">
 <div class="block">Construct a new instance.</div>
 </div>
 </div>
@@ -203,19 +198,6 @@ implements <a href="../interfaces/EdgeScoringAlgorithm.html" title="interface in
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>graph</code> - the input graph</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="&lt;init&gt;(org.jgrapht.Graph,org.jgrapht.alg.scoring.EdgeBetweennessCentrality.OverflowStrategy)">
-<h3>EdgeBetweennessCentrality</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">EdgeBetweennessCentrality</span><wbr><span class="parameters">(<a href="../../Graph.html" title="interface in org.jgrapht">Graph</a>&lt;<a href="EdgeBetweennessCentrality.html" title="type parameter in EdgeBetweennessCentrality">V</a>,<wbr><a href="EdgeBetweennessCentrality.html" title="type parameter in EdgeBetweennessCentrality">E</a>&gt;&nbsp;graph,
- <a href="EdgeBetweennessCentrality.OverflowStrategy.html" title="enum in org.jgrapht.alg.scoring">EdgeBetweennessCentrality.OverflowStrategy</a>&nbsp;overflowStrategy)</span></div>
-<div class="block">Construct a new instance.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>graph</code> - the input graph</dd>
-<dd><code>overflowStrategy</code> - strategy to use if overflow is detected</dd>
 </dl>
 </section>
 </li>

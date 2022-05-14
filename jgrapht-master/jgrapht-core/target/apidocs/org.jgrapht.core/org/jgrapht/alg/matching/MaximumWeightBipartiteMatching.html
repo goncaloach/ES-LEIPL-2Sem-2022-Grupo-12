@@ -92,12 +92,12 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="../interfaces/MatchingAlgorithm.html" title="interface in org.jgrapht.alg.interfaces">MatchingAlgorithm</a>&lt;V,<wbr>E&gt;</span></div>
 <div class="block">Maximum weight matching in bipartite graphs.
- 
+
  <p>
  Running time is $O(n(m+n \log n))$ where n is the number of vertices and m the number of edges of
  the input graph. Uses exact arithmetic and produces a certificate of optimality in the form of a
  tight vertex potential function.
- 
+
  <p>
  This is the algorithm and implementation described in the
  <a href="https://people.mpi-inf.mpg.de/~mehlhorn/LEDAbook.html">LEDA book</a>. See the LEDA
@@ -256,7 +256,7 @@ implements <a href="../interfaces/MatchingAlgorithm.html" title="interface in or
 <h3>getPotentials</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="MaximumWeightBipartiteMatching.html" title="type parameter in MaximumWeightBipartiteMatching">V</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html" title="class or interface in java.math" class="external-link">BigDecimal</a>&gt;</span>&nbsp;<span class="element-name">getPotentials</span>()</div>
 <div class="block">Get the vertex potentials.
- 
+
  <p>
  This is a tight non-negative potential function which proves the optimality of the maximum
  weight matching. See any standard textbook about linear programming duality.</div>

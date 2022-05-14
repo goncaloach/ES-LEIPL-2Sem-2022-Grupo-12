@@ -92,7 +92,7 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="../interfaces/MatchingAlgorithm.html" title="interface in org.jgrapht.alg.interfaces">MatchingAlgorithm</a>&lt;V,<wbr>E&gt;</span></div>
 <div class="block">Edmonds' blossom algorithm for maximum cardinality matching in general undirected graphs.
- 
+
  <p>
  A matching in a graph $G(V,E)$ is a subset of edges $M$ such that no two edges in $M$ have a
  vertex in common. A matching has at most $\frac{1}{2}|V|$ edges. A node $v$ in $G$ is matched by
@@ -101,7 +101,7 @@ implements <a href="../interfaces/MatchingAlgorithm.html" title="interface in or
  algorithm will return a perfect matching if one exists. If no perfect matching exists, then the
  largest (non-perfect) matching is returned instead. In the special case that the input graph is
  bipartite, consider using <a href="HopcroftKarpMaximumCardinalityBipartiteMatching.html" title="class in org.jgrapht.alg.matching"><code>HopcroftKarpMaximumCardinalityBipartiteMatching</code></a> instead.
- 
+
  <p>
  To compute a maximum cardinality matching, at most $n$ augmenting path computations are
  performed. Each augmenting path computation takes $O(m \alpha(m,n))$ time, where $\alpha(m,n)$ is
@@ -110,7 +110,7 @@ implements <a href="../interfaces/MatchingAlgorithm.html" title="interface in or
  augmenting path computations performed is far smaller than $n$, since an efficient heuristic is
  used to compute a near-optimal initial solution. The heuristic by default is the
  <a href="GreedyMaximumCardinalityMatching.html" title="class in org.jgrapht.alg.matching"><code>GreedyMaximumCardinalityMatching</code></a> but can be changed using the appropriate constructor.
- 
+
  <p>
  The runtime complexity of this implementation could be improved to $O(n m)$ when the UnionFind
  data structure used in this implementation is replaced by the linear-time set union data
@@ -120,12 +120,12 @@ implements <a href="../interfaces/MatchingAlgorithm.html" title="interface in or
  <p>
  Edmonds' original algorithm first appeared in Edmonds, J. Paths, trees, and flowers. Canadian
  Journal of Mathematics 17, 1965, pp. 449-467, and had a runtime complexity of $O(n^4)$.
- 
+
  <p>
  This is the algorithm and implementation described in the
  <a href="https://people.mpi-inf.mpg.de/~mehlhorn/LEDAbook.html">LEDA book</a>. See the LEDA
  Platform of Combinatorial and Geometric Computing, Cambridge University Press, 1999.
- 
+
  <p>
  For future reference - A more efficient algorithm exists: S. Micali and V. Vazirani. An
  $O(\sqrt{n}m)$ algorithm for finding maximum matching in general graphs. Proc. 21st Ann. Symp. on
@@ -206,10 +206,16 @@ implements <a href="../interfaces/MatchingAlgorithm.html" title="interface in or
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;V,<wbr>
 E&gt;&nbsp;boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#isOptimalMatching(org.jgrapht.Graph,java.util.Set,java.util.Map)" class="member-name-link">isOptimalMatching</a><wbr>(<a href="../../Graph.html" title="interface in org.jgrapht">Graph</a>&lt;V,<wbr>E&gt;&nbsp;graph,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#isOptimalForHelper(org.jgrapht.Graph,java.util.Set,java.util.Set)" class="member-name-link">isOptimalForHelper</a><wbr>(<a href="../../Graph.html" title="interface in org.jgrapht">Graph</a>&lt;V,<wbr>E&gt;&nbsp;graph,
+ <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;V&gt;&nbsp;matched,
+ <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;E&gt;&nbsp;matching)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;V,<wbr>
+E&gt;&nbsp;boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#isOptimalMatching(org.jgrapht.Graph,java.util.Set,java.util.Map)" class="member-name-link">isOptimalMatching</a><wbr>(<a href="../../Graph.html" title="interface in org.jgrapht">Graph</a>&lt;V,<wbr>E&gt;&nbsp;graph,
  <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;E&gt;&nbsp;matching,
  <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;V,<wbr><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;oddSetCover)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Check whether a matching is optimal.</div>
 </div>
 </div>
@@ -282,14 +288,14 @@ E&gt;&nbsp;boolean</code></div>
 <h3>getOddSetCover</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="SparseEdmondsMaximumCardinalityMatching.html" title="type parameter in SparseEdmondsMaximumCardinalityMatching">V</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;</span>&nbsp;<span class="element-name">getOddSetCover</span>()</div>
 <div class="block">Get an odd set cover which proves the optimality of the computed matching.
- 
+
  <p>
  In order to check for optimality one needs to check that the odd-set-cover is a node labeling
  that (a) covers the graph and (b) whose capacity is equal to the cardinality of the matching.
  For (a) we check that every edge is either incident to a node with label 1 or connects two
  nodes labeled $i$ for some $i \ge 2$. For (b) we count for each $i$ the number $n_i$ of nodes
  with label $i$ and compute $S = n_1 + \sum_{i \ge 2} \floor{n_i/2}$.
- 
+
  <p>
  Method {<a href="#isOptimalMatching(org.jgrapht.Graph,java.util.Set,java.util.Map)"><code>isOptimalMatching(Graph, Set, Map)</code></a> performs this check given a matching and
  an odd-set-cover.</div>
@@ -300,6 +306,15 @@ E&gt;&nbsp;boolean</code></div>
 </section>
 </li>
 <li>
+<section class="detail" id="isOptimalForHelper(org.jgrapht.Graph,java.util.Set,java.util.Set)">
+<h3>isOptimalForHelper</h3>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;V,<wbr>
+E&gt;</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isOptimalForHelper</span><wbr><span class="parameters">(<a href="../../Graph.html" title="interface in org.jgrapht">Graph</a>&lt;V,<wbr>E&gt;&nbsp;graph,
+ <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;V&gt;&nbsp;matched,
+ <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;E&gt;&nbsp;matching)</span></div>
+</section>
+</li>
+<li>
 <section class="detail" id="isOptimalMatching(org.jgrapht.Graph,java.util.Set,java.util.Map)">
 <h3>isOptimalMatching</h3>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;V,<wbr>
@@ -307,16 +322,16 @@ E&gt;</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="ele
  <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;E&gt;&nbsp;matching,
  <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;V,<wbr><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&gt;&nbsp;oddSetCover)</span></div>
 <div class="block">Check whether a matching is optimal.
- 
+
  The method first checks whether the matching is indeed a matching. Then it checks whether the
  odd-set-cover provided is a node labeling that covers the graph and whose capacity is equal
  to the cardinality of the matching.
- 
+
  First, we count for each $i$ the number $n_i$ of nodes with label $i$, and then compute $S =
  n_1 + \sum_{i \ge 2} \floor{n_i/2}$. $S$ should be equal to the size of the matching. Then,
  we check that every edge is incident to a node label one or connects two nodes labeled $i$
  for some $i \ge 2$.
- 
+
  This method runs in linear time.</div>
 <dl class="notes">
 <dt>Type Parameters:</dt>

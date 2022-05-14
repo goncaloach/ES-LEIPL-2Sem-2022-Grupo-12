@@ -95,7 +95,7 @@ loadScripts(document, 'script');</script>
  <p>
  Computes shortest paths from a single source vertex to all other vertices in a weighted graph.
  The Bellman-Ford algorithm supports negative edge weights.
- 
+
  <p>
  Negative weight cycles are not allowed and will be reported by the algorithm. This implies that
  negative edge weights are not allowed in undirected graphs. In such cases the code will throw an
@@ -221,10 +221,21 @@ E&gt;&nbsp;<a href="../../GraphPath.html" title="interface in org.jgrapht">Graph
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Compute all shortest paths starting from a single source vertex.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPathWeight(V,V)" class="member-name-link">getPathWeight</a><wbr>(<a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">V</a>&nbsp;source,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPathsExceptionHelper(V)" class="member-name-link">getPathsExceptionHelper</a><wbr>(<a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">V</a>&nbsp;source)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">V</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPathsPut(java.util.Map)" class="member-name-link">getPathsPut</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">V</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;&nbsp;distance)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">V</a>,<wbr><a href="../util/Pair.html" title="class in org.jgrapht.alg.util">Pair</a>&lt;<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>,<wbr><a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">E</a>&gt;&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPathsPut2(java.util.Map,java.util.Map,java.util.Map)" class="member-name-link">getPathsPut2</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">V</a>,<wbr><a href="../util/Pair.html" title="class in org.jgrapht.alg.util">Pair</a>&lt;<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>,<wbr><a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">E</a>&gt;&gt;&nbsp;distanceAndPredecessorMap,
+ <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">V</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;&nbsp;distance,
+ <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">V</a>,<wbr><a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">E</a>&gt;&nbsp;pred)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPathWeight(V,V)" class="member-name-link">getPathWeight</a><wbr>(<a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">V</a>&nbsp;source,
  <a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">V</a>&nbsp;sink)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Get the weight of the shortest path from a source vertex to a sink vertex.</div>
 </div>
 </div>
@@ -381,6 +392,26 @@ E&gt;&nbsp;<a href="../../GraphPath.html" title="interface in org.jgrapht">Graph
 <dt>Throws:</dt>
 <dd><code><a href="NegativeCycleDetectedException.html" title="class in org.jgrapht.alg.shortestpath">NegativeCycleDetectedException</a></code> - in case a negative weight cycle is detected</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getPathsExceptionHelper(V)">
+<h3 id="getPathsExceptionHelper(java.lang.Object)">getPathsExceptionHelper</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">getPathsExceptionHelper</span><wbr><span class="parameters">(<a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">V</a>&nbsp;source)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="getPathsPut(java.util.Map)">
+<h3>getPathsPut</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">V</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;</span>&nbsp;<span class="element-name">getPathsPut</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">V</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;&nbsp;distance)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="getPathsPut2(java.util.Map,java.util.Map,java.util.Map)">
+<h3>getPathsPut2</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">V</a>,<wbr><a href="../util/Pair.html" title="class in org.jgrapht.alg.util">Pair</a>&lt;<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>,<wbr><a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">E</a>&gt;&gt;</span>&nbsp;<span class="element-name">getPathsPut2</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">V</a>,<wbr><a href="../util/Pair.html" title="class in org.jgrapht.alg.util">Pair</a>&lt;<a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>,<wbr><a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">E</a>&gt;&gt;&nbsp;distanceAndPredecessorMap,
+ <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">V</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Double.html" title="class or interface in java.lang" class="external-link">Double</a>&gt;&nbsp;distance,
+ <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">V</a>,<wbr><a href="BellmanFordShortestPath.html" title="type parameter in BellmanFordShortestPath">E</a>&gt;&nbsp;pred)</span></div>
 </section>
 </li>
 <li>
