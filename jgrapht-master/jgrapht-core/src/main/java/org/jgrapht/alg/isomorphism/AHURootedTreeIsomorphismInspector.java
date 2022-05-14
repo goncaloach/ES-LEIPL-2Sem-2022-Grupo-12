@@ -185,11 +185,36 @@ public class AHURootedTreeIsomorphismInspector<V, E>
         }
     }
 
+    private boolean ismorphismExistsIfHelper(int id, List<List<V>> nodesByLevel1, List<List<V>> nodesByLevel2 ) {
+        if (id == 1) {
+            if (forwardMapping != null) {
+                return !forwardMapping.isEmpty();
+            }
+        }
+        if (id == 2) {
+            if (nodesByLevel1.size() != nodesByLevel2.size()) {
+                return false;
+            }
+        }
+        if (id == 3) {
+            if (forwardMapping.size() != tree1.vertexSet().size()) {
+                forwardMapping.clear();
+                backwardMapping.clear();
+                return false;
+            }
+        }
+        return true;
+    }
+
+
     private boolean isomorphismExists(V root1, V root2)
     {
+        List<List<V>> nodesByLevel1 = computeLevels(tree1, root1);
+        List<List<V>> nodesByLevel2 = computeLevels(tree2, root2);
+
         // already computed?
-        if (forwardMapping != null) {
-            return !forwardMapping.isEmpty();
+        if (!ismorphismExistsIfHelper(1,nodesByLevel1, nodesByLevel2)){
+            return false;
         }
 
         this.forwardMapping = new HashMap<>();
@@ -200,11 +225,10 @@ public class AHURootedTreeIsomorphismInspector<V, E>
         canonicalName[0] = CollectionUtil.newHashMapWithExpectedSize(tree1.vertexSet().size());
         canonicalName[1] = CollectionUtil.newHashMapWithExpectedSize(tree2.vertexSet().size());
 
-        List<List<V>> nodesByLevel1 = computeLevels(tree1, root1);
-        List<List<V>> nodesByLevel2 = computeLevels(tree2, root2);
 
-        if (nodesByLevel1.size() != nodesByLevel2.size())
+        if (!ismorphismExistsIfHelper(2,nodesByLevel1, nodesByLevel2)){
             return false;
+        }
 
         final int maxLevel = nodesByLevel1.size() - 1;
 
@@ -258,13 +282,7 @@ public class AHURootedTreeIsomorphismInspector<V, E>
 
         matchVerticesWithSameLabel(root1, root2, canonicalName);
 
-        if (forwardMapping.size() != tree1.vertexSet().size()) {
-            forwardMapping.clear();
-            backwardMapping.clear();
-            return false;
-        }
-
-        return true;
+        return ismorphismExistsIfHelper(3, nodesByLevel1, nodesByLevel2);
     }
 
     /**

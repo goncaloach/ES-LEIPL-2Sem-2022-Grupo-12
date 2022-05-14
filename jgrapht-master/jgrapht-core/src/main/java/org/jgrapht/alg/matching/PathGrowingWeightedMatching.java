@@ -155,6 +155,14 @@ public class PathGrowingWeightedMatching<V, E>
         return visibleVertex;
     }
 
+    private Matching<V,E> runHelper(double m1Weight, double m2Weight, Set<E> m1, Set<E> m2){
+        if (comparator.compare(m1Weight, m2Weight) > 0) {
+            return new MatchingImpl<>(graph, m1, m1Weight);
+        } else {
+            return new MatchingImpl<>(graph, m2, m2Weight);
+        }
+    }
+
     // the algorithm (no heuristics)
     private Matching<V, E> run()
     {
@@ -217,11 +225,7 @@ public class PathGrowingWeightedMatching<V, E>
         }
 
         // return best matching
-        if (comparator.compare(m1Weight, m2Weight) > 0) {
-            return new MatchingImpl<>(graph, m1, m1Weight);
-        } else {
-            return new MatchingImpl<>(graph, m2, m2Weight);
-        }
+        return runHelper(m1Weight,m2Weight,m1,m2);
     }
 
     void aux_growPathFromX(V x, Set<V> visibleVertex, E maxWeightedEdge, double maxWeight, V maxWeightedNeighbor) {

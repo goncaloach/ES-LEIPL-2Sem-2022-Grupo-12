@@ -284,6 +284,24 @@ public class KuhnMunkresMinimalWeightBipartitePerfectMatching<V, E>
             return excessMatrix;
         }
 
+        public int buildMaximalMatchingHelper(int matching, String id) {
+            if (Objects.equals(id, "columnMatched")) {
+                for (int k : columnMatched) {
+                    if (k != -1) {
+                        ++matching;
+                    }
+                }
+            }
+            if (Objects.equals(id, "rowMatched")) {
+                for (int k : rowMatched) {
+                    if (k != -1) {
+                        matching++;
+                    }
+                }
+            }
+            return matching;
+        }
+
         /**
          * Builds maximal matching corresponding to the given excess-matrix
          *
@@ -295,11 +313,8 @@ public class KuhnMunkresMinimalWeightBipartitePerfectMatching<V, E>
 
             int matchingSizeLowerBound = 0;
 
-            for (int i = 0; i < columnMatched.length; ++i) {
-                if (columnMatched[i] != -1) {
-                    ++matchingSizeLowerBound;
-                }
-            }
+
+            matchingSizeLowerBound = buildMaximalMatchingHelper(matchingSizeLowerBound, "columnMatched");
 
             // Compose first-approximation by matching zeroes in a greed fashion
 
@@ -350,13 +365,9 @@ public class KuhnMunkresMinimalWeightBipartitePerfectMatching<V, E>
 
                 matchingSize = 0;
 
-                for (int j = 0; j < rowMatched.length; ++j) {
-                    if (rowMatched[j] != -1) {
-                        ++matchingSize;
-                    }
-                }
-            }
+                matchingSize = buildMaximalMatchingHelper(matchingSize,"rowMatched");
 
+            }
             return matchingSize;
         }
 
