@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="org.jgrapht.util.DoublyLinkedListTest" time="0.066" tests="945" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="org.jgrapht.util.DoublyLinkedListTest" time="0.082" tests="945" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.class.path" value="C:\Users\diogo\.m2\repository\org\apache\maven\surefire\surefire-booter\3.0.0-M5\surefire-booter-3.0.0-M5.jar;C:\Users\diogo\.m2\repository\org\apache\maven\surefire\surefire-api\3.0.0-M5\surefire-api-3.0.0-M5.jar;C:\Users\diogo\.m2\repository\org\apache\maven\surefire\surefire-logger-api\3.0.0-M5\surefire-logger-api-3.0.0-M5.jar;C:\Users\diogo\.m2\repository\org\apache\maven\surefire\surefire-shared-utils\3.0.0-M4\surefire-shared-utils-3.0.0-M4.jar;C:\Users\diogo\.m2\repository\org\apache\maven\surefire\surefire-extensions-spi\3.0.0-M5\surefire-extensions-spi-3.0.0-M5.jar;C:\Users\diogo\Documents\ISCTE\ES\ES-LEIPL-2Sem-2022-Grupo-12\jgrapht-master\jgrapht-core\target\test-classes;C:\Users\diogo\.m2\repository\com\googlecode\junit-toolbox\junit-toolbox\2.4\junit-toolbox-2.4.jar;C:\Users\diogo\.m2\repository\commons-io\commons-io\2.4\commons-io-2.4.jar;C:\Users\diogo\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\diogo\.m2\repository\org\hamcrest\hamcrest-library\1.3\hamcrest-library-1.3.jar;C:\Users\diogo\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\diogo\.m2\repository\org\mockito\mockito-core\1.9.5\mockito-core-1.9.5.jar;C:\Users\diogo\.m2\repository\org\objenesis\objenesis\1.0\objenesis-1.0.jar;C:\Users\diogo\.m2\repository\org\openjdk\jmh\jmh-core\1.28\jmh-core-1.28.jar;C:\Users\diogo\.m2\repository\net\sf\jopt-simple\jopt-simple\4.6\jopt-simple-4.6.jar;C:\Users\diogo\.m2\repository\org\apache\commons\commons-math3\3.2\commons-math3-3.2.jar;C:\Users\diogo\.m2\repository\org\openjdk\jmh\jmh-generator-annprocess\1.28\jmh-generator-annprocess-1.28.jar;C:\Users\diogo\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.8.1\junit-jupiter-engine-5.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-engine\1.8.1\junit-platform-engine-1.8.1.jar;C:\Users\diogo\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-commons\1.8.1\junit-platform-commons-1.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.8.1\junit-jupiter-api-5.8.1.jar;C:\Users\diogo\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\diogo\.m2\repository\org\junit\vintage\junit-vintage-engine\5.8.1\junit-vintage-engine-5.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-runner\1.8.1\junit-platform-runner-1.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-launcher\1.8.1\junit-platform-launcher-1.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-suite-api\1.8.1\junit-platform-suite-api-1.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-suite-commons\1.8.1\junit-platform-suite-commons-1.8.1.jar;C:\Users\diogo\.m2\repository\org\apache\maven\surefire\surefire-junit47\3.0.0-M5\surefire-junit47-3.0.0-M5.jar;C:\Users\diogo\.m2\repository\org\apache\maven\surefire\common-java5\3.0.0-M5\common-java5-3.0.0-M5.jar;C:\Users\diogo\.m2\repository\org\apache\maven\surefire\common-junit3\3.0.0-M5\common-junit3-3.0.0-M5.jar;C:\Users\diogo\.m2\repository\org\apache\maven\surefire\common-junit4\3.0.0-M5\common-junit4-3.0.0-M5.jar;C:\Users\diogo\.m2\repository\org\apache\maven\surefire\common-junit48\3.0.0-M5\common-junit48-3.0.0-M5.jar;C:\Users\diogo\.m2\repository\org\apache\maven\surefire\surefire-grouper\3.0.0-M5\surefire-grouper-3.0.0-M5.jar"/>
+    <property name="java.class.path" value="C:\Users\diogo\.m2\repository\org\apache\maven\surefire\surefire-booter\3.0.0-M5\surefire-booter-3.0.0-M5.jar;C:\Users\diogo\.m2\repository\org\apache\maven\surefire\surefire-api\3.0.0-M5\surefire-api-3.0.0-M5.jar;C:\Users\diogo\.m2\repository\org\apache\maven\surefire\surefire-logger-api\3.0.0-M5\surefire-logger-api-3.0.0-M5.jar;C:\Users\diogo\.m2\repository\org\apache\maven\surefire\surefire-shared-utils\3.0.0-M4\surefire-shared-utils-3.0.0-M4.jar;C:\Users\diogo\.m2\repository\org\apache\maven\surefire\surefire-extensions-spi\3.0.0-M5\surefire-extensions-spi-3.0.0-M5.jar;C:\Users\diogo\Documents\ISCTE\ES-LEIPL-2Sem-2022-Grupo-12\jgrapht-master\jgrapht-core\target\test-classes;C:\Users\diogo\.m2\repository\com\googlecode\junit-toolbox\junit-toolbox\2.4\junit-toolbox-2.4.jar;C:\Users\diogo\.m2\repository\commons-io\commons-io\2.4\commons-io-2.4.jar;C:\Users\diogo\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\diogo\.m2\repository\org\hamcrest\hamcrest-library\1.3\hamcrest-library-1.3.jar;C:\Users\diogo\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\diogo\.m2\repository\org\mockito\mockito-core\1.9.5\mockito-core-1.9.5.jar;C:\Users\diogo\.m2\repository\org\objenesis\objenesis\1.0\objenesis-1.0.jar;C:\Users\diogo\.m2\repository\org\openjdk\jmh\jmh-core\1.28\jmh-core-1.28.jar;C:\Users\diogo\.m2\repository\net\sf\jopt-simple\jopt-simple\4.6\jopt-simple-4.6.jar;C:\Users\diogo\.m2\repository\org\apache\commons\commons-math3\3.2\commons-math3-3.2.jar;C:\Users\diogo\.m2\repository\org\openjdk\jmh\jmh-generator-annprocess\1.28\jmh-generator-annprocess-1.28.jar;C:\Users\diogo\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.8.1\junit-jupiter-engine-5.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-engine\1.8.1\junit-platform-engine-1.8.1.jar;C:\Users\diogo\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-commons\1.8.1\junit-platform-commons-1.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.8.1\junit-jupiter-api-5.8.1.jar;C:\Users\diogo\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\diogo\.m2\repository\org\junit\vintage\junit-vintage-engine\5.8.1\junit-vintage-engine-5.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-runner\1.8.1\junit-platform-runner-1.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-launcher\1.8.1\junit-platform-launcher-1.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-suite-api\1.8.1\junit-platform-suite-api-1.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-suite-commons\1.8.1\junit-platform-suite-commons-1.8.1.jar;C:\Users\diogo\.m2\repository\org\apache\maven\surefire\surefire-junit47\3.0.0-M5\surefire-junit47-3.0.0-M5.jar;C:\Users\diogo\.m2\repository\org\apache\maven\surefire\common-java5\3.0.0-M5\common-java5-3.0.0-M5.jar;C:\Users\diogo\.m2\repository\org\apache\maven\surefire\common-junit3\3.0.0-M5\common-junit3-3.0.0-M5.jar;C:\Users\diogo\.m2\repository\org\apache\maven\surefire\common-junit4\3.0.0-M5\common-junit4-3.0.0-M5.jar;C:\Users\diogo\.m2\repository\org\apache\maven\surefire\common-junit48\3.0.0-M5\common-junit48-3.0.0-M5.jar;C:\Users\diogo\.m2\repository\org\apache\maven\surefire\surefire-grouper\3.0.0-M5\surefire-grouper-3.0.0-M5.jar"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="user.variant" value=""/>
@@ -15,18 +15,18 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="PT"/>
     <property name="sun.boot.library.path" value="C:\Users\diogo\.jdks\openjdk-17.0.2\bin"/>
-    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter C:\Users\diogo\AppData\Local\Temp\surefire9777407000805904276 2022-03-26T17-54-02_346-jvmRun1 surefire16859937523869325549tmp surefire_01257974014065860134tmp"/>
+    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter C:\Users\diogo\AppData\Local\Temp\surefire12361347524997199883 2022-05-14T16-38-37_886-jvmRun1 surefire842437559408513171tmp surefire_015370494570659448772tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="surefire.test.class.path" value="C:\Users\diogo\Documents\ISCTE\ES\ES-LEIPL-2Sem-2022-Grupo-12\jgrapht-master\jgrapht-core\target\test-classes;C:\Users\diogo\.m2\repository\com\googlecode\junit-toolbox\junit-toolbox\2.4\junit-toolbox-2.4.jar;C:\Users\diogo\.m2\repository\commons-io\commons-io\2.4\commons-io-2.4.jar;C:\Users\diogo\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\diogo\.m2\repository\org\hamcrest\hamcrest-library\1.3\hamcrest-library-1.3.jar;C:\Users\diogo\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\diogo\.m2\repository\org\mockito\mockito-core\1.9.5\mockito-core-1.9.5.jar;C:\Users\diogo\.m2\repository\org\objenesis\objenesis\1.0\objenesis-1.0.jar;C:\Users\diogo\.m2\repository\org\openjdk\jmh\jmh-core\1.28\jmh-core-1.28.jar;C:\Users\diogo\.m2\repository\net\sf\jopt-simple\jopt-simple\4.6\jopt-simple-4.6.jar;C:\Users\diogo\.m2\repository\org\apache\commons\commons-math3\3.2\commons-math3-3.2.jar;C:\Users\diogo\.m2\repository\org\openjdk\jmh\jmh-generator-annprocess\1.28\jmh-generator-annprocess-1.28.jar;C:\Users\diogo\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.8.1\junit-jupiter-engine-5.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-engine\1.8.1\junit-platform-engine-1.8.1.jar;C:\Users\diogo\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-commons\1.8.1\junit-platform-commons-1.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.8.1\junit-jupiter-api-5.8.1.jar;C:\Users\diogo\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\diogo\.m2\repository\org\junit\vintage\junit-vintage-engine\5.8.1\junit-vintage-engine-5.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-runner\1.8.1\junit-platform-runner-1.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-launcher\1.8.1\junit-platform-launcher-1.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-suite-api\1.8.1\junit-platform-suite-api-1.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-suite-commons\1.8.1\junit-platform-suite-commons-1.8.1.jar;"/>
+    <property name="surefire.test.class.path" value="C:\Users\diogo\Documents\ISCTE\ES-LEIPL-2Sem-2022-Grupo-12\jgrapht-master\jgrapht-core\target\test-classes;C:\Users\diogo\.m2\repository\com\googlecode\junit-toolbox\junit-toolbox\2.4\junit-toolbox-2.4.jar;C:\Users\diogo\.m2\repository\commons-io\commons-io\2.4\commons-io-2.4.jar;C:\Users\diogo\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\diogo\.m2\repository\org\hamcrest\hamcrest-library\1.3\hamcrest-library-1.3.jar;C:\Users\diogo\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\diogo\.m2\repository\org\mockito\mockito-core\1.9.5\mockito-core-1.9.5.jar;C:\Users\diogo\.m2\repository\org\objenesis\objenesis\1.0\objenesis-1.0.jar;C:\Users\diogo\.m2\repository\org\openjdk\jmh\jmh-core\1.28\jmh-core-1.28.jar;C:\Users\diogo\.m2\repository\net\sf\jopt-simple\jopt-simple\4.6\jopt-simple-4.6.jar;C:\Users\diogo\.m2\repository\org\apache\commons\commons-math3\3.2\commons-math3-3.2.jar;C:\Users\diogo\.m2\repository\org\openjdk\jmh\jmh-generator-annprocess\1.28\jmh-generator-annprocess-1.28.jar;C:\Users\diogo\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.8.1\junit-jupiter-engine-5.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-engine\1.8.1\junit-platform-engine-1.8.1.jar;C:\Users\diogo\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-commons\1.8.1\junit-platform-commons-1.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.8.1\junit-jupiter-api-5.8.1.jar;C:\Users\diogo\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\diogo\.m2\repository\org\junit\vintage\junit-vintage-engine\5.8.1\junit-vintage-engine-5.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-runner\1.8.1\junit-platform-runner-1.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-launcher\1.8.1\junit-platform-launcher-1.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-suite-api\1.8.1\junit-platform-suite-api-1.8.1.jar;C:\Users\diogo\.m2\repository\org\junit\platform\junit-platform-suite-commons\1.8.1\junit-platform-suite-commons-1.8.1.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\diogo"/>
     <property name="user.language" value="pt"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
-    <property name="jdk.module.path" value="C:\Users\diogo\Documents\ISCTE\ES\ES-LEIPL-2Sem-2022-Grupo-12\jgrapht-master\jgrapht-core\target\classes;C:\Users\diogo\.m2\repository\org\jheaps\jheaps\0.14\jheaps-0.14.jar;C:\Users\diogo\.m2\repository\org\apfloat\apfloat\1.10.1\apfloat-1.10.1.jar"/>
+    <property name="jdk.module.path" value="C:\Users\diogo\Documents\ISCTE\ES-LEIPL-2Sem-2022-Grupo-12\jgrapht-master\jgrapht-core\target\classes;C:\Users\diogo\.m2\repository\org\jheaps\jheaps\0.14\jheaps-0.14.jar;C:\Users\diogo\.m2\repository\org\apfloat\apfloat\1.10.1\apfloat-1.10.1.jar"/>
     <property name="java.version.date" value="2022-01-18"/>
     <property name="java.home" value="C:\Users\diogo\.jdks\openjdk-17.0.2"/>
     <property name="file.separator" value="\"/>
-    <property name="basedir" value="C:\Users\diogo\Documents\ISCTE\ES\ES-LEIPL-2Sem-2022-Grupo-12\jgrapht-master\jgrapht-core"/>
+    <property name="basedir" value="C:\Users\diogo\Documents\ISCTE\ES-LEIPL-2Sem-2022-Grupo-12\jgrapht-master\jgrapht-core"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
@@ -43,14 +43,14 @@
     <property name="localRepository" value="C:\Users\diogo\.m2\repository"/>
     <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
     <property name="java.io.tmpdir" value="C:\Users\diogo\AppData\Local\Temp\"/>
-    <property name="idea.version" value="2021.3.3"/>
+    <property name="idea.version" value="2022.1"/>
     <property name="java.version" value="17.0.2"/>
-    <property name="user.dir" value="C:\Users\diogo\Documents\ISCTE\ES\ES-LEIPL-2Sem-2022-Grupo-12\jgrapht-master\jgrapht-core"/>
+    <property name="user.dir" value="C:\Users\diogo\Documents\ISCTE\ES-LEIPL-2Sem-2022-Grupo-12\jgrapht-master\jgrapht-core"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="sun.os.patch.level" value=""/>
     <property name="native.encoding" value="Cp1252"/>
-    <property name="java.library.path" value="C:\Users\diogo\.jdks\openjdk-17.0.2\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\VMware\VMware Player\bin\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Users\diogo\AppData\Local\Programs\Python\Python310\Scripts\;C:\Users\diogo\AppData\Local\Programs\Python\Python310\;C:\Users\diogo\AppData\Local\Microsoft\WindowsApps;C:\Program Files\MongoDB\Server\5.0\bin;C:\Users\diogo\AppData\Roaming\npm;C:\Program Files\MongoDB\Tools\100\bin;C:\Program Files\Java\jdk-17.0.2\bin;;."/>
+    <property name="java.library.path" value="C:\Users\diogo\.jdks\openjdk-17.0.2\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\VMware\VMware Player\bin\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files (x86)\ZeroTier\One\;C:\Users\diogo\AppData\Local\Microsoft\WindowsApps;C:\Program Files\MongoDB\Server\5.0\bin;C:\Users\diogo\AppData\Roaming\npm;C:\Program Files\MongoDB\Tools\100\bin;C:\Program Files\Java\jdk-17.0.2\bin;C:\src\flutter\bin;C:\tools\dart-sdk\bin;C:\Users\diogo\AppData\Roaming\Pub\Cache\bin;C:\tools\dart-sdk\bin;C:\xampp\php;C:\Users\diogo\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\diogo\AppData\Local\Programs\Python\Python310;C:\Users\diogo\AppData\Local\Programs\Python\Python310\Scripts;C:\Users\diogo\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0\LocalCache\local-packages\Python310\Scripts;;."/>
     <property name="java.vm.info" value="mixed mode"/>
     <property name="java.vendor" value="Oracle Corporation"/>
     <property name="java.vm.version" value="17.0.2+8-86"/>
@@ -64,31 +64,31 @@
   <testcase name="testListIteratorSet_setTwice_listWithReplacedElement[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeBefore_nodeInOtherListBeforeNodeOfList_IllegalArgumentException[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testIndexOfNode_nodeInList_indexOfNode[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddElementBeforeNode_sucessorInList_ElementAdded[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testAddElementBeforeNode_sucessorInList_ElementAdded[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNode_freeNode_nodeAddedToList[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddInt_inTheMiddle[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPeekFirst[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testOfferLast[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testGetFirst[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testRemoveNode_nodeNotInList_listUnchanged[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testGetFirst[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testRemoveNode_nodeNotInList_listUnchanged[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeLast_freeNode_nodeAddedToList[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddLast[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorSet_setAfterAdd_IllegalstateException[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testAddLast[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testListIteratorSet_setAfterAdd_IllegalstateException[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testNodeOf_elementNotInList_null[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testPop[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testPop[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testListIterator_concurrentAdd_ConcurrentModificationException[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddInt_atIndexSize[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testClear[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeLast_nodeInOtherList_IllegalArgumentException[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testOffer[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testOffer[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPeek[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPoll[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPush[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testSize[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testIndexOfNode_nodeInNoList_minusOne[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testIndexOfNode_nodeInNoList_minusOne[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testGetNode_indexSize_IndexOutOfBoundsException[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testContainsNode_nodeInOtherList_false[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testRemoveFirst[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testRemoveFirst[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testAddNode_nodeOfThisList_IllegalArgumentException[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorE[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testRemoveNode_removeAllNodesInListFromFront_emptyList[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -98,20 +98,20 @@
   <testcase name="testCircularIterator[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testDescendingIterator[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddFirst[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIterator_iterateBehindTail[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
-  <testcase name="testAddNodeBefore_freeNodeBeforeFreeNode_IllegalArgumentException[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testListIterator_iterateBehindTail[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testAddNodeBefore_freeNodeBeforeFreeNode_IllegalArgumentException[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testAddElementFirst_nullValue_valueAdded[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetLast[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetNode[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeBefore_freeNodeBeforeNodeInList_nodeAddedToList[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveInt_atIndex0[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testRemoveInt_inTheMiddle[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testRemoveInt_inTheMiddle[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testListIteratorNext_iterateForwardTroughCompleteList_ListNodesInOrder[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testReverseCircularIterator[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testReverseCircularIterator[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_replaceElementAtFront_listWithReplacedElement[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorPrevious_iterateBackwardTroughCompleteList_ListNodesInOrder[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorRemove_clearListFromTheFront_emptyList[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testGetLastNode[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testGetLastNode[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testListIteratorSet_replaceElementInAtEnd_listWithReplacedElement[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorRemove_notMovedListIterator_IllegalStateException[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveInt_atIndexSizeMinusOne[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -121,12 +121,12 @@
   <testcase name="testContainsNode_nodeInNoList_false[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveNode_nodeInList_nodeRemoved[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeBefore_freeNodeBeforeNodeInOtherList_IllegalArgumentException[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testRemoveLast[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorSet_setAfterRemove_IllegalstateException[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testRemoveLast[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testListIteratorSet_setAfterRemove_IllegalstateException[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPollFirst[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_NotMovedListIterator_IllegalstateException[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddInt_atIndex0[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testMoveFrom[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testMoveFrom[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testRemoveNode_removeAllNodesInListFromMiddle_emptyList[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorAdd_addElementBeforeEnd_listWithAdditionalElements[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetNode_indexNegative_IndexOutOfBoundsException[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -139,8 +139,8 @@
   <testcase name="testListIteratorRemove_removeAfterAdd_IllegalStateException[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testLastNodeOf[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorAdd_addElementsInTheMiddle_listWithAdditionalElements[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testGetFirstNode[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAppend[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testGetFirstNode[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testAppend[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPollLast[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetInt[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeFirst_nodeInOtherList_IllegalArgumentException[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -155,13 +155,13 @@
   <testcase name="testAddNodeFirst_freeNode_nodeAddedToList[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemove[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementBeforeNode_sucessorInOtherList_IllegalStateException[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNodeLast_nodeOfThisList_IllegalArgumentException[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testAddNodeLast_nodeOfThisList_IllegalArgumentException[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorAdd_addElementsAtFront_listWithAdditionalElements[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testIterator[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorNextPrevious_forwardBackwardPattern_correctElements[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveNode_removeAllNodesInListFromEnd_emptyList[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorAdd_addElementsAtEnd_listWithAdditionalElements[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddElementFirst_nonNullValue_valueAdded[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testAddElementFirst_nonNullValue_valueAdded[List with size 0]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testElement[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNode_nodeInOtherList_IllegalArgumentException[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testIndexOfNode_nodeInOtherList_minusOne[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -172,16 +172,16 @@
   <testcase name="testAddElementBeforeNode_sucessorInList_ElementAdded[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNode_freeNode_nodeAddedToList[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddInt_inTheMiddle[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testPeekFirst[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testPeekFirst[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testOfferLast[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetFirst[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testRemoveNode_nodeNotInList_listUnchanged[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testRemoveNode_nodeNotInList_listUnchanged[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeLast_freeNode_nodeAddedToList[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddLast[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_setAfterAdd_IllegalstateException[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testNodeOf_elementNotInList_null[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPop[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIterator_concurrentAdd_ConcurrentModificationException[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testListIterator_concurrentAdd_ConcurrentModificationException[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testAddInt_atIndexSize[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testClear[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeLast_nodeInOtherList_IllegalArgumentException[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -203,8 +203,8 @@
   <testcase name="testCircularIterator[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testDescendingIterator[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddFirst[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIterator_iterateBehindTail[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNodeBefore_freeNodeBeforeFreeNode_IllegalArgumentException[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testListIterator_iterateBehindTail[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testAddNodeBefore_freeNodeBeforeFreeNode_IllegalArgumentException[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementFirst_nullValue_valueAdded[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetLast[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetNode[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -212,7 +212,7 @@
   <testcase name="testRemoveInt_atIndex0[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveInt_inTheMiddle[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorNext_iterateForwardTroughCompleteList_ListNodesInOrder[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testReverseCircularIterator[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testReverseCircularIterator[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testListIteratorSet_replaceElementAtFront_listWithReplacedElement[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorPrevious_iterateBackwardTroughCompleteList_ListNodesInOrder[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorRemove_clearListFromTheFront_emptyList[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -222,12 +222,12 @@
   <testcase name="testRemoveInt_atIndexSizeMinusOne[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_setElementWithSubsequentRemove_listWithReplacedElement[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementLast[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNodeBefore_nodeInThisListBeforeNodeOfList_IllegalArgumentException[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testAddNodeBefore_nodeInThisListBeforeNodeOfList_IllegalArgumentException[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testContainsNode_nodeInNoList_false[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveNode_nodeInList_nodeRemoved[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeBefore_freeNodeBeforeNodeInOtherList_IllegalArgumentException[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveLast[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorSet_setAfterRemove_IllegalstateException[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.002"/>
+  <testcase name="testListIteratorSet_setAfterRemove_IllegalstateException[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testPollFirst[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_NotMovedListIterator_IllegalstateException[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddInt_atIndex0[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -248,21 +248,21 @@
   <testcase name="testAppend[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPollLast[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetInt[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNodeFirst_nodeInOtherList_IllegalArgumentException[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testAddNodeFirst_nodeInOtherList_IllegalArgumentException[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testInvert[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementBeforeNode_sucessorInNoList_IllegalStateException[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIterator_iterateBeforeHead[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_replaceElementInTheMiddle_listWithReplacedElement[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorRemove_clearListFromTheMiddle_emptyList[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testContainsNode_nodeInList_true[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNodeFirst_nodeOfThisList_IllegalArgumentException[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testAddNodeFirst_nodeOfThisList_IllegalArgumentException[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testIsEmpty[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeFirst_freeNode_nodeAddedToList[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemove[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementBeforeNode_sucessorInOtherList_IllegalStateException[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeLast_nodeOfThisList_IllegalArgumentException[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorAdd_addElementsAtFront_listWithAdditionalElements[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testIterator[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testIterator[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testListIteratorNextPrevious_forwardBackwardPattern_correctElements[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveNode_removeAllNodesInListFromEnd_emptyList[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorAdd_addElementsAtEnd_listWithAdditionalElements[List with size 1]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -274,13 +274,13 @@
   <testcase name="testListIteratorSet_setTwice_listWithReplacedElement[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeBefore_nodeInOtherListBeforeNodeOfList_IllegalArgumentException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testIndexOfNode_nodeInList_indexOfNode[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddElementBeforeNode_sucessorInList_ElementAdded[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testAddElementBeforeNode_sucessorInList_ElementAdded[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNode_freeNode_nodeAddedToList[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddInt_inTheMiddle[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPeekFirst[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testOfferLast[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetFirst[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testRemoveNode_nodeNotInList_listUnchanged[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testRemoveNode_nodeNotInList_listUnchanged[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testAddNodeLast_freeNode_nodeAddedToList[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddLast[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_setAfterAdd_IllegalstateException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -289,7 +289,7 @@
   <testcase name="testListIterator_concurrentAdd_ConcurrentModificationException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddInt_atIndexSize[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testClear[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNodeLast_nodeInOtherList_IllegalArgumentException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.002"/>
+  <testcase name="testAddNodeLast_nodeInOtherList_IllegalArgumentException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testOffer[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPeek[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPoll[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -297,7 +297,7 @@
   <testcase name="testSize[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testIndexOfNode_nodeInNoList_minusOne[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetNode_indexSize_IndexOutOfBoundsException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testContainsNode_nodeInOtherList_false[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testContainsNode_nodeInOtherList_false[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testRemoveFirst[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNode_nodeOfThisList_IllegalArgumentException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorE[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -310,7 +310,7 @@
   <testcase name="testAddFirst[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIterator_iterateBehindTail[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeBefore_freeNodeBeforeFreeNode_IllegalArgumentException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddElementFirst_nullValue_valueAdded[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testAddElementFirst_nullValue_valueAdded[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testGetLast[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetNode[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeBefore_freeNodeBeforeNodeInList_nodeAddedToList[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -330,21 +330,21 @@
   <testcase name="testAddNodeBefore_nodeInThisListBeforeNodeOfList_IllegalArgumentException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testContainsNode_nodeInNoList_false[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveNode_nodeInList_nodeRemoved[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNodeBefore_freeNodeBeforeNodeInOtherList_IllegalArgumentException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testAddNodeBefore_freeNodeBeforeNodeInOtherList_IllegalArgumentException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveLast[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_setAfterRemove_IllegalstateException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPollFirst[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_NotMovedListIterator_IllegalstateException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddInt_atIndex0[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testMoveFrom[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testRemoveNode_removeAllNodesInListFromMiddle_emptyList[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testRemoveNode_removeAllNodesInListFromMiddle_emptyList[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testListIteratorAdd_addElementBeforeEnd_listWithAdditionalElements[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetNode_indexNegative_IndexOutOfBoundsException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPeekLast[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorRemove_removeTwiceAfterNext_IllegalStateException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testRemoveFirstOccurrence[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testListIteratorRemove_removeTwiceAfterNext_IllegalStateException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testRemoveFirstOccurrence[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testNodeOf_elementInList_nodeOfElement[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIterator_concurrentRemove_ConcurrentModificationException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testListIterator_concurrentRemove_ConcurrentModificationException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.003"/>
   <testcase name="testRemoveLastOccurrence[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorRemove_removeAfterAdd_IllegalStateException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testLastNodeOf[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -352,7 +352,7 @@
   <testcase name="testGetFirstNode[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAppend[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPollLast[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testGetInt[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testGetInt[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testAddNodeFirst_nodeInOtherList_IllegalArgumentException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testInvert[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementBeforeNode_sucessorInNoList_IllegalStateException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -363,21 +363,21 @@
   <testcase name="testAddNodeFirst_nodeOfThisList_IllegalArgumentException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testIsEmpty[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeFirst_freeNode_nodeAddedToList[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testRemove[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testRemove[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testAddElementBeforeNode_sucessorInOtherList_IllegalStateException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeLast_nodeOfThisList_IllegalArgumentException[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorAdd_addElementsAtFront_listWithAdditionalElements[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testIterator[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorNextPrevious_forwardBackwardPattern_correctElements[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testListIteratorNextPrevious_forwardBackwardPattern_correctElements[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveNode_removeAllNodesInListFromEnd_emptyList[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorAdd_addElementsAtEnd_listWithAdditionalElements[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementFirst_nonNullValue_valueAdded[List with size 2]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testElement[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNode_nodeInOtherList_IllegalArgumentException[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testAddNode_nodeInOtherList_IllegalArgumentException[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testIndexOfNode_nodeInOtherList_minusOne[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorRemove_clearListFromTheEnd_emptyList[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_setTwice_listWithReplacedElement[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNodeBefore_nodeInOtherListBeforeNodeOfList_IllegalArgumentException[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testAddNodeBefore_nodeInOtherListBeforeNodeOfList_IllegalArgumentException[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testIndexOfNode_nodeInList_indexOfNode[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementBeforeNode_sucessorInList_ElementAdded[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNode_freeNode_nodeAddedToList[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -388,7 +388,7 @@
   <testcase name="testRemoveNode_nodeNotInList_listUnchanged[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeLast_freeNode_nodeAddedToList[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddLast[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorSet_setAfterAdd_IllegalstateException[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testListIteratorSet_setAfterAdd_IllegalstateException[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testNodeOf_elementNotInList_null[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPop[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIterator_concurrentAdd_ConcurrentModificationException[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -414,8 +414,8 @@
   <testcase name="testDescendingIterator[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddFirst[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIterator_iterateBehindTail[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNodeBefore_freeNodeBeforeFreeNode_IllegalArgumentException[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
-  <testcase name="testAddElementFirst_nullValue_valueAdded[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testAddNodeBefore_freeNodeBeforeFreeNode_IllegalArgumentException[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testAddElementFirst_nullValue_valueAdded[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testGetLast[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetNode[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeBefore_freeNodeBeforeNodeInList_nodeAddedToList[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -430,7 +430,7 @@
   <testcase name="testListIteratorSet_replaceElementInAtEnd_listWithReplacedElement[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorRemove_notMovedListIterator_IllegalStateException[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveInt_atIndexSizeMinusOne[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorSet_setElementWithSubsequentRemove_listWithReplacedElement[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testListIteratorSet_setElementWithSubsequentRemove_listWithReplacedElement[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testAddElementLast[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeBefore_nodeInThisListBeforeNodeOfList_IllegalArgumentException[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testContainsNode_nodeInNoList_false[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -439,7 +439,7 @@
   <testcase name="testRemoveLast[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_setAfterRemove_IllegalstateException[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPollFirst[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorSet_NotMovedListIterator_IllegalstateException[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testListIteratorSet_NotMovedListIterator_IllegalstateException[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddInt_atIndex0[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testMoveFrom[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveNode_removeAllNodesInListFromMiddle_emptyList[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -469,9 +469,9 @@
   <testcase name="testIsEmpty[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeFirst_freeNode_nodeAddedToList[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemove[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddElementBeforeNode_sucessorInOtherList_IllegalStateException[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testAddElementBeforeNode_sucessorInOtherList_IllegalStateException[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testAddNodeLast_nodeOfThisList_IllegalArgumentException[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorAdd_addElementsAtFront_listWithAdditionalElements[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testListIteratorAdd_addElementsAtFront_listWithAdditionalElements[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testIterator[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorNextPrevious_forwardBackwardPattern_correctElements[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveNode_removeAllNodesInListFromEnd_emptyList[List with size 3]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -485,7 +485,7 @@
   <testcase name="testAddNodeBefore_nodeInOtherListBeforeNodeOfList_IllegalArgumentException[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testIndexOfNode_nodeInList_indexOfNode[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementBeforeNode_sucessorInList_ElementAdded[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNode_freeNode_nodeAddedToList[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testAddNode_freeNode_nodeAddedToList[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddInt_inTheMiddle[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPeekFirst[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testOfferLast[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -512,7 +512,7 @@
   <testcase name="testAddNode_nodeOfThisList_IllegalArgumentException[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorE[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveNode_removeAllNodesInListFromFront_emptyList[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testPrepend[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testPrepend[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorInt_indexInTheMiddle_iteratorAtCorrectIndex[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testOfferFirst[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testCircularIterator[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -521,19 +521,19 @@
   <testcase name="testListIterator_iterateBehindTail[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeBefore_freeNodeBeforeFreeNode_IllegalArgumentException[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementFirst_nullValue_valueAdded[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testGetLast[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testGetLast[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testGetNode[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeBefore_freeNodeBeforeNodeInList_nodeAddedToList[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveInt_atIndex0[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveInt_inTheMiddle[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorNext_iterateForwardTroughCompleteList_ListNodesInOrder[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testListIteratorNext_iterateForwardTroughCompleteList_ListNodesInOrder[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testReverseCircularIterator[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_replaceElementAtFront_listWithReplacedElement[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorPrevious_iterateBackwardTroughCompleteList_ListNodesInOrder[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorRemove_clearListFromTheFront_emptyList[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetLastNode[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_replaceElementInAtEnd_listWithReplacedElement[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorRemove_notMovedListIterator_IllegalStateException[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testListIteratorRemove_notMovedListIterator_IllegalStateException[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveInt_atIndexSizeMinusOne[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_setElementWithSubsequentRemove_listWithReplacedElement[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementLast[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -555,8 +555,8 @@
   <testcase name="testRemoveFirstOccurrence[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testNodeOf_elementInList_nodeOfElement[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIterator_concurrentRemove_ConcurrentModificationException[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testRemoveLastOccurrence[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
-  <testcase name="testListIteratorRemove_removeAfterAdd_IllegalStateException[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testRemoveLastOccurrence[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testListIteratorRemove_removeAfterAdd_IllegalStateException[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testLastNodeOf[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorAdd_addElementsInTheMiddle_listWithAdditionalElements[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetFirstNode[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -576,18 +576,18 @@
   <testcase name="testRemove[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementBeforeNode_sucessorInOtherList_IllegalStateException[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeLast_nodeOfThisList_IllegalArgumentException[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorAdd_addElementsAtFront_listWithAdditionalElements[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testListIteratorAdd_addElementsAtFront_listWithAdditionalElements[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testIterator[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorNextPrevious_forwardBackwardPattern_correctElements[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveNode_removeAllNodesInListFromEnd_emptyList[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorAdd_addElementsAtEnd_listWithAdditionalElements[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddElementFirst_nonNullValue_valueAdded[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testAddElementFirst_nonNullValue_valueAdded[List with size 4]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testElement[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNode_nodeInOtherList_IllegalArgumentException[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testIndexOfNode_nodeInOtherList_minusOne[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorRemove_clearListFromTheEnd_emptyList[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorSet_setTwice_listWithReplacedElement[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNodeBefore_nodeInOtherListBeforeNodeOfList_IllegalArgumentException[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testListIteratorSet_setTwice_listWithReplacedElement[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testAddNodeBefore_nodeInOtherListBeforeNodeOfList_IllegalArgumentException[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testIndexOfNode_nodeInList_indexOfNode[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementBeforeNode_sucessorInList_ElementAdded[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNode_freeNode_nodeAddedToList[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -598,10 +598,10 @@
   <testcase name="testRemoveNode_nodeNotInList_listUnchanged[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeLast_freeNode_nodeAddedToList[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddLast[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorSet_setAfterAdd_IllegalstateException[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testListIteratorSet_setAfterAdd_IllegalstateException[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testNodeOf_elementNotInList_null[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPop[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIterator_concurrentAdd_ConcurrentModificationException[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testListIterator_concurrentAdd_ConcurrentModificationException[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testAddInt_atIndexSize[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testClear[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeLast_nodeInOtherList_IllegalArgumentException[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -613,18 +613,18 @@
   <testcase name="testIndexOfNode_nodeInNoList_minusOne[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetNode_indexSize_IndexOutOfBoundsException[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testContainsNode_nodeInOtherList_false[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testRemoveFirst[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testRemoveFirst[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNode_nodeOfThisList_IllegalArgumentException[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorE[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveNode_removeAllNodesInListFromFront_emptyList[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPrepend[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorInt_indexInTheMiddle_iteratorAtCorrectIndex[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testListIteratorInt_indexInTheMiddle_iteratorAtCorrectIndex[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testOfferFirst[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testCircularIterator[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testDescendingIterator[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddFirst[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIterator_iterateBehindTail[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNodeBefore_freeNodeBeforeFreeNode_IllegalArgumentException[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testAddNodeBefore_freeNodeBeforeFreeNode_IllegalArgumentException[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testAddElementFirst_nullValue_valueAdded[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetLast[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetNode[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -642,7 +642,7 @@
   <testcase name="testRemoveInt_atIndexSizeMinusOne[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_setElementWithSubsequentRemove_listWithReplacedElement[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementLast[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNodeBefore_nodeInThisListBeforeNodeOfList_IllegalArgumentException[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testAddNodeBefore_nodeInThisListBeforeNodeOfList_IllegalArgumentException[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testContainsNode_nodeInNoList_false[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveNode_nodeInList_nodeRemoved[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeBefore_freeNodeBeforeNodeInOtherList_IllegalArgumentException[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -658,13 +658,13 @@
   <testcase name="testPeekLast[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorRemove_removeTwiceAfterNext_IllegalStateException[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveFirstOccurrence[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testNodeOf_elementInList_nodeOfElement[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testNodeOf_elementInList_nodeOfElement[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testListIterator_concurrentRemove_ConcurrentModificationException[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveLastOccurrence[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorRemove_removeAfterAdd_IllegalStateException[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testLastNodeOf[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorAdd_addElementsInTheMiddle_listWithAdditionalElements[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testGetFirstNode[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testGetFirstNode[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAppend[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPollLast[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetInt[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -688,7 +688,7 @@
   <testcase name="testListIteratorAdd_addElementsAtEnd_listWithAdditionalElements[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementFirst_nonNullValue_valueAdded[List with size 5]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testElement[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNode_nodeInOtherList_IllegalArgumentException[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testAddNode_nodeInOtherList_IllegalArgumentException[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testIndexOfNode_nodeInOtherList_minusOne[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorRemove_clearListFromTheEnd_emptyList[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_setTwice_listWithReplacedElement[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -698,17 +698,17 @@
   <testcase name="testAddNode_freeNode_nodeAddedToList[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddInt_inTheMiddle[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPeekFirst[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testOfferLast[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testOfferLast[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testGetFirst[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveNode_nodeNotInList_listUnchanged[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeLast_freeNode_nodeAddedToList[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddLast[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorSet_setAfterAdd_IllegalstateException[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testListIteratorSet_setAfterAdd_IllegalstateException[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testNodeOf_elementNotInList_null[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPop[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIterator_concurrentAdd_ConcurrentModificationException[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddInt_atIndexSize[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testClear[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testClear[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeLast_nodeInOtherList_IllegalArgumentException[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testOffer[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPeek[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -717,11 +717,11 @@
   <testcase name="testSize[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testIndexOfNode_nodeInNoList_minusOne[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetNode_indexSize_IndexOutOfBoundsException[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testContainsNode_nodeInOtherList_false[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testContainsNode_nodeInOtherList_false[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testRemoveFirst[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNode_nodeOfThisList_IllegalArgumentException[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorE[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testRemoveNode_removeAllNodesInListFromFront_emptyList[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testRemoveNode_removeAllNodesInListFromFront_emptyList[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPrepend[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorInt_indexInTheMiddle_iteratorAtCorrectIndex[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testOfferFirst[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -730,7 +730,7 @@
   <testcase name="testAddFirst[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIterator_iterateBehindTail[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeBefore_freeNodeBeforeFreeNode_IllegalArgumentException[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddElementFirst_nullValue_valueAdded[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.003"/>
+  <testcase name="testAddElementFirst_nullValue_valueAdded[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetLast[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetNode[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeBefore_freeNodeBeforeNodeInList_nodeAddedToList[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -742,8 +742,8 @@
   <testcase name="testListIteratorPrevious_iterateBackwardTroughCompleteList_ListNodesInOrder[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorRemove_clearListFromTheFront_emptyList[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetLastNode[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorSet_replaceElementInAtEnd_listWithReplacedElement[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorRemove_notMovedListIterator_IllegalStateException[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testListIteratorSet_replaceElementInAtEnd_listWithReplacedElement[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testListIteratorRemove_notMovedListIterator_IllegalStateException[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testRemoveInt_atIndexSizeMinusOne[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_setElementWithSubsequentRemove_listWithReplacedElement[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementLast[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -754,7 +754,7 @@
   <testcase name="testRemoveLast[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_setAfterRemove_IllegalstateException[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPollFirst[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorSet_NotMovedListIterator_IllegalstateException[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testListIteratorSet_NotMovedListIterator_IllegalstateException[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testAddInt_atIndex0[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testMoveFrom[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveNode_removeAllNodesInListFromMiddle_emptyList[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -766,7 +766,7 @@
   <testcase name="testNodeOf_elementInList_nodeOfElement[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIterator_concurrentRemove_ConcurrentModificationException[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveLastOccurrence[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorRemove_removeAfterAdd_IllegalStateException[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testListIteratorRemove_removeAfterAdd_IllegalStateException[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testLastNodeOf[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorAdd_addElementsInTheMiddle_listWithAdditionalElements[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetFirstNode[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -781,7 +781,7 @@
   <testcase name="testListIteratorRemove_clearListFromTheMiddle_emptyList[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testContainsNode_nodeInList_true[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeFirst_nodeOfThisList_IllegalArgumentException[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testIsEmpty[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testIsEmpty[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeFirst_freeNode_nodeAddedToList[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemove[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementBeforeNode_sucessorInOtherList_IllegalStateException[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -790,7 +790,7 @@
   <testcase name="testIterator[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorNextPrevious_forwardBackwardPattern_correctElements[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveNode_removeAllNodesInListFromEnd_emptyList[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorAdd_addElementsAtEnd_listWithAdditionalElements[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testListIteratorAdd_addElementsAtEnd_listWithAdditionalElements[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testAddElementFirst_nonNullValue_valueAdded[List with size 6]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testElement[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNode_nodeInOtherList_IllegalArgumentException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -808,13 +808,13 @@
   <testcase name="testRemoveNode_nodeNotInList_listUnchanged[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeLast_freeNode_nodeAddedToList[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddLast[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorSet_setAfterAdd_IllegalstateException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testListIteratorSet_setAfterAdd_IllegalstateException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testNodeOf_elementNotInList_null[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPop[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIterator_concurrentAdd_ConcurrentModificationException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddInt_atIndexSize[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testClear[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNodeLast_nodeInOtherList_IllegalArgumentException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testAddNodeLast_nodeInOtherList_IllegalArgumentException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testOffer[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPeek[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPoll[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -824,7 +824,7 @@
   <testcase name="testGetNode_indexSize_IndexOutOfBoundsException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testContainsNode_nodeInOtherList_false[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveFirst[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNode_nodeOfThisList_IllegalArgumentException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testAddNode_nodeOfThisList_IllegalArgumentException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorE[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveNode_removeAllNodesInListFromFront_emptyList[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPrepend[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -834,7 +834,7 @@
   <testcase name="testDescendingIterator[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddFirst[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIterator_iterateBehindTail[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNodeBefore_freeNodeBeforeFreeNode_IllegalArgumentException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testAddNodeBefore_freeNodeBeforeFreeNode_IllegalArgumentException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testAddElementFirst_nullValue_valueAdded[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetLast[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testGetNode[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -852,10 +852,10 @@
   <testcase name="testRemoveInt_atIndexSizeMinusOne[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_setElementWithSubsequentRemove_listWithReplacedElement[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementLast[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNodeBefore_nodeInThisListBeforeNodeOfList_IllegalArgumentException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testAddNodeBefore_nodeInThisListBeforeNodeOfList_IllegalArgumentException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testContainsNode_nodeInNoList_false[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveNode_nodeInList_nodeRemoved[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNodeBefore_freeNodeBeforeNodeInOtherList_IllegalArgumentException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testAddNodeBefore_freeNodeBeforeNodeInOtherList_IllegalArgumentException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testRemoveLast[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_setAfterRemove_IllegalstateException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPollFirst[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -869,7 +869,7 @@
   <testcase name="testListIteratorRemove_removeTwiceAfterNext_IllegalStateException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveFirstOccurrence[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testNodeOf_elementInList_nodeOfElement[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIterator_concurrentRemove_ConcurrentModificationException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testListIterator_concurrentRemove_ConcurrentModificationException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveLastOccurrence[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorRemove_removeAfterAdd_IllegalStateException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testLastNodeOf[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -882,7 +882,7 @@
   <testcase name="testInvert[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementBeforeNode_sucessorInNoList_IllegalStateException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIterator_iterateBeforeHead[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorSet_replaceElementInTheMiddle_listWithReplacedElement[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testListIteratorSet_replaceElementInTheMiddle_listWithReplacedElement[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testListIteratorRemove_clearListFromTheMiddle_emptyList[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testContainsNode_nodeInList_true[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeFirst_nodeOfThisList_IllegalArgumentException[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -895,16 +895,16 @@
   <testcase name="testIterator[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorNextPrevious_forwardBackwardPattern_correctElements[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveNode_removeAllNodesInListFromEnd_emptyList[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testListIteratorAdd_addElementsAtEnd_listWithAdditionalElements[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testListIteratorAdd_addElementsAtEnd_listWithAdditionalElements[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementFirst_nonNullValue_valueAdded[List with size 7]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testElement[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.002"/>
+  <testcase name="testElement[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNode_nodeInOtherList_IllegalArgumentException[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testIndexOfNode_nodeInOtherList_minusOne[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorRemove_clearListFromTheEnd_emptyList[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_setTwice_listWithReplacedElement[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeBefore_nodeInOtherListBeforeNodeOfList_IllegalArgumentException[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testIndexOfNode_nodeInList_indexOfNode[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddElementBeforeNode_sucessorInList_ElementAdded[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testAddElementBeforeNode_sucessorInList_ElementAdded[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testAddNode_freeNode_nodeAddedToList[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddInt_inTheMiddle[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPeekFirst[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -929,7 +929,7 @@
   <testcase name="testGetNode_indexSize_IndexOutOfBoundsException[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testContainsNode_nodeInOtherList_false[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveFirst[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNode_nodeOfThisList_IllegalArgumentException[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testAddNode_nodeOfThisList_IllegalArgumentException[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testListIteratorE[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveNode_removeAllNodesInListFromFront_emptyList[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPrepend[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -957,11 +957,11 @@
   <testcase name="testRemoveInt_atIndexSizeMinusOne[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_setElementWithSubsequentRemove_listWithReplacedElement[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementLast[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNodeBefore_nodeInThisListBeforeNodeOfList_IllegalArgumentException[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
+  <testcase name="testAddNodeBefore_nodeInThisListBeforeNodeOfList_IllegalArgumentException[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testContainsNode_nodeInNoList_false[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemoveNode_nodeInList_nodeRemoved[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeBefore_freeNodeBeforeNodeInOtherList_IllegalArgumentException[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testRemoveLast[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testRemoveLast[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testListIteratorSet_setAfterRemove_IllegalstateException[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testPollFirst[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_NotMovedListIterator_IllegalstateException[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -985,7 +985,7 @@
   <testcase name="testGetInt[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddNodeFirst_nodeInOtherList_IllegalArgumentException[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testInvert[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddElementBeforeNode_sucessorInNoList_IllegalStateException[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testAddElementBeforeNode_sucessorInNoList_IllegalStateException[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testListIterator_iterateBeforeHead[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorSet_replaceElementInTheMiddle_listWithReplacedElement[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorRemove_clearListFromTheMiddle_emptyList[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
@@ -995,7 +995,7 @@
   <testcase name="testAddNodeFirst_freeNode_nodeAddedToList[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testRemove[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testAddElementBeforeNode_sucessorInOtherList_IllegalStateException[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
-  <testcase name="testAddNodeLast_nodeOfThisList_IllegalArgumentException[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
+  <testcase name="testAddNodeLast_nodeOfThisList_IllegalArgumentException[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0.001"/>
   <testcase name="testListIteratorAdd_addElementsAtFront_listWithAdditionalElements[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testIterator[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>
   <testcase name="testListIteratorNextPrevious_forwardBackwardPattern_correctElements[List with size 8]" classname="org.jgrapht.util.DoublyLinkedListTest" time="0"/>

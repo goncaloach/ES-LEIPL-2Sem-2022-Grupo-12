@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.jgrapht.alg.shortestpath.EppsteinShortestPathIteratorTest
 -------------------------------------------------------------------------------
-Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.528 s - in org.jgrapht.alg.shortestpath.EppsteinShortestPathIteratorTest
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.461 s - in org.jgrapht.alg.shortestpath.EppsteinShortestPathIteratorTest

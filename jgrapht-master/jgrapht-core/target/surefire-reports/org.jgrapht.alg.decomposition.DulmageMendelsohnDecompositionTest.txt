@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.jgrapht.alg.decomposition.DulmageMendelsohnDecompositionTest
 -------------------------------------------------------------------------------
-Tests run: 100, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.271 s - in org.jgrapht.alg.decomposition.DulmageMendelsohnDecompositionTest
+Tests run: 100, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.141 s - in org.jgrapht.alg.decomposition.DulmageMendelsohnDecompositionTest

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.jgrapht.alg.spanning.AhujaOrlinSharmaCapacitatedMinimumSpanningTreeTest
 -------------------------------------------------------------------------------
-Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 25.38 s - in org.jgrapht.alg.spanning.AhujaOrlinSharmaCapacitatedMinimumSpanningTreeTest
+Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 22.615 s - in org.jgrapht.alg.spanning.AhujaOrlinSharmaCapacitatedMinimumSpanningTreeTest

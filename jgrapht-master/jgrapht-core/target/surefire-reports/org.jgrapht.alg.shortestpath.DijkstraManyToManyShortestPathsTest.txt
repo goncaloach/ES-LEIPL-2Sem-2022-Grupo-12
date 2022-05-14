@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.jgrapht.alg.shortestpath.DijkstraManyToManyShortestPathsTest
 -------------------------------------------------------------------------------
-Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.449 s - in org.jgrapht.alg.shortestpath.DijkstraManyToManyShortestPathsTest
+Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.834 s - in org.jgrapht.alg.shortestpath.DijkstraManyToManyShortestPathsTest

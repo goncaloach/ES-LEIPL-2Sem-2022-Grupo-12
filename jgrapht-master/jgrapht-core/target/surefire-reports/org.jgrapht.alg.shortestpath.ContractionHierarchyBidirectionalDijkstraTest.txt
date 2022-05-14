@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.jgrapht.alg.shortestpath.ContractionHierarchyBidirectionalDijkstraTest
 -------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.685 s - in org.jgrapht.alg.shortestpath.ContractionHierarchyBidirectionalDijkstraTest
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.644 s - in org.jgrapht.alg.shortestpath.ContractionHierarchyBidirectionalDijkstraTest
