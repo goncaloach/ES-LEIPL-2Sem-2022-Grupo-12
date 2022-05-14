@@ -18,8 +18,6 @@
 package org.jgrapht.alg.matching.blossom.v5;
 
 import org.jgrapht.*;
-import org.jgrapht.alg.util.Pair;
-import org.jgrapht.alg.util.Triple;
 import org.jgrapht.util.*;
 import org.jheaps.*;
 import org.jheaps.tree.*;
@@ -218,7 +216,7 @@ class BlossomVInitializer<V, E> {
             if (source != target) { // we avoid self-loops in order to support pseudographs
                 edgeNum++;
                 BlossomVEdge edge =
-                		target.addEdge(source, graph.getEdgeWeight(e) - minEdgeWeight, i);
+                        target.addEdge(source, graph.getEdgeWeight(e) - minEdgeWeight, i);
                 edges[i] = edge;
                 graphEdges.add(e);
                 i++;
@@ -532,7 +530,7 @@ class BlossomVInitializer<V, E> {
             // edge
             if (infinityEdge.slack < criticalEps) { // this edge can become a best edge
                 if (oppositeNode.bestEdge == null) { // inTreeNode hadn't had any best edge before
-                	infinityEdge.addToHead(heap, oppositeNode);
+                    infinityEdge.addToHead(heap, oppositeNode);
                 } else {
                     if (infinityEdge.slack < oppositeNode.bestEdge.slack) {
                         removeFromHeap(oppositeNode);
@@ -689,28 +687,43 @@ class BlossomVInitializer<V, E> {
      * @return the number of trees in the resulting state object, which equals to the number of
      * unmatched nodes.
      */
+    private BlossomVNode currentNode;
+    private double branchEps;
+    private Action flag;
+    private BlossomVNode branchRoot;
+    private BlossomVEdge criticalEdge;
+    private AddressableHeap<Double, BlossomVEdge> heap;
+    private BlossomVNode root;
+    private BlossomVNode root2;
+    private BlossomVNode root3;
+    private double criticalEps;
+    private int criticalDir;
+    private boolean primalOperation;
+    private BlossomVEdge minSlackEdge;
+    private BlossomVNode.IncidentEdgeIterator iterator;
+
     private int initFractional() {
         /*
          * For every free node u, which is adjacent to at least one "+" node in the current tree, we
          * keep track of an edge that has minimum slack and connects node u and some "+" node in the
          * current tree. This edge is called a "best edge".
          */
-        AddressableHeap<Double, BlossomVEdge> heap = new PairingHeap<>();
+        heap = new PairingHeap<>();
 
-        for (BlossomVNode root = nodes[nodeNum].treeSiblingNext; root != null; ) {
-            BlossomVNode root2 = root.treeSiblingNext;
-            BlossomVNode root3 = null;
+        for (root = nodes[nodeNum].treeSiblingNext; root != null; ) {
+            root2 = root.treeSiblingNext;
+            root3 = null;
             if (root2 != null) {
                 root3 = root2.treeSiblingNext;
             }
-            BlossomVNode currentNode = root;
+            currentNode = root;
 
             heap.clear();
 
-            double branchEps = 0;
-            Action flag = NONE;
-            BlossomVNode branchRoot = currentNode;
-            BlossomVEdge criticalEdge = null;
+            branchEps = 0;
+            flag = NONE;
+            branchRoot = currentNode;
+            criticalEdge = null;
             /*
              * Let's denote the minimum slack of (+, inf) edges incident to nodes of this tree as
              * infSlack. Critical eps is the minimum dual value which can be chosen as the branchEps
@@ -722,9 +735,9 @@ class BlossomVInitializer<V, E> {
              * - branchEps. Otherwise, we can apply shrink or augment operations after we increase
              * the branchEps by criticalEps - branchEps.
              */
-            double criticalEps = INFINITY;
-            int criticalDir = -1;
-            boolean primalOperation = false;
+            criticalEps = INFINITY;
+            criticalDir = -1;
+            primalOperation = false;
 
             /*
              * Grow a tree as much as possible. Main goal is to apply a primal operation. Therefore,
@@ -749,56 +762,8 @@ class BlossomVInitializer<V, E> {
                 }
 
                 // Process edges incident to the current node
-                BlossomVNode.IncidentEdgeIterator iterator;
-                for (iterator = currentNode.incidentEdgesIterator(); iterator.hasNext(); ) {
-                    BlossomVEdge currentEdge = iterator.next();
-                    int dir = iterator.getDir();
+                processEdgesIncident();
 
-                    currentEdge.slack += branchEps; // apply lazy delta spreading
-                    BlossomVNode oppositeNode = currentEdge.head[dir];
-
-                    if (oppositeNode.tree == root.tree) {
-                        // opposite node is in the same tree
-                        if (oppositeNode.isPlusNode()) {
-                            double slack = currentEdge.slack;
-                            if (!oppositeNode.isProcessed) {
-                                slack += branchEps;
-                            }
-                            if (2 * criticalEps > slack || criticalEdge == null) {
-                                flag = SHRINK;
-                                criticalEps = slack / 2;
-                                criticalEdge = currentEdge;
-                                criticalDir = dir;
-                                if (criticalEps <= branchEps) {
-                                    // found a tight (+, +) in-tree edge to shrink => go out of the
-                                    // loop
-                                    primalOperation = true;
-                                    break;
-                                }
-                            }
-                        }
-
-                    } else if (oppositeNode.isPlusNode()) {
-                        // current edge is a (+, +) cross-tree edge
-                        if (criticalEps >= currentEdge.slack || criticalEdge == null) {
-                            //
-                            flag = AUGMENT;
-                            criticalEps = currentEdge.slack;
-                            criticalEdge = currentEdge;
-                            criticalDir = dir;
-                            if (criticalEps <= branchEps) {
-                                // found a tight (+, +) cross-tree edge to augment
-                                primalOperation = true;
-                                break;
-                            }
-                        }
-
-                    } else {
-                        // opposite node is an infinity node since all other trees contain only one
-                        // "+" node
-                        handleInfinityEdgeInit(heap, currentEdge, dir, branchEps, criticalEps);
-                    }
-                }
                 if (primalOperation) {
                     // finish processing incident edges
                     while (iterator.hasNext()) {
@@ -814,59 +779,8 @@ class BlossomVInitializer<V, E> {
                      * critical edge (in this case we can perform primal operation after updating
                      * the duals).
                      */
-                    if (currentNode.firstTreeChild != null) {
-                        // move to the next grandchild
-                        currentNode = currentNode.firstTreeChild.getOppositeMatched();
-                    } else {
-                        // try to find another unprocessed node
-                        while (currentNode != branchRoot && currentNode.treeSiblingNext == null) {
-                            currentNode = currentNode.getTreeParent();
-                        }
-                        if (currentNode.isMinusNode()) {
-                            // found an unprocessed node
-                            currentNode = currentNode.treeSiblingNext.getOppositeMatched();
-                        } else if (currentNode == branchRoot) {
-                            // we've processed all nodes in the current branch
-                            BlossomVEdge minSlackEdge = heap.isEmpty() ? null : heap.findMin().getValue();
-                            if (minSlackEdge == null || minSlackEdge.slack >= criticalEps) {
-                                // can perform primal operation after updating duals
-                                if (DEBUG) {
-                                    System.out.println("Now current eps = " + criticalEps);
-                                }
-                                if (criticalEps > NO_PERFECT_MATCHING_THRESHOLD) {
-                                    throw new IllegalArgumentException(NO_PERFECT_MATCHING);
-                                }
-                                branchEps = criticalEps;
-                                break;
-                            } else {
-                                // grow minimum slack edge
-                                if (DEBUG) {
-                                    System.out.println("Growing an edge " + minSlackEdge);
-                                }
-                                int dirToFreeNode = minSlackEdge.head[0].isInfinityNode() ? 0 : 1;
-                                currentNode = minSlackEdge.head[1 - dirToFreeNode];
-
-                                BlossomVNode minusNode = minSlackEdge.head[dirToFreeNode];
-                                removeFromHeap(minusNode);
-                                minusNode.label = MINUS;
-                                currentNode.addChild(minusNode, minSlackEdge, true);
-                                branchEps = minSlackEdge.slack; // set new eps of the tree
-
-                                BlossomVNode plusNode = minusNode.getOppositeMatched();
-                                if (plusNode.bestEdge != null) {
-                                    removeFromHeap(plusNode);
-                                }
-                                plusNode.label = PLUS;
-                                minusNode.addChild(plusNode, minusNode.matched, true);
-
-                                if (DEBUG) {
-                                    System.out.println("New branch root is " + plusNode + ", eps = " + branchEps);
-                                }
-                                // Start a new branch
-                                currentNode = branchRoot = plusNode;
-                            }
-                        }
-                    }
+                    if(moveCurrentNode())
+                        break;
                 }
             }
             // update duals
@@ -877,8 +791,120 @@ class BlossomVInitializer<V, E> {
             BlossomVNode to = criticalEdge.head[criticalDir];
             root = updateRoot(flag, criticalEdge, root, from, to, root2, root3);
         }
-
         return finish();
+    }
+
+    private void processEdgesIncident(){
+        for (iterator = currentNode.incidentEdgesIterator(); iterator.hasNext(); ) {
+            BlossomVEdge currentEdge = iterator.next();
+            int dir = iterator.getDir();
+
+            currentEdge.slack += branchEps; // apply lazy delta spreading
+            BlossomVNode oppositeNode = currentEdge.head[dir];
+
+            if (oppositeNode.tree == root.tree) {
+                // opposite node is in the same tree
+                if (oppositeNode.isPlusNode()) {
+                    double slack = currentEdge.slack;
+                    if (!oppositeNode.isProcessed) {
+                        slack += branchEps;
+                    }
+                    if (2 * criticalEps > slack || criticalEdge == null) {
+                        flag = SHRINK;
+                        criticalEps = slack / 2;
+                        criticalEdge = currentEdge;
+                        criticalDir = dir;
+                        if (criticalEps <= branchEps) {
+                            // found a tight (+, +) in-tree edge to shrink => go out of the
+                            // loop
+                            primalOperation = true;
+                            break;
+                        }
+                    }
+                }
+
+            } else if (oppositeNode.isPlusNode()) {
+                // current edge is a (+, +) cross-tree edge
+                if (criticalEps >= currentEdge.slack || criticalEdge == null) {
+                    //
+                    flag = AUGMENT;
+                    criticalEps = currentEdge.slack;
+                    criticalEdge = currentEdge;
+                    criticalDir = dir;
+                    if (criticalEps <= branchEps) {
+                        // found a tight (+, +) cross-tree edge to augment
+                        primalOperation = true;
+                        break;
+                    }
+                }
+
+            } else {
+                // opposite node is an infinity node since all other trees contain only one
+                // "+" node
+                handleInfinityEdgeInit(heap, currentEdge, dir, branchEps, criticalEps);
+            }
+        }
+    }
+
+    private boolean moveCurrentNode(){
+        if (currentNode.firstTreeChild != null) {
+            // move to the next grandchild
+            currentNode = currentNode.firstTreeChild.getOppositeMatched();
+        } else {
+            // try to find another unprocessed node
+            while (currentNode != branchRoot && currentNode.treeSiblingNext == null) {
+                currentNode = currentNode.getTreeParent();
+            }
+            if (currentNode.isMinusNode()) {
+                // found an unprocessed node
+                currentNode = currentNode.treeSiblingNext.getOppositeMatched();
+            } else if (currentNode == branchRoot) {
+                // we've processed all nodes in the current branch
+                minSlackEdge = heap.isEmpty() ? null : heap.findMin().getValue();
+                if (minSlackEdge == null || minSlackEdge.slack >= criticalEps) {
+                    // can perform primal operation after updating duals
+                    if (DEBUG) {
+                        System.out.println("Now current eps = " + criticalEps);
+                    }
+                    if (criticalEps > NO_PERFECT_MATCHING_THRESHOLD) {
+                        throw new IllegalArgumentException(NO_PERFECT_MATCHING);
+                    }
+                    branchEps = criticalEps;
+                    return true;
+                } else {
+                    // grow minimum slack edge
+                    growMinimumSlackEdge();
+                }
+            }
+        }
+        return false;
+    }
+
+    private void growMinimumSlackEdge(){
+        if (DEBUG) {
+            System.out.println("Growing an edge " + minSlackEdge);
+        }
+        int dirToFreeNode = minSlackEdge.head[0].isInfinityNode() ? 0 : 1;
+        currentNode = minSlackEdge.head[1 - dirToFreeNode];
+
+        BlossomVNode minusNode = minSlackEdge.head[dirToFreeNode];
+        removeFromHeap(minusNode);
+        minusNode.label = MINUS;
+        currentNode.addChild(minusNode, minSlackEdge, true);
+        branchEps = minSlackEdge.slack; // set new eps of the tree
+
+        BlossomVNode plusNode = minusNode.getOppositeMatched();
+        if (plusNode.bestEdge != null) {
+            removeFromHeap(plusNode);
+        }
+        plusNode.label = PLUS;
+        minusNode.addChild(plusNode, minusNode.matched, true);
+
+        if (DEBUG) {
+            System.out.println("New branch root is " + plusNode + ", eps = " + branchEps);
+        }
+        // Start a new branch
+        currentNode = branchRoot = plusNode;
     }
 
     private BlossomVNode updateRoot(Action flag, BlossomVEdge criticalEdge, BlossomVNode root, BlossomVNode from,
