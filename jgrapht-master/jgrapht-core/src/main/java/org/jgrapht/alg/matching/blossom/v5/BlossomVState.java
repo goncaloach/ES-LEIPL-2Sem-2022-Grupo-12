@@ -41,58 +41,139 @@ class BlossomVState<V, E>
     /**
      * Number of nodes in the graph
      */
-    final int nodeNum;
+    private final int nodeNum;
     /**
      * Number of edges in the graph
      */
-    final int edgeNum;
+    private final int edgeNum;
     /**
      * The graph for which to find a matching
      */
-    Graph<V, E> graph;
+    private Graph<V, E> graph;
     /**
      * An array of nodes of the graph.
      * <p>
      * <b>Note:</b> the size of the array is nodeNum + 1. The node nodes[nodeNum] is an auxiliary
      * node that is used as the first element in the linked list of tree roots
      */
-    BlossomVNode[] nodes;
+    private BlossomVNode[] nodes;
     /**
      * An array of edges of the graph
      */
-    BlossomVEdge[] edges;
+    private BlossomVEdge[] edges;
     /**
      * Number of trees
      */
-    int treeNum;
+    private int treeNum;
     /**
      * Number of expanded blossoms
      */
-    int removedNum;
+    private int removedNum;
+
+    public int getNodeNum() {
+        return nodeNum;
+    }
+
+    public int getEdgeNum() {
+        return edgeNum;
+    }
+
+    public Graph<V, E> getGraph() {
+        return graph;
+    }
+
+    public void setGraph(Graph<V, E> graph) {
+        this.graph = graph;
+    }
+
+    public BlossomVNode[] getNodes() {
+        return nodes;
+    }
+
+    public void setNodes(BlossomVNode[] nodes) {
+        this.nodes = nodes;
+    }
+
+    public BlossomVEdge[] getEdges() {
+        return edges;
+    }
+
+    public void setEdges(BlossomVEdge[] edges) {
+        this.edges = edges;
+    }
+
+    public int getTreeNum() {
+        return treeNum;
+    }
+
+    public void setTreeNum(int treeNum) {
+        this.treeNum = treeNum;
+    }
+
+    public int getRemovedNum() {
+        return removedNum;
+    }
+
+    public void setRemovedNum(int removedNum) {
+        this.removedNum = removedNum;
+    }
+
+    public int getBlossomNum() {
+        return blossomNum;
+    }
+
+    public void setBlossomNum(int blossomNum) {
+        this.blossomNum = blossomNum;
+    }
+
+    public KolmogorovWeightedPerfectMatching.Statistics getStatistics() {
+        return statistics;
+    }
+
+    public BlossomVOptions getOptions() {
+        return options;
+    }
+
+    public void setOptions(BlossomVOptions options) {
+        this.options = options;
+    }
+
+    public List<V> getGraphVertices() {
+        return graphVertices;
+    }
+
+    public List<E> getGraphEdges() {
+        return graphEdges;
+    }
+
+    public double getMinEdgeWeight() {
+        return minEdgeWeight;
+    }
+
     /**
      * Number of blossoms
      */
-    int blossomNum;
+    private int blossomNum;
     /**
      * Statistics of the algorithm performance
      */
-    KolmogorovWeightedPerfectMatching.Statistics statistics;
+    private KolmogorovWeightedPerfectMatching.Statistics statistics;
     /**
      * BlossomVOptions used to determine the strategies used in the algorithm
      */
-    BlossomVOptions options;
+    private BlossomVOptions options;
     /**
      * Initial generic vertices of the graph
      */
-    List<V> graphVertices;
+    private List<V> graphVertices;
     /**
      * Initial edges of the graph
      */
-    List<E> graphEdges;
+    private List<E> graphEdges;
     /**
      * Minimum edge weight in the graph
      */
-    double minEdgeWeight;
+    private double minEdgeWeight;
 
     /**
      * Constructs the algorithm's initial state

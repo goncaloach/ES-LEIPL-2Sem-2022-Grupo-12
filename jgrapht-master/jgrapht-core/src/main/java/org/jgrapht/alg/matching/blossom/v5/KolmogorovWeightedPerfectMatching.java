@@ -329,11 +329,11 @@ public class KolmogorovWeightedPerfectMatching<V, E>
         lazyComputeWeightedPerfectMatching();
         double error = testNonNegativity();
         Set<E> matchedEdges = matching.getEdges();
-        for (int i = 0; i < state.graphEdges.size(); i++) {
-            E graphEdge = state.graphEdges.get(i);
-            BlossomVEdge edge = state.edges[i];
+        for (int i = 0; i < state.getGraphEdges().size(); i++) {
+            E graphEdge = state.getGraphEdges().get(i);
+            BlossomVEdge edge = state.getEdges()[i];
             double slack = graph.getEdgeWeight(graphEdge);
-            slack -= state.minEdgeWeight;
+            slack -= state.getMinEdgeWeight();
             BlossomVNode a = edge.headOriginal[0];
             BlossomVNode b = edge.headOriginal[1];
 
@@ -373,9 +373,9 @@ public class KolmogorovWeightedPerfectMatching<V, E>
             printMap();
         }
         while (true) {
-            int cycleTreeNum = state.treeNum;
+            int cycleTreeNum = state.getTreeNum();
 
-            for (BlossomVNode currentRoot = state.nodes[state.nodeNum].treeSiblingNext;
+            for (BlossomVNode currentRoot = state.getNodes()[state.getNodeNum()].treeSiblingNext;
                 currentRoot != null;)
             {
                 // initialize variables
@@ -385,7 +385,7 @@ public class KolmogorovWeightedPerfectMatching<V, E>
                     nextNextRoot = nextRoot.treeSiblingNext;
                 }
                 BlossomVTree tree = currentRoot.tree;
-                int iterationTreeNum = state.treeNum;
+                int iterationTreeNum = state.getTreeNum();
 
                 if (DEBUG) {
                     printState();
@@ -400,7 +400,7 @@ public class KolmogorovWeightedPerfectMatching<V, E>
                     printState();
                 }
                 // third phase
-                if (state.treeNum == iterationTreeNum) {
+                if (state.getTreeNum() == iterationTreeNum) {
                     tree.currentEdge = null;
                     if (options.updateDualsAfter && dualUpdater.updateDualsSingle(tree)) {
                         // since some progress has been made, continue with the same trees
@@ -418,11 +418,11 @@ public class KolmogorovWeightedPerfectMatching<V, E>
                 printTrees();
                 printState();
             }
-            if (state.treeNum == 0) {
+            if (state.getTreeNum() == 0) {
                 // we are done
                 break;
             }
-            if (cycleTreeNum == state.treeNum
+            if (cycleTreeNum == state.getTreeNum()
                 && dualUpdater.updateDuals(options.dualUpdateStrategy) <= 0)
             {
                 dualUpdater.updateDuals(MULTIPLE_TREE_CONNECTED_COMPONENTS);
@@ -434,13 +434,13 @@ public class KolmogorovWeightedPerfectMatching<V, E>
     void firstphase(BlossomVTree tree, int iterationTreeNum) {
         setCurrentEdgesAndTryToAugment(tree);
 
-        if (iterationTreeNum == state.treeNum && options.updateDualsBefore) {
+        if (iterationTreeNum == state.getTreeNum() && options.updateDualsBefore) {
             dualUpdater.updateDualsSingle(tree);
         }
     }
 
     void secondphase(int iterationTreeNum, BlossomVTree tree, BlossomVNode currentRoot) {
-        while (iterationTreeNum == state.treeNum) {
+        while (iterationTreeNum == state.getTreeNum()) {
             if (DEBUG) {
                 printState();
                 System.out
@@ -516,9 +516,9 @@ public class KolmogorovWeightedPerfectMatching<V, E>
      */
     private double testNonNegativity()
     {
-        BlossomVNode[] nodes = state.nodes;
+        BlossomVNode[] nodes = state.getNodes();
         double error = 0;
-        for (int i = 0; i < state.nodeNum; i++) {
+        for (int i = 0; i < state.getNodeNum(); i++) {
             BlossomVNode node = nodes[i].blossomParent;
             while (node != null && !node.isMarked) {
                 if (node.dual < 0) {
@@ -616,8 +616,8 @@ public class KolmogorovWeightedPerfectMatching<V, E>
      */
     private void clearMarked()
     {
-        BlossomVNode[] nodes = state.nodes;
-        for (int i = 0; i < state.nodeNum; i++) {
+        BlossomVNode[] nodes = state.getNodes();
+        for (int i = 0; i < state.getNodeNum(); i++) {
             BlossomVNode current = nodes[i];
             do {
                 current.isMarked = false;
@@ -651,10 +651,10 @@ public class KolmogorovWeightedPerfectMatching<V, E>
         }
 
         Set<E> edges = new HashSet<>();
-        BlossomVNode[] nodes = state.nodes;
+        BlossomVNode[] nodes = state.getNodes();
         List<BlossomVNode> processed = new LinkedList<>();
 
-        for (int i = 0; i < state.nodeNum; i++) {
+        for (int i = 0; i < state.getNodeNum(); i++) {
             if (nodes[i].matched == null) {
                 BlossomVNode blossomPrev = null;
                 BlossomVNode blossom = nodes[i];
@@ -704,17 +704,17 @@ public class KolmogorovWeightedPerfectMatching<V, E>
         }
         // compute the final matching
         double weight = 0;
-        for (int i = 0; i < state.nodeNum; i++) {
-            E graphEdge = state.graphEdges.get(nodes[i].matched.pos);
+        for (int i = 0; i < state.getNodeNum(); i++) {
+            E graphEdge = state.getGraphEdges().get(nodes[i].matched.pos);
             if (!edges.contains(graphEdge)) {
                 edges.add(graphEdge);
-                weight += state.graph.getEdgeWeight(graphEdge);
+                weight += state.getGraph().getEdgeWeight(graphEdge);
             }
         }
         if (objectiveSense == MAXIMIZE) {
             weight = -weight;
         }
-        matching = new MatchingAlgorithm.MatchingImpl<>(state.graph, edges, weight);
+        matching = new MatchingAlgorithm.MatchingImpl<>(state.getGraph(), edges, weight);
     }
 
     /**
@@ -723,8 +723,8 @@ public class KolmogorovWeightedPerfectMatching<V, E>
      */
     private void prepareForDualSolution()
     {
-        BlossomVNode[] nodes = state.nodes;
-        for (int i = 0; i < state.nodeNum; i++) {
+        BlossomVNode[] nodes = state.getNodes();
+        for (int i = 0; i < state.getNodeNum(); i++) {
             BlossomVNode current = nodes[i];
             BlossomVNode prev = null;
             do {
@@ -761,7 +761,7 @@ public class KolmogorovWeightedPerfectMatching<V, E>
                     result.addAll(blossomNodes.get(current));
                 }
             } else {
-                result.add(state.graphVertices.get(current.pos));
+                result.add(state.getGraphVertices().get(current.pos));
             }
             current = current.blossomSibling.getOpposite(current);
         } while (current != endNode);
@@ -782,10 +782,10 @@ public class KolmogorovWeightedPerfectMatching<V, E>
         }
         Map<Set<V>, Double> dualMap = new HashMap<>();
         Map<BlossomVNode, Set<V>> nodesInBlossoms = new HashMap<>();
-        BlossomVNode[] nodes = state.nodes;
+        BlossomVNode[] nodes = state.getNodes();
         prepareForDualSolution();
-        double dualShift = state.minEdgeWeight / 2;
-        for (int i = 0; i < state.nodeNum; i++) {
+        double dualShift = state.getMinEdgeWeight() / 2;
+        for (int i = 0; i < state.getNodeNum(); i++) {
             BlossomVNode current = nodes[i];
             // jump up while the first already processed node is encountered
             do {
@@ -801,7 +801,7 @@ public class KolmogorovWeightedPerfectMatching<V, E>
                         dualMap.put(getBlossomNodes(current, nodesInBlossoms), dual);
                     } else {
                         dualMap
-                            .put(Collections.singleton(state.graphVertices.get(current.pos)), dual);
+                            .put(Collections.singleton(state.getGraphVertices().get(current.pos)), dual);
                     }
                 }
                 current.isMarked = true;
@@ -820,15 +820,15 @@ public class KolmogorovWeightedPerfectMatching<V, E>
      */
     private void printState()
     {
-        BlossomVNode[] nodes = state.nodes;
-        BlossomVEdge[] edges = state.edges;
+        BlossomVNode[] nodes = state.getNodes();
+        BlossomVEdge[] edges = state.getEdges();
         System.out.println();
         for (int i = 0; i < 20; i++) {
             System.out.print("-");
         }
         System.out.println();
         Set<BlossomVEdge> matched = new HashSet<>();
-        for (int i = 0; i < state.nodeNum; i++) {
+        for (int i = 0; i < state.getNodeNum(); i++) {
             BlossomVNode node = nodes[i];
             if (node.matched != null) {
                 BlossomVEdge matchedEdge = node.matched;
@@ -844,7 +844,7 @@ public class KolmogorovWeightedPerfectMatching<V, E>
             System.out.print("-");
         }
         System.out.println();
-        for (int i = 0; i < state.edgeNum; i++) {
+        for (int i = 0; i < state.getEdgeNum(); i++) {
             System.out.println(edges[i] + (matched.contains(edges[i]) ? ", matched" : ""));
         }
     }
@@ -855,7 +855,7 @@ public class KolmogorovWeightedPerfectMatching<V, E>
     private void printTrees()
     {
         System.out.println("Printing trees");
-        for (BlossomVNode root = state.nodes[state.nodeNum].treeSiblingNext; root != null;
+        for (BlossomVNode root = state.getNodes()[state.getNodeNum()].treeSiblingNext; root != null;
             root = root.treeSiblingNext)
         {
             BlossomVTree tree = root.tree;
@@ -868,9 +868,9 @@ public class KolmogorovWeightedPerfectMatching<V, E>
      */
     private void printMap()
     {
-        System.out.println(state.nodeNum + " " + state.edgeNum);
-        for (int i = 0; i < state.nodeNum; i++) {
-            System.out.println(state.graphVertices.get(i) + " -> " + state.nodes[i]);
+        System.out.println(state.getNodeNum() + " " + state.getEdgeNum());
+        for (int i = 0; i < state.getNodeNum(); i++) {
+            System.out.println(state.getGraphVertices().get(i) + " -> " + state.getNodes()[i]);
         }
     }
 
@@ -881,7 +881,7 @@ public class KolmogorovWeightedPerfectMatching<V, E>
      */
     public Statistics getStatistics()
     {
-        return state.statistics;
+        return state.getStatistics();
     }
 
     /**

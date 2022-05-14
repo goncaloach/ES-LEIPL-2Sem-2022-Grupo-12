@@ -73,9 +73,9 @@ public class BlossomVInitializerTest
         assertFalse(node1.isTreeRoot);
         assertFalse(node2.isTreeRoot);
 
-        assertEquals(4, state.nodeNum);
-        assertEquals(2, state.edgeNum);
-        assertEquals(0, state.treeNum);
+        assertEquals(4, state.getNodeNum());
+        assertEquals(2, state.getEdgeNum());
+        assertEquals(0, state.getTreeNum());
 
         assertEquals(Set.of(), BlossomVDebugger.getTreeRoots(state));
         assertEquals(Set.of(edge12), BlossomVDebugger.getEdgesOf(node1));
@@ -109,9 +109,9 @@ public class BlossomVInitializerTest
         Map<Integer, BlossomVNode> vertexMap = BlossomVDebugger.getVertexMap(state);
         Map<DefaultWeightedEdge, BlossomVEdge> edgeMap = BlossomVDebugger.getEdgeMap(state);
 
-        assertEquals(9, state.nodeNum);
-        assertEquals(9, state.treeNum);
-        assertEquals(6, state.edgeNum);
+        assertEquals(9, state.getNodeNum());
+        assertEquals(9, state.getTreeNum());
+        assertEquals(6, state.getEdgeNum());
 
         BlossomVNode node1 = vertexMap.get(1);
         BlossomVNode node2 = vertexMap.get(2);
