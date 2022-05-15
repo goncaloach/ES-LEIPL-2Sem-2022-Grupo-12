@@ -1,5 +1,14 @@
 # ES-LEIPL-2Sem-2022-Grupo-12
 
+# V1.0.0
+- Extração Métricas para Excel
+# V1.1.0
+- Update do Excel com todos os refactors a fazer
+# V1.2.0
+- Refactor feito 
+# V1.2.1
+- PrintScreens e atualização do excel
+
 # Elementos do Grupo
 
 Diogo Catarino nº93000
