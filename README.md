@@ -9,6 +9,12 @@
 # V1.2.1
 - PrintScreens e atualização do excel
 
+# Funcionalidades Incompletas
+- Foram detetadas apenas 2 data class, pelo que o minimo de 10 proposto não foi realizado.
+
+# Funcionalidades Extra
+- Detetado dead code que foi removido
+
 # Elementos do Grupo
 
 Diogo Catarino nº93000
@@ -17,3 +23,4 @@ Gonçalo Henriques nº93205
 Gonçalo Juvandes nº92868
 Maria Costa nº93046
 Pedro Coelho nº92767
+
